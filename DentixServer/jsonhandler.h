@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QFile>
 #include <QJsonArray>
+#include <QDir>
 
 class JsonHandler
 {
