@@ -36,7 +36,7 @@ void Server::onNewConnection(){
     //해당 소켓에서 데이터 수신되면 onReadyRead 호출
     connect (clientSocket, &QTcpSocket::readyRead, this, &Server::onReadyRead);
 
-    // 클라이언트가 연결을 끊었을 때 처리
+    // 클라이언트가 연결을 끊었을 때 처리 : 람다
     connect(clientSocket, &QTcpSocket::disconnected, this, [=]() {
         clients.removeAll(clientSocket); // 목록에서 제거
         clientSocket->deleteLater();     // 메모리 정리

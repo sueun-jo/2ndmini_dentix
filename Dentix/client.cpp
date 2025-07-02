@@ -12,16 +12,16 @@ void Client::connectToServer(const QString &host, quint16 port){
 }
 
 void Client::sendNameAsJson(const QString &name){
-    QJsonObject json;
+    /* json 만들고 보내는 로직*/
+    QJsonObject json; //비어있는 Json객체 생성
     json["name"] = name; // "name"키에 이름 저장
 
-    QJsonDocument doc(json);
-    QByteArray data = doc.toJson(); //json 직렬화
+    QJsonDocument doc(json); //Json obj를 Json Doc으로 감싼다 : 네트워크로 보내기 좋게 packing
+    QByteArray data = doc.toJson(); //json을 문자열로 변환해서 QByteArray로 만든다
 
-    socket->write(data); //서버로 전송
-    socket->flush(); //즉시 전송
+    socket->write(data); // 버퍼에 데이터를 적는다
+    socket->flush(); //서버에 즉시 전송한다
     qDebug() << "[Client] Sent JSON:" << data;
-
 }
 
 void Client::onReadyRead(){

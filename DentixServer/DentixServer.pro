@@ -11,13 +11,18 @@ CONFIG += c++17
 SOURCES += \
     jsonhandler.cpp \
     main.cpp \
-    server.cpp
+    server.cpp \
+    serverwindow.cpp
 
 HEADERS += \
     jsonhandler.h \
-    server.h
+    server.h \
+    serverwindow.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+FORMS += \
+    serverwindow.ui
