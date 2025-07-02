@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>640</width>
+    <height>480</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainPage</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background: #acc90e</string>
+  </property>
+  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>640</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuDentix_Main">
+    <property name="title">
+     <string>Dentix_Main</string>
+    </property>
+    <addaction name="separator"/>
+    <addaction name="separator"/>
+    <addaction name="separator"/>
+    <addaction name="separator"/>
+    <addaction name="separator"/>
+   </widget>
+   <widget class="QMenu" name="menuPatient_Info">
+    <property name="title">
+     <string>Patient_Info</string>
+    </property>
+    <addaction name="separator"/>
+   </widget>
+   <addaction name="menuDentix_Main"/>
+   <addaction name="menuPatient_Info"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

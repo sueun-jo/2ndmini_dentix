@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FirstScreen</class>
+ <widget class="QMainWindow" name="FirstScreen">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>640</width>
+    <height>480</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLabel" name="main_dentix_label">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>640</width>
+      <height>320</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Noto Serif</family>
+      <pointsize>48</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: white</string>
+    </property>
+    <property name="text">
+     <string>Dentix</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="nameInput">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>260</y>
+      <width>113</width>
+      <height>24</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="info_inputname">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>230</y>
+      <width>121</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>UpArrowCursor</cursorShape>
+    </property>
+    <property name="text">
+     <string>이름을 입력하세요</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="submitButton">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>320</y>
+      <width>80</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Noto Serif</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>Submit</string>
+    </property>
+   </widget>
+   <widget class="QFrame" name="background">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>640</width>
+      <height>480</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background : #acc90e</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Shape::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Raised</enum>
+    </property>
+   </widget>
+   <zorder>background</zorder>
+   <zorder>main_dentix_label</zorder>
+   <zorder>nameInput</zorder>
+   <zorder>info_inputname</zorder>
+   <zorder>submitButton</zorder>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>640</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
