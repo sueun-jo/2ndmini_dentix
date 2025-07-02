@@ -1,0 +1,29 @@
+# 무시할 빌드 디렉토리
+build-*/
+
+# Qt Creator 설정 파일
+*.pro.user
+*.pro.user.*
+
+# 자동 생성 파일
+moc_*.cpp
+ui_*.h
+qrc_*.cpp
+
+# 중간 산출물
+*.o
+*.obj
+*.so
+*.dll
+*.exe
+*.a
+*.log
+
+# 백업파일
+*.autosave
+*.swp
+*.bak
+
+# OS 특화
+.DS_Store
+Thumbs.db
