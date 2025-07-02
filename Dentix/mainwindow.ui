@@ -14,9 +14,93 @@
    <string>MainPage</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background: #acc90e</string>
+   <string notr="true"/>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QFrame" name="frame">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>640</width>
+      <height>480</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background: white</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Shape::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Raised</enum>
+    </property>
+    <widget class="QPushButton" name="patinetInfo">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>160</y>
+       <width>80</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background: #acc90e</string>
+     </property>
+     <property name="text">
+      <string>환자 정보</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="newPatient">
+     <property name="geometry">
+      <rect>
+       <x>270</x>
+       <y>160</y>
+       <width>80</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background: #acc90e</string>
+     </property>
+     <property name="text">
+      <string>환자 등록</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="reservation">
+     <property name="geometry">
+      <rect>
+       <x>470</x>
+       <y>160</y>
+       <width>80</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background: #acc90e</string>
+     </property>
+     <property name="text">
+      <string>예약</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="chatting">
+     <property name="geometry">
+      <rect>
+       <x>520</x>
+       <y>30</y>
+       <width>80</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background: #acc90e</string>
+     </property>
+     <property name="text">
+      <string>채팅</string>
+     </property>
+    </widget>
+   </widget>
+  </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
@@ -26,24 +110,6 @@
      <height>21</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuDentix_Main">
-    <property name="title">
-     <string>Dentix_Main</string>
-    </property>
-    <addaction name="separator"/>
-    <addaction name="separator"/>
-    <addaction name="separator"/>
-    <addaction name="separator"/>
-    <addaction name="separator"/>
-   </widget>
-   <widget class="QMenu" name="menuPatient_Info">
-    <property name="title">
-     <string>Patient_Info</string>
-    </property>
-    <addaction name="separator"/>
-   </widget>
-   <addaction name="menuDentix_Main"/>
-   <addaction name="menuPatient_Info"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>

@@ -9,24 +9,13 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    client.cpp \
-    firstscreen.cpp \
+    jsonhandler.cpp \
     main.cpp \
-    mainwindow.cpp \
-    patientwindow.cpp
+    server.cpp
 
 HEADERS += \
-    client.h \
-    firstscreen.h \
-    mainwindow.h \
-    patientwindow.h
-
-FORMS += \
-    firstscreen.ui \
-    mainwindow.ui \
-    patientwindow.ui
-
-TRANSLATIONS = dentix_ko.ts
+    jsonhandler.h \
+    server.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
