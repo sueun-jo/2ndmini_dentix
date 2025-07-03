@@ -9,17 +9,20 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    chatlog.cpp \
     main.cpp \
     patientinfoform.cpp \
     serverinfoform.cpp \
     serverwindow.cpp
 
 HEADERS += \
+    chatlog.h \
     patientinfoform.h \
     serverinfoform.h \
     serverwindow.h
 
 FORMS += \
+    chatlog.ui \
     patientinfoform.ui \
     serverinfoform.ui \
     serverwindow.ui

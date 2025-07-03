@@ -20,5 +20,6 @@ ServerWindow::ServerWindow(QWidget *parent)
 
 ServerWindow::~ServerWindow()
 {
+
     delete ui;
 }
