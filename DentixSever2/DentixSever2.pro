@@ -10,14 +10,17 @@ CONFIG += c++17
 
 SOURCES += \
     main.cpp \
+    patientinfoform.cpp \
     serverinfoform.cpp \
     serverwindow.cpp
 
 HEADERS += \
+    patientinfoform.h \
     serverinfoform.h \
     serverwindow.h
 
 FORMS += \
+    patientinfoform.ui \
     serverinfoform.ui \
     serverwindow.ui
 
