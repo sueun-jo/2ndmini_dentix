@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
+    <width>424</width>
     <height>420</height>
    </rect>
   </property>
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>10</y>
+     <y>60</y>
      <width>111</width>
      <height>192</height>
     </rect>
@@ -26,9 +26,9 @@
   <widget class="QLineEdit" name="lineEdit">
    <property name="geometry">
     <rect>
-     <x>170</x>
-     <y>290</y>
-     <width>113</width>
+     <x>162</x>
+     <y>360</y>
+     <width>141</width>
      <height>21</height>
     </rect>
    </property>
@@ -37,23 +37,62 @@
    <property name="geometry">
     <rect>
      <x>150</x>
-     <y>20</y>
-     <width>171</width>
-     <height>181</height>
+     <y>60</y>
+     <width>241</width>
+     <height>191</height>
     </rect>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>300</x>
-     <y>290</y>
+     <x>310</x>
+     <y>360</y>
      <width>75</width>
      <height>24</height>
     </rect>
    </property>
    <property name="text">
-    <string>PushButton</string>
+    <string>파일</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>310</y>
+     <width>75</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>초대</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_3">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>320</y>
+     <width>75</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>강퇴</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_4">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>350</y>
+     <width>75</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>나가기</string>
    </property>
   </widget>
  </widget>

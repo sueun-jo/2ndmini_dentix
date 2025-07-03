@@ -3,13 +3,17 @@
 #include "patientwindow.h"
 #include <QApplication>
 #include "chatpopup.h"
+#include "chatPage.h"
+#include "patient.h"
 int main(int argc, char *argv[])
 {
+
     QApplication a(argc, argv);
     // MainWindow w;
     FirstScreen w;
-    chatPopUp c;
-    c.show();
+    chatPage c;
+    patient p;
+    p.show();
 
 
     return a.exec();
