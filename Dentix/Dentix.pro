@@ -12,6 +12,7 @@ SOURCES += \
     chatPage.cpp \
     chatform.cpp \
     chatpopup.cpp \
+    client.cpp \
     firstscreen.cpp \
     groupchatform.cpp \
     main.cpp \
@@ -27,6 +28,7 @@ HEADERS += \
     chatPage.h \
     chatform.h \
     chatpopup.h \
+    client.h \
     firstscreen.h \
     groupchatform.h \
     mainwindow.h \

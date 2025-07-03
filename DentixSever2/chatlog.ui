@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ChatLog</class>
+ <widget class="QWidget" name="ChatLog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>640</width>
+    <height>480</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QListWidget" name="logList">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>161</width>
+     <height>431</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>전체채팅</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>김호원</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>조수은</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>홍대오</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>형건우</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>20</y>
+     <width>391</width>
+     <height>421</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QLabel" name="chatTitle">
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QStackedWidget" name="logStacked">
+      <widget class="QWidget" name="page"/>
+      <widget class="QWidget" name="page_2"/>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="saveLogBtn">
+      <property name="text">
+       <string>저장</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
