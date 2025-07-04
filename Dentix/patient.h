@@ -2,7 +2,6 @@
 #define PATIENT_H
 
 #include <QMainWindow>
-
 namespace Ui {
 class patient;
 }
@@ -15,8 +14,8 @@ public:
     explicit patient(QWidget *parent = nullptr);
     ~patient();
 
+
 private slots:
-    void on_actionAdd_triggered();
 
 private:
     Ui::patient *ui;

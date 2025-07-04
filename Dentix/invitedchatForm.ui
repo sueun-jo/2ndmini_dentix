@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>GroupChatForm</class>
- <widget class="QWidget" name="GroupChatForm">
+ <class>invitedChat</class>
+ <widget class="QWidget" name="invitedChat">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>615</width>
-    <height>502</height>
+    <width>418</width>
+    <height>384</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,53 +19,6 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
-        <widget class="QGroupBox" name="groupBox">
-         <property name="font">
-          <font>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="title">
-          <string>접속자</string>
-         </property>
-         <property name="flat">
-          <bool>true</bool>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_3">
-          <item>
-           <widget class="QListWidget" name="listWidget_2">
-            <property name="maximumSize">
-             <size>
-              <width>100</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <item>
-             <property name="text">
-              <string>asasfaf</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>사용자2</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>사용자3</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>사용자4</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
         <widget class="QGroupBox" name="groupBox_2">
          <property name="font">
           <font>
@@ -73,7 +26,7 @@
           </font>
          </property>
          <property name="title">
-          <string>초대목록</string>
+          <string>초대된 목록</string>
          </property>
          <property name="flat">
           <bool>true</bool>
@@ -110,14 +63,7 @@
        <item>
         <widget class="QPushButton" name="pushButton_4">
          <property name="text">
-          <string>강퇴</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pushButton_5">
-         <property name="text">
-          <string>초대</string>
+          <string>나가기</string>
          </property>
         </widget>
        </item>
