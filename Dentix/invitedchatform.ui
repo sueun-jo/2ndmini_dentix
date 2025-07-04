@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>invitedChat</class>
+ <class>InvitedChatForm</class>
  <widget class="QWidget" name="invitedChat">
   <property name="geometry">
    <rect>

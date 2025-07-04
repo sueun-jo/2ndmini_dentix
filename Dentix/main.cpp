@@ -22,6 +22,7 @@ int main(int argc, char *argv[])
     /* sueun code */
     Client* client = new Client;
 
-
+    FirstScreen w(client);
+    w.show();
     return a.exec();
 }

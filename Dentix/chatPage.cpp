@@ -3,7 +3,7 @@
 #include "chatform.h"
 #include <QTabBar>
 #include "groupchatform.h"
-#include "invitedchatForm.h"
+#include "invitedchatform.h"
 chatPage::chatPage(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::chatPage)

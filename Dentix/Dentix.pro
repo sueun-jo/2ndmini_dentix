@@ -14,7 +14,7 @@ SOURCES += \
     client.cpp \
     firstscreen.cpp \
     groupchatform.cpp \
-    invitedchatForm.cpp \
+    invitedchatform.cpp \
     main.cpp \
     mainwindow.cpp \
     patient.cpp \
@@ -29,7 +29,7 @@ HEADERS += \
     client.h \
     firstscreen.h \
     groupchatform.h \
-    invitedchatForm.h \
+    invitedchatform.h \
     mainwindow.h \
     patient.h \
     patientaddform.h \
@@ -42,7 +42,7 @@ FORMS += \
     chatform.ui \
     firstscreen.ui \
     groupchatform.ui \
-    invitedchatForm.ui \
+    invitedchatform.ui \
     mainwindow.ui \
     patient.ui \
     patientaddform.ui \
