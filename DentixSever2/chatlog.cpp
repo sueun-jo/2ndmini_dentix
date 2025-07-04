@@ -34,7 +34,6 @@ void ChatLog::on_logList_itemClicked(QListWidgetItem *item)
     QVBoxLayout *layout = new QVBoxLayout(newPage);
     QPlainTextEdit *logText = new QPlainTextEdit;
 
-
     layout->addWidget(logText);
     newPage->setLayout(layout);
 

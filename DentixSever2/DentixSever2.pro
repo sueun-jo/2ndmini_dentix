@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -10,14 +10,18 @@ CONFIG += c++17
 
 SOURCES += \
     chatlog.cpp \
+    jsonhandler.cpp \
     main.cpp \
     patientinfoform.cpp \
+    server.cpp \
     serverinfoform.cpp \
     serverwindow.cpp
 
 HEADERS += \
     chatlog.h \
+    jsonhandler.h \
     patientinfoform.h \
+    server.h \
     serverinfoform.h \
     serverwindow.h
 
