@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "patient.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -17,7 +18,12 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void on_patinetInfo_clicked();
+
 private:
     Ui::MainWindow *ui;
+    patient* secondWindow;
+
 };
 #endif // MAINWINDOW_H

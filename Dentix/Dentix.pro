@@ -11,47 +11,44 @@ CONFIG += c++17
 SOURCES += \
     chatPage.cpp \
     chatform.cpp \
-    chatpopup.cpp \
     client.cpp \
     firstscreen.cpp \
     groupchatform.cpp \
+    invitedchatForm.cpp \
     main.cpp \
     mainwindow.cpp \
     patient.cpp \
     patientaddform.cpp \
     patientdeleteform.cpp \
     patientmodifyform.cpp \
-    patientsearchform.cpp \
-    patientwindow.cpp
+    patientsearchform.cpp
 
 HEADERS += \
     chatPage.h \
     chatform.h \
-    chatpopup.h \
     client.h \
     firstscreen.h \
     groupchatform.h \
+    invitedchatForm.h \
     mainwindow.h \
     patient.h \
     patientaddform.h \
     patientdeleteform.h \
     patientmodifyform.h \
-    patientsearchform.h \
-    patientwindow.h
+    patientsearchform.h
 
 FORMS += \
     chatPage.ui \
     chatform.ui \
-    chatpopup.ui \
     firstscreen.ui \
     groupchatform.ui \
+    invitedchatForm.ui \
     mainwindow.ui \
     patient.ui \
     patientaddform.ui \
     patientdeleteform.ui \
     patientmodifyform.ui \
-    patientsearchform.ui \
-    patientwindow.ui
+    patientsearchform.ui
 
 TRANSLATIONS = dentix_ko.ts
 

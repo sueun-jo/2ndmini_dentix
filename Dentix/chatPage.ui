@@ -45,8 +45,9 @@
     <property name="title">
      <string>option</string>
     </property>
-    <addaction name="action1_1_chat"/>
-    <addaction name="actionGroup_Chat"/>
+    <addaction name="actionMainChat"/>
+    <addaction name="actionGroupChat"/>
+    <addaction name="actionInvitedChat"/>
     <addaction name="actionExit"/>
    </widget>
    <addaction name="menuoption"/>
@@ -62,20 +63,24 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="action1_1_chat"/>
-   <addaction name="actionGroup_Chat"/>
+   <addaction name="actionMainChat"/>
+   <addaction name="actionGroupChat"/>
+   <addaction name="actionInvitedChat"/>
    <addaction name="separator"/>
    <addaction name="actionExit"/>
   </widget>
-  <action name="action1_1_chat">
+  <action name="actionMainChat">
    <property name="icon">
     <iconset theme="QIcon::ThemeIcon::DocumentNew"/>
    </property>
    <property name="text">
-    <string>1:1 Chat</string>
+    <string>MainChat</string>
+   </property>
+   <property name="toolTip">
+    <string>MainChat</string>
    </property>
   </action>
-  <action name="actionGroup_Chat">
+  <action name="actionGroupChat">
    <property name="icon">
     <iconset theme="QIcon::ThemeIcon::EditCopy"/>
    </property>
@@ -89,6 +94,14 @@
    </property>
    <property name="text">
     <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionInvitedChat">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::ContactNew"/>
+   </property>
+   <property name="text">
+    <string>Invited Chat</string>
    </property>
   </action>
  </widget>
