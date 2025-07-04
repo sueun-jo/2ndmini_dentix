@@ -9,10 +9,13 @@
 class JsonHandler
 {
 public:
-    JsonHandler(const QString &filename);
-    void appendEntry(const QJsonObject &entry);
+
+    static QJsonArray readJsonArray(const QString& filepath); //배열기반 json
+    static bool writeJsonFile(const QString& filePat, const QJsonArray& array); //json파일 쓰는 용도
+
+
 private:
-    QString filePath;
+
 };
 
 #endif // JSONHANDLER_H

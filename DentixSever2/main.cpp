@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
 
 
     /* sueun's main code */
-    Server::getInstance()->startServer(54321);
+    // Server::getInstance()->startServer(54321);
     ServerWindow w;
     w.show();
     return a.exec();

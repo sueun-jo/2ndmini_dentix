@@ -13,7 +13,6 @@ Server::Server(QObject *parent) : QObject (parent)
 {
 
     tcpServer = new QTcpServer(this); //TCP 서버 객체 생성
-    jsonHandler = new JsonHandler("name.json"); // json핸들러 객체 생성(저장 파일 지정)
 
     //newConnetion 들어오면 onNewConnection 수행 : 슬롯 연결
     connect (tcpServer, &QTcpServer::newConnection, this, &Server::onNewConnection);
@@ -49,16 +48,17 @@ void Server::onReadyRead(){
     QTcpSocket *socket = qobject_cast<QTcpSocket *>(sender()); //어떤 소켓인지 식별
     QByteArray data = socket->readAll(); //수신한 데이터 읽어오기
 
-    QJsonDocument doc = QJsonDocument::fromJson(data); //json 파싱 시도?
-    if (doc.isObject()) {
-        jsonHandler->appendEntry(doc.object()); //json 객체를 파일에 추가
-    } else {
-        qDebug() <<  "Invalid json received.";
+    QJsonDocument doc = QJsonDocument::fromJson(data); //json 파싱
+    if (doc.isObject()){
+        QJsonObject obj = doc.object();
+        qDebug().noquote() << QJsonDocument(obj).toJson(QJsonDocument::Compact);
+        RequestDispatcher::handleRequest(socket, obj, this); //분기처리
     }
+
 }
 Server::~Server() {
     tcpServer->close(); // 수신 종료
-    delete jsonHandler; // 메모리 해제
+    // delete jsonHandler; // 메모리 해제
 
     //모든 클라이언트 소켓 정리
     for (auto client : clients){

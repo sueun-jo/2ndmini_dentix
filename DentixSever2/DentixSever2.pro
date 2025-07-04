@@ -13,6 +13,7 @@ SOURCES += \
     jsonhandler.cpp \
     main.cpp \
     patientinfoform.cpp \
+    requestdispatcher.cpp \
     server.cpp \
     serverinfoform.cpp \
     serverwindow.cpp
@@ -21,6 +22,7 @@ HEADERS += \
     chatlog.h \
     jsonhandler.h \
     patientinfoform.h \
+    requestdispatcher.h \
     server.h \
     serverinfoform.h \
     serverwindow.h

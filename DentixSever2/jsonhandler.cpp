@@ -1,35 +1,48 @@
 #include "jsonhandler.h"
+#include "jsonhandler.h"
+#include <QFile>
+#include <QJsonDocument>
+#include <QJsonParseError>
+#include <QDebug>
 
-JsonHandler::JsonHandler(const QString &filename) {
-    filePath = filename;
-    qDebug() << "[JsonHandler] 파일 경로 설정됨: " << filePath;
+QJsonArray JsonHandler::readJsonArray(const QString& filepath) {
+    QFile file(filepath);
+
+    if (!file.open(QIODevice::ReadOnly)) {
+        qWarning() << "[JsonHandler] 파일 열기 실패:" << file.errorString();
+        return {};
+    }
+
+    QByteArray rawData = file.readAll();
+    file.close();
+
+    QJsonParseError parseError;
+    QJsonDocument doc = QJsonDocument::fromJson(rawData, &parseError);
+    if (parseError.error != QJsonParseError::NoError) {
+        qWarning() << "[JsonHandler] 파싱 오류:" << parseError.errorString();
+        return {};
+    }
+
+    if (!doc.isArray()) {
+        qWarning() << "[JsonHandler] 배열 형식 JSON 아님.";
+        return {};
+    }
+
+    return doc.array();
 }
 
-void JsonHandler::appendEntry(const QJsonObject &entry) {
-    QFile file(filePath);
-    QJsonArray array;
+bool JsonHandler::writeJsonFile(const QString& filepath, const QJsonArray& array) {
+    QFile file(filepath);
 
-    if (file.open(QIODevice::ReadOnly)) {
-        qDebug() << "[JsonHandler] 파일 열기 성공 " << filePath;
-        QJsonDocument doc = QJsonDocument::fromJson(file.readAll());
-        array = doc.array(); // 기존 내용 불러오기
-        file.close();
-    }
-    else {
-        qDebug() << "[JsonHandler] 기존 파일 없음 혹은 읽기 실패:" << filePath;
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+        qWarning() << "[JsonHandler] 파일 열기 실패 (쓰기):" << file.errorString();
+        return false;
     }
 
-    array.append(entry); // 새 항목 추가
+    QJsonDocument doc(array);
+    file.write(doc.toJson(QJsonDocument::Indented));
+    file.close();
 
-
-    if (file.open(QIODevice::WriteOnly)) {
-        qDebug() << "[JsonHandler] 파일 열기 성공 (쓰기):" << filePath;
-        file.write(QJsonDocument(array).toJson()); // 덮어쓰기 저장
-        file.close();
-        qDebug() << "[JsonHandler] JSON 저장 완료.";
-        qDebug() << "JSON 파일 저장 경로:" << QDir::currentPath();
-    }
-    else {
-        qDebug() << "[JsonHandler] 저장 실패:" << file.errorString();
-    }
+    qDebug() << "[JsonHandler] JSON 파일 저장 완료:" << filepath;
+    return true;
 }
