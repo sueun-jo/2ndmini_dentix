@@ -9,22 +9,39 @@ Client::Client(QObject *parent){
 
 void Client::connectToServer(const QString &host, quint16 port){
     socket->connectToHost(host, port);
+
+    if (!socket->waitForConnected(1000)){
+        qWarning() << "[Client] 연결 실패!!!" << socket->errorString();
+    } else {
+        qDebug() << "[Client] 연결 성공!!!";
+    }
 }
 
-void Client::sendNameAsJson(const QString &name){
-    /* json 만들고 보내는 로직*/
-    QJsonObject json; //비어있는 Json객체 생성
-    json["name"] = name; // "name"키에 이름 저장
+void Client::requestLogin(const QString &name, const QString& pw){
 
-    QJsonDocument doc(json); //Json obj를 Json Doc으로 감싼다 : 네트워크로 보내기 좋게 packing
-    QByteArray data = doc.toJson(); //json을 문자열로 변환해서 QByteArray로 만든다
+    QJsonObject data; //가변적인 data
+    data["name"] = name;
+    data["pw"] = pw;
 
-    socket->write(data); // 버퍼에 데이터를 적는다
-    socket->flush(); //서버에 즉시 전송한다
-    qDebug() << "[Client] Sent JSON:" << data;
+    QJsonObject loginInfo;
+    loginInfo["type"] = "login";
+    loginInfo["data"] = data;
+
+    sendJson(loginInfo);
 }
 
-void Client::onReadyRead(){
+void Client::sendJson(const QJsonObject &obj){
+
+    QJsonDocument doc(obj); //넘어온 obj를 doc으로 감싼다(문서로)
+    QByteArray sendData = doc.toJson(); //json을 문자열로 변환해서 QByteArray로 만든다
+    qDebug().noquote() << doc.toJson(QJsonDocument::Compact);
+
+    socket->write(sendData); // 버퍼에 데이터를 적고
+    socket->flush(); //서버에 전송한다
+    qDebug() << "[Client] Sent JSON:" << sendData;
+}
+
+void Client::onReadyRead(){ //서버로부터 읽을 게 있을 때
     QByteArray data = socket->readAll();
     emit messageReceived(QString::fromUtf8(data));
 }

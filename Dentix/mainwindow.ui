@@ -80,23 +80,20 @@
       <string notr="true">background: #acc90e</string>
      </property>
      <property name="text">
-      <string>예약</string>
+      <string>채팅</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="chatting">
+    <widget class="QLabel" name="label">
      <property name="geometry">
       <rect>
-       <x>520</x>
-       <y>30</y>
-       <width>80</width>
-       <height>31</height>
+       <x>50</x>
+       <y>40</y>
+       <width>281</width>
+       <height>91</height>
       </rect>
      </property>
-     <property name="styleSheet">
-      <string notr="true">background: #acc90e</string>
-     </property>
      <property name="text">
-      <string>채팅</string>
+      <string>Dentix </string>
      </property>
     </widget>
    </widget>
