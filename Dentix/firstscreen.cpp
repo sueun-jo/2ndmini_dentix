@@ -1,12 +1,10 @@
 #include "firstscreen.h"
 #include "ui_firstscreen.h"
 
-FirstScreen::FirstScreen(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::FirstScreen)
+FirstScreen::FirstScreen(Client* client, QWidget *parent)
+    : QMainWindow(parent) , ui(new Ui::FirstScreen), client(client)
 {
     ui->setupUi(this);
-    connect(ui->submitButton, &QPushButton::clicked, this, &FirstScreen::submit_clicked);
 }
 
 FirstScreen::~FirstScreen()
@@ -14,38 +12,17 @@ FirstScreen::~FirstScreen()
     delete ui;
 }
 
-void FirstScreen::submit_clicked(){
-    QString name = ui->nameInput->text(); //nameInput의 text 가져옴
-    if (name.isEmpty()){
-        QMessageBox::warning(this, "경고", "이름은 비워둘 수 없습니다.");
+//submit 버튼 누르면 서버랑 연결 요청과 로그인 로직 같이 동작
+void FirstScreen::on_submitButton_clicked(){
+
+    QString name = ui->nameInput->text().trimmed(); //nameInput의 text 가져옴
+    QString pw = ui->pwInput->text().trimmed(); //pwInput의 text 가져옴
+    if (name.isEmpty() || pw.isEmpty()){
+        QMessageBox::warning(this, tr("경고"), tr("이름과 비밀번호를 모두 입력해주세요!"));
         return;
     }
-    else{
-        MainWindow *mw = new MainWindow();
-        mw->show();
-        this->close(); //현재 화면 종료
-    }
-        // QTcpSocket* socket = new QTcpSocket(this);
-    // socket->connectToHost("127.0.0.1", 8100); //포트와 ip는 나중에 수정, 상홍에 맞게
 
-    // if (socket->waitForConnected(1000)){
-    //     QJsonObject obj;
-    //     obj["name"] = name;
-    //     QJsonDocument doc(obj);
-    //     QByteArray data = doc.toJson();
-
-    //     socket->write(data);
-    //     socket->flush();
-    //     socket->waitForBytesWritten();
-    //     socket->close();                                ./
-
-    //     //transport success -> mainWindow로 전환
-    //     MainWindow *mw = new MainWindow();
-    //     mw->show();
-    //     this->close(); //현재 화면 종료
-    // } else {
-    //     QMessageBox::critical(this, "연결 실패", "서버에 연결할 수 없습니다.");
-    // }
-
+    client->connectToServer("127.0.0.1", 54321); //서버 연결
+    client->requestLogin(name, pw); //서버한테 login 요청
 
 }
