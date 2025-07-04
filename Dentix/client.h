@@ -15,7 +15,8 @@ class Client : public QObject
 public:
     explicit Client(QObject *parent = nullptr); //생성자
     void connectToServer(const QString &host, quint16 port); //서버 연결
-    void sendNameAsJson(const QString &name); //이게 socket 통신에서 send 같은 거인듯
+    void requestLogin(const QString& name, const QString &pw);
+    void sendJson(const QJsonObject& obj);
 
 signals:
     void messageReceived(const QString &message); //서버 응답 수신 시

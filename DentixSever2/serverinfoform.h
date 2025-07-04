@@ -17,6 +17,11 @@ public:
 
 private:
     Ui::ServerInfoForm *ui;
+
+public slots:
+    void appendLog(const QString& msg);
+private slots:
+    void on_startServer_clicked();
 };
 
 #endif // SERVERINFOFORM_H

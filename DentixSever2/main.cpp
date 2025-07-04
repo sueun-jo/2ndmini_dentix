@@ -1,5 +1,5 @@
 #include "serverwindow.h"
-
+#include "server.h"
 #include <QApplication>
 #include <QLocale>
 #include <QTranslator>
@@ -8,6 +8,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
+    /* 국제화 */
     QTranslator translator;
     const QStringList uiLanguages = QLocale::system().uiLanguages();
     for (const QString &locale : uiLanguages) {
@@ -17,6 +18,10 @@ int main(int argc, char *argv[])
             break;
         }
     }
+
+
+    /* sueun's main code */
+    // Server::getInstance()->startServer(54321);
     ServerWindow w;
     w.show();
     return a.exec();

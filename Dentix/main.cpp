@@ -7,14 +7,20 @@
 #include "patient.h"
 int main(int argc, char *argv[])
 {
-
+    //merge용 주석
     QApplication a(argc, argv);
 
-    MainWindow mw;
 
-    Client cl;
-    mw.show();
+    /* from howon */
+    // MainWindow w;
+    // FirstScreen w;
+    // chatPage c;
+    // patient p;
+    // p.show();
 
+
+    /* sueun code */
+    Client* client = new Client;
 
 
     return a.exec();

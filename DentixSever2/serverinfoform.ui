@@ -35,7 +35,7 @@
       </layout>
      </item>
      <item>
-      <widget class="QPlainTextEdit" name="serverDebugLog"/>
+      <widget class="QPlainTextEdit" name="serverLog"/>
      </item>
     </layout>
    </item>
