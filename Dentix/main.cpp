@@ -9,7 +9,7 @@
 #include "patient.h"
 int main(int argc, char *argv[])
 {
-
+    //merge용 주석
     QApplication a(argc, argv);
 
     /* from howon */
