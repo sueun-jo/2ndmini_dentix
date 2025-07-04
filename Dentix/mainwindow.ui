@@ -22,9 +22,14 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>640</width>
+      <width>642</width>
       <height>480</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>50</pointsize>
+     </font>
     </property>
     <property name="styleSheet">
      <string notr="true">background: white</string>
@@ -40,41 +45,37 @@
       <rect>
        <x>70</x>
        <y>160</y>
-       <width>80</width>
+       <width>201</width>
        <height>201</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+       <bold>true</bold>
+      </font>
      </property>
      <property name="styleSheet">
       <string notr="true">background: #acc90e</string>
      </property>
      <property name="text">
-      <string>환자 정보</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="newPatient">
-     <property name="geometry">
-      <rect>
-       <x>270</x>
-       <y>160</y>
-       <width>80</width>
-       <height>201</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background: #acc90e</string>
-     </property>
-     <property name="text">
-      <string>환자 등록</string>
+      <string>환자 관리</string>
      </property>
     </widget>
     <widget class="QPushButton" name="reservation">
      <property name="geometry">
       <rect>
-       <x>470</x>
+       <x>300</x>
        <y>160</y>
-       <width>80</width>
+       <width>161</width>
        <height>201</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+       <bold>true</bold>
+      </font>
      </property>
      <property name="styleSheet">
       <string notr="true">background: #acc90e</string>
@@ -86,6 +87,7 @@
     <widget class="QLabel" name="label">
      <property name="geometry">
       <rect>
+
        <x>50</x>
        <y>40</y>
        <width>281</width>
@@ -94,6 +96,7 @@
      </property>
      <property name="text">
       <string>Dentix </string>
+
      </property>
     </widget>
    </widget>
@@ -104,7 +107,7 @@
      <x>0</x>
      <y>0</y>
      <width>640</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

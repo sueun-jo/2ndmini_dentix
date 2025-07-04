@@ -1,8 +1,6 @@
 #include "mainwindow.h"
 #include "firstscreen.h"
-#include "patientwindow.h"
 #include "client.h"
-
 #include <QApplication>
 #include "chatpopup.h"
 #include "chatPage.h"
@@ -12,6 +10,7 @@ int main(int argc, char *argv[])
     //merge용 주석
     QApplication a(argc, argv);
 
+
     /* from howon */
     // MainWindow w;
     // FirstScreen w;
@@ -19,10 +18,10 @@ int main(int argc, char *argv[])
     // patient p;
     // p.show();
 
+
     /* sueun code */
     Client* client = new Client;
 
-    FirstScreen w(client);
-    w.show();
+
     return a.exec();
 }
