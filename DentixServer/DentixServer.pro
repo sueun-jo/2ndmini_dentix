@@ -9,20 +9,38 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    jsonhandler.cpp \
-    main.cpp \
-    server.cpp \
-    serverwindow.cpp
+    core/server.cpp \
+    core/requestdispatcher.cpp \
+    model/user.cpp \
+    io/jsonfileio.cpp \
+    forms/serverinfoform.cpp \
+    forms/serverwindow.cpp \
+    forms/chatlogform.cpp \
+    forms/patientinfoform.cpp \
+    main.cpp
 
 HEADERS += \
-    jsonhandler.h \
-    server.h \
-    serverwindow.h
+    core/server.h \
+    core/requestdispatcher.h \
+    model/user.h \
+    io/jsonfileio.h \
+    forms/serverinfoform.h \
+    forms/serverwindow.h \
+    forms/chatlogform.h \
+    forms/patientinfoform.h
+
+FORMS += \
+    forms/serverinfoform.ui \
+    forms/serverwindow.ui \
+    forms/chatlogform.ui \
+    forms/patientinfoform.ui
+
+TRANSLATIONS += \
+    DentixServer_ko_KR.ts
+CONFIG += lrelease
+CONFIG += embed_translations
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
-
-FORMS += \
-    serverwindow.ui
