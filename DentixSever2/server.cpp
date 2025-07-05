@@ -11,18 +11,16 @@ Server* Server::getInstance(){
 //생성자 (private)
 Server::Server(QObject *parent) : QObject (parent)
 {
-
     tcpServer = new QTcpServer(this); //TCP 서버 객체 생성
-
     //newConnetion 들어오면 onNewConnection 수행 : 슬롯 연결
     connect (tcpServer, &QTcpServer::newConnection, this, &Server::onNewConnection);
 }
 
 //서버 시작 : 지정 포트로 수신 대기
-void Server::startServer(quint16 port) {
+void Server::startServer(quint16 port){
     if (tcpServer->listen(QHostAddress::Any, port)){
         qDebug() << "Server started on port " << port; // 수신대기
-    } else {
+    } else{
         qDebug() << "Server failed " << tcpServer->errorString(); //연결 실패
     }
 }
@@ -49,22 +47,20 @@ void Server::onReadyRead(){
     QByteArray data = socket->readAll(); //수신한 데이터 읽어오기
 
     QJsonDocument doc = QJsonDocument::fromJson(data); //json 파싱
-    if (doc.isObject()){
+    if (doc.isObject()){ //읽어서 request 종류 파악하고 handleRequest 따라감
         QJsonObject obj = doc.object();
         qDebug().noquote() << QJsonDocument(obj).toJson(QJsonDocument::Compact);
-        RequestDispatcher::handleRequest(socket, obj, this); //분기처리
+        RequestDispatcher::handleRequest(socket, obj, this); //클라이언트 메시지 분기
     }
-
 }
+
 Server::~Server() {
     tcpServer->close(); // 수신 종료
     // delete jsonHandler; // 메모리 해제
-
     //모든 클라이언트 소켓 정리
     for (auto client : clients){
         client->disconnectFromHost();
         client->deleteLater();
     }
-
     clients.clear(); //목록 비우기
 }

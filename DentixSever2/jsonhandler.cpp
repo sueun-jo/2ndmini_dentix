@@ -6,7 +6,9 @@
 #include <QDebug>
 
 QJsonArray JsonHandler::readJsonArray(const QString& filepath) {
+
     QFile file(filepath);
+    qDebug() << "[DEBUG] 현재 실행 경로:" << QDir::currentPath();
 
     if (!file.open(QIODevice::ReadOnly)) {
         qWarning() << "[JsonHandler] 파일 열기 실패:" << file.errorString();
