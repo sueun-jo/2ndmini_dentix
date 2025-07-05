@@ -19,7 +19,7 @@ void Client::connectToServer(const QString &host, quint16 port){
 
 void Client::requestLogin(const QString &name, const QString& pw){
 
-    QJsonObject data; //가변적인 data
+    QJsonObject data; //가변적인 data 영역 설정
     data["name"] = name;
     data["pw"] = pw;
 

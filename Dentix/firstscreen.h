@@ -20,15 +20,18 @@ class FirstScreen : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit FirstScreen(Client* client, QWidget *parent = nullptr);
+    explicit FirstScreen(QWidget *parent = nullptr);
     ~FirstScreen();
 
 private slots:
-    void on_submitButton_clicked(); //submit버튼 슬롯
+    void on_loginButton_clicked(); //submit버튼 슬롯
 
 private:
     Ui::FirstScreen *ui;
-    Client* client; //서버 통신용 client 포인터
+
+signals:
+    void connectToServer(const QString &host, quint16 port);
+    void requestLogin(const QString& name, const QString& pw);
 };
 
 #endif // FIRSTSCREEN_H
