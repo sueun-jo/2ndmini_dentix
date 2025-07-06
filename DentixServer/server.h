@@ -13,6 +13,7 @@
 
 #include "jsonfileio.h"
 #include "requestdispatcher.h"
+#include "usermanager.h"
 
 class Server : public QObject
 {
@@ -31,6 +32,7 @@ private:
     QTcpServer *tcpServer;
 
     RequestDispatcher *requestDispatcher;
+    UserManager *userManager;
 
     QList<QTcpSocket*> clients; //현재 연결된 모든 클라이언트 소켓 저장용
     QMap<QTcpSocket*, QString> socketToName; // 소켓과 name 매핑

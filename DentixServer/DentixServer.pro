@@ -9,31 +9,36 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    core/server.cpp \
-    core/requestdispatcher.cpp \
-    model/user.cpp \
-    io/jsonfileio.cpp \
-    forms/serverinfoform.cpp \
-    forms/serverwindow.cpp \
-    forms/chatlogform.cpp \
-    forms/patientinfoform.cpp \
-    main.cpp
+    server.cpp \
+    requestdispatcher.cpp \
+    user.cpp \
+    jsonfileio.cpp \
+    serverinfoform.cpp \
+    serverwindow.cpp \
+    chatlogform.cpp \
+    patientinfoform.cpp \
+    userrepository.cpp \
+    main.cpp \
+    usermanager.cpp
 
 HEADERS += \
-    core/server.h \
-    core/requestdispatcher.h \
-    model/user.h \
-    io/jsonfileio.h \
-    forms/serverinfoform.h \
-    forms/serverwindow.h \
-    forms/chatlogform.h \
-    forms/patientinfoform.h
+    logutil.h \
+    server.h \
+    requestdispatcher.h \
+    user.h \
+    jsonfileio.h \
+    serverinfoform.h \
+    serverwindow.h \
+    chatlogform.h \
+    patientinfoform.h \
+    userrepository.h \
+    usermanager.h
 
 FORMS += \
-    forms/serverinfoform.ui \
-    forms/serverwindow.ui \
-    forms/chatlogform.ui \
-    forms/patientinfoform.ui
+    serverinfoform.ui \
+    serverwindow.ui \
+    chatlogform.ui \
+    patientinfoform.ui
 
 TRANSLATIONS += \
     DentixServer_ko_KR.ts

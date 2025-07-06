@@ -1,4 +1,5 @@
 #include "server.h"
+#include "logutil.h"
 
 Server* Server::instance = nullptr; //싱글턴 instance 초기화
 
@@ -14,12 +15,14 @@ Server::Server(QObject *parent) : QObject (parent)
     tcpServer = new QTcpServer(this); //TCP 서버 객체 생성
     //newConnetion 들어오면 onNewConnection 수행 : 슬롯 연결
     connect (tcpServer, &QTcpServer::newConnection, this, &Server::onNewConnection);
+    userManager = new UserManager();
 }
 
 //서버 시작 : 지정 포트로 수신 대기
 void Server::startServer(quint16 port){
     if (tcpServer->listen(QHostAddress::Any, port)){
-        qDebug() << "Server started on port " << port; // 수신대기
+        dprint("Server started on port" << port); // logutil test
+        // qDebug() << "Server started on port " << port; // 수신대기
     } else{
         qDebug() << "Server failed " << tcpServer->errorString(); //연결 실패
     }
@@ -52,7 +55,7 @@ void Server::onReadyRead(){
 
         //qDebug().noquote() << QJsonDocument(obj).toJson(QJsonDocument::Compact);
 
-        RequestDispatcher::handleRequest(socket, obj, this); //클라이언트 메시지 분기
+        RequestDispatcher::handleRequest(socket, obj, this, userManager); //클라이언트 메시지 분기
     }
 }
 
