@@ -1,14 +1,14 @@
-#include "patient.h"
+#include "patientwindow.h"
 #include "qtabbar.h"
-#include "ui_patient.h"
+#include "ui_patientwindow.h"
 #include "patientsearchform.h"
 #include "patientaddform.h"
 #include "patientdeleteform.h"
 #include "patientmodifyform.h"
 
-patient::patient(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::patient)
+PatientWindow::PatientWindow(QWidget *patientForm)
+    : QMainWindow(patientForm)
+    , ui(new Ui::PatientWindow)
 {
 
     ui->setupUi(this);
@@ -44,13 +44,13 @@ patient::patient(QWidget *parent)
     ui->tabWidget->setCurrentIndex(0);  // 처음 보여줄 탭 설정
 }
 
-patient::~patient()
+PatientWindow::~PatientWindow()
 {
     delete ui;
 }
 
 
-void patient::on_actionBack_triggered()//백투 윈도우 시그널-->
+void PatientWindow::on_actionBack_triggered()//백투 윈도우 시그널-->
 {
     emit backToMainWindow();
     this->hide();

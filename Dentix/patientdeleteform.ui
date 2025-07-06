@@ -40,7 +40,7 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QLineEdit" name="lineEdit"/>
+          <widget class="QLineEdit" name="leNameDelete"/>
          </item>
          <item row="0" column="2">
           <widget class="QLabel" name="genderLabel">
@@ -50,7 +50,7 @@
           </widget>
          </item>
          <item row="0" column="3">
-          <widget class="QComboBox" name="genderComboBox"/>
+          <widget class="QComboBox" name="cbGenderDelete"/>
          </item>
          <item row="1" column="0">
           <widget class="QLabel" name="diagnosisLabel">
@@ -60,7 +60,7 @@
           </widget>
          </item>
          <item row="1" column="1" colspan="3">
-          <widget class="QComboBox" name="diagnosisComboBox"/>
+          <widget class="QComboBox" name="cbDiagnosisDelete"/>
          </item>
         </layout>
        </item>
@@ -80,10 +80,10 @@
        <item>
         <layout class="QGridLayout" name="gridLayout_2">
          <item row="1" column="1" colspan="2">
-          <widget class="QComboBox" name="treatComboBox"/>
+          <widget class="QComboBox" name="cbTreatmentDelete"/>
          </item>
          <item row="0" column="2">
-          <widget class="QPushButton" name="pushButton">
+          <widget class="QPushButton" name="btnDelete">
            <property name="text">
             <string>삭제</string>
            </property>
@@ -97,7 +97,7 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QPushButton" name="pushButton_2">
+          <widget class="QPushButton" name="btnSearchDelete">
            <property name="text">
             <string>검색</string>
            </property>
@@ -108,7 +108,7 @@
       </layout>
      </item>
      <item>
-      <widget class="QTableWidget" name="tableWidget">
+      <widget class="QTableWidget" name="twInfoDelete">
        <column>
         <property name="text">
          <string>이름</string>

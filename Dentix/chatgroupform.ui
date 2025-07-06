@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>InvitedChatForm</class>
- <widget class="QWidget" name="invitedChat">
+ <class>ChatGroupForm</class>
+ <widget class="QWidget" name="ChatGroupForm">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>418</width>
-    <height>384</height>
+    <width>615</width>
+    <height>502</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,6 +19,53 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
+        <widget class="QGroupBox" name="groupBox">
+         <property name="font">
+          <font>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="title">
+          <string>접속자</string>
+         </property>
+         <property name="flat">
+          <bool>true</bool>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <widget class="QListWidget" name="lwUserGroup">
+            <property name="maximumSize">
+             <size>
+              <width>100</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <item>
+             <property name="text">
+              <string>asasfaf</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>사용자2</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>사용자3</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>사용자4</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
         <widget class="QGroupBox" name="groupBox_2">
          <property name="font">
           <font>
@@ -26,14 +73,14 @@
           </font>
          </property>
          <property name="title">
-          <string>초대된 목록</string>
+          <string>초대목록</string>
          </property>
          <property name="flat">
           <bool>true</bool>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout">
           <item>
-           <widget class="QTreeWidget" name="treeWidget">
+           <widget class="QTreeWidget" name="twUserGroup">
             <property name="maximumSize">
              <size>
               <width>100</width>
@@ -61,9 +108,16 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_4">
+        <widget class="QPushButton" name="btnKickGroup">
          <property name="text">
-          <string>나가기</string>
+          <string>강퇴</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_5">
+         <property name="text">
+          <string>초대</string>
          </property>
         </widget>
        </item>
@@ -84,17 +138,10 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <widget class="QTextEdit" name="textEdit">
-          <property name="maximumSize">
-           <size>
-            <width>300</width>
-            <height>16777215</height>
-           </size>
-          </property>
-         </widget>
+         <widget class="QListWidget" name="lwLogGroup"/>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit">
+         <widget class="QLineEdit" name="leMessageGroup">
           <property name="maximumSize">
            <size>
             <width>300</width>
@@ -106,7 +153,7 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
-           <widget class="QPushButton" name="pushButton_2">
+           <widget class="QPushButton" name="btnFileGroup">
             <property name="maximumSize">
              <size>
               <width>150</width>
@@ -119,7 +166,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton">
+           <widget class="QPushButton" name="btnSendGroup">
             <property name="maximumSize">
              <size>
               <width>150</width>
