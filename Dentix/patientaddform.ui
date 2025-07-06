@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>686</width>
-    <height>435</height>
+    <height>473</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -96,13 +96,7 @@
             <number>4</number>
            </property>
            <item>
-            <widget class="QListView" name="listView">
-             <property name="font">
-              <font>
-               <bold>false</bold>
-              </font>
-             </property>
-            </widget>
+            <widget class="QListWidget" name="lwListAdd"/>
            </item>
           </layout>
          </widget>
@@ -134,7 +128,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="lineEdit"/>
+            <widget class="QLineEdit" name="leNameAdd"/>
            </item>
            <item>
             <widget class="QLabel" name="label_3">
@@ -149,7 +143,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QComboBox" name="comboBox"/>
+            <widget class="QComboBox" name="cbGenderAdd"/>
            </item>
            <item>
             <widget class="QLabel" name="label_4">
@@ -164,7 +158,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QComboBox" name="comboBox_2"/>
+            <widget class="QComboBox" name="cbDiagnosisAdd"/>
            </item>
            <item>
             <widget class="QLabel" name="label_5">
@@ -179,7 +173,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QComboBox" name="comboBox_3"/>
+            <widget class="QComboBox" name="cbTreatmentAdd"/>
            </item>
            <item>
             <widget class="Line" name="line">
@@ -189,7 +183,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton">
+            <widget class="QPushButton" name="btnSaveAdd">
              <property name="text">
               <string>저장</string>
              </property>
@@ -228,7 +222,7 @@
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_2">
+           <widget class="QPushButton" name="btnFileAdd">
             <property name="text">
              <string>파일</string>
             </property>
@@ -237,7 +231,7 @@
          </layout>
         </item>
         <item>
-         <widget class="QLabel" name="labelPicture">
+         <widget class="QLabel" name="lbImageAdd">
           <property name="minimumSize">
            <size>
             <width>0</width>
@@ -274,7 +268,7 @@
             <number>4</number>
            </property>
            <item>
-            <widget class="QTextEdit" name="textEdit">
+            <widget class="QTextEdit" name="teOpinionAdd">
              <property name="font">
               <font>
                <bold>false</bold>

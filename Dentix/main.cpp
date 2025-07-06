@@ -2,9 +2,8 @@
 #include "firstscreen.h"
 #include "client.h"
 #include <QApplication>
-#include "chatpopup.h"
-#include "chatPage.h"
-#include "patient.h"
+#include "chatwindow.h"
+#include "patientwindow.h"
 int main(int argc, char *argv[])
 {
 
