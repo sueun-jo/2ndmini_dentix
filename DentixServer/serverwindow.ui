@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>ServerWindow</class>
- <widget class="ServerWindow" name="ServerWindow">
+ <widget class="QMainWindow" name="ServerWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,60 +11,79 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>ServerWindow</string>
   </property>
-  <widget class="QWidget" name="centralwidget" native="true">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>100</width>
-     <height>30</height>
-    </rect>
-   </property>
+  <property name="toolTipDuration">
+   <number>-1</number>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>-1</number>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>640</width>
-     <height>21</height>
-    </rect>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
    </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionstartServer"/>
+   <addaction name="actionstopServer"/>
+   <addaction name="separator"/>
+   <addaction name="actionshowPatientInfo"/>
+   <addaction name="separator"/>
+   <addaction name="actionchatLog"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>3</width>
-     <height>22</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton">
-   <property name="geometry">
-    <rect>
-     <x>300</x>
-     <y>200</y>
-     <width>80</width>
-     <height>24</height>
-    </rect>
+  <action name="actionstartServer">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::MediaPlaybackStart"/>
    </property>
    <property name="text">
-    <string>PushButton</string>
+    <string>startServer</string>
    </property>
-  </widget>
+  </action>
+  <action name="actionstopServer">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::MediaPlaybackStop"/>
+   </property>
+   <property name="text">
+    <string>stopServer</string>
+   </property>
+  </action>
+  <action name="actionshowPatientInfo">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::CameraWeb"/>
+   </property>
+   <property name="text">
+    <string>showPatientInfo</string>
+   </property>
+  </action>
+  <action name="actionchatLog">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::MailMessageNew"/>
+   </property>
+   <property name="text">
+    <string>chatLog</string>
+   </property>
+   <property name="toolTip">
+    <string>chatLog</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>ServerWindow</class>
-   <extends>QWidget</extends>
-   <header>serverwindow.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

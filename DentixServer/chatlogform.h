@@ -1,5 +1,5 @@
-#ifndef CHATLOG_H
-#define CHATLOG_H
+#ifndef CHATLOGFORM_H
+#define CHATLOGFORM_H
 
 #include <QWidget>
 #include <QListWidget>
@@ -8,22 +8,22 @@
 #include <QPlainTextEdit>
 
 namespace Ui {
-class ChatLog;
+class ChatLogForm;
 }
 
-class ChatLog : public QWidget
+class ChatLogForm : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit ChatLog(QWidget *parent = nullptr);
-    ~ChatLog();
+    explicit ChatLogForm(QWidget *parent = nullptr);
+    ~ChatLogForm();
 
 private slots:
     void on_logList_itemClicked(QListWidgetItem *item);
 
 private:
-    Ui::ChatLog *ui;
+    Ui::ChatLogForm *ui;
 };
 
-#endif // CHATLOG_H
+#endif // CHATLOGFORM_H

@@ -1,5 +1,5 @@
-#include "invitedchatForm.h"
-#include "ui_invitedchatForm.h"
+#include "invitedchatform.h"
+#include "ui_invitedchatform.h"
 
 InvitedChatForm::InvitedChatForm(QWidget *parent)
     : QWidget(parent)

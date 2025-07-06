@@ -1,19 +1,19 @@
-#include "chatlog.h"
-#include "ui_chatlog.h"
+#include "chatlogform.h"
+#include "ui_chatlogform.h"
 
-ChatLog::ChatLog(QWidget *parent)
+ChatLogForm::ChatLogForm(QWidget *parent)
     : QWidget(parent)
-    , ui(new Ui::ChatLog)
+    , ui(new Ui::ChatLogForm)
 {
     ui->setupUi(this);
 }
 
-ChatLog::~ChatLog()
+ChatLogForm::~ChatLogForm()
 {
     delete ui;
 }
 
-void ChatLog::on_logList_itemClicked(QListWidgetItem *item)
+void ChatLogForm::on_logList_itemClicked(QListWidgetItem *item)
 {
     QString name = item->text();
     ui->chatTitle->setText(name + tr("의 채팅 로그")); // QLabel 업데이트

@@ -9,16 +9,16 @@ ServerInfoForm::ServerInfoForm(QWidget *parent)
     ui->setupUi(this);
 }
 
-ServerInfoForm::~ServerInfoForm()
-{
+ServerInfoForm::~ServerInfoForm(){
     delete ui;
 }
 
 void ServerInfoForm::appendLog(const QString& msg){
+    //not implemented yet
     // serverLog->appendPlainText(msg);
 }
 
-// startServerBtn 눌리면
+// startServerBtn 눌리면 server 시작
 void ServerInfoForm::on_startServer_clicked()
 {
     Server::getInstance()->startServer(54321);

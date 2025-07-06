@@ -7,21 +7,20 @@
 #include "patient.h"
 int main(int argc, char *argv[])
 {
-    //merge용 주석
+
     QApplication a(argc, argv);
 
-
-    /* from howon */
-    // MainWindow w;
-    // FirstScreen w;
-    // chatPage c;
-    // patient p;
-    // p.show();
-
-
-    /* sueun code */
+    /* sueun code in main.cpp 0705 */
     Client* client = new Client;
+    FirstScreen* firstScreen = new FirstScreen;
 
+    QObject::connect(firstScreen, &FirstScreen::connectToServer,
+                     client, &Client::connectToServer);
+
+    QObject::connect(firstScreen, &FirstScreen::requestLogin,
+                     client, &Client::requestLogin);
+
+    firstScreen->show();
 
     return a.exec();
 }
