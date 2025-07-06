@@ -1,6 +1,7 @@
 #include "requestdispatcher.h"
 #include "server.h"
 #include "usermanager.h"
+#include "logutil.h"
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QDebug>
@@ -26,21 +27,11 @@ void RequestDispatcher::handleLogin(QTcpSocket* socket, const QJsonObject& data,
     QString nameInput = data["name"].toString();
     QString pwInput = data["pw"].toString();
 
-    qDebug() << "[Login 요청]" << nameInput << pwInput;
+    dprint("[RequestDispatcher] login 요청 분기");
+    //qDebug() << "[Login 요청]" << nameInput << pwInput;
 
-    bool status = userManager->login(nameInput, pwInput);
+    QJsonObject response = userManager->login(nameInput, pwInput);
 
-    QJsonObject response;
-    response["type"] = "ack";
-    response["for"] = "login";
-    response["success"] = status;
-
-    if (!status)
-        response["reason"] = "no matched name or pw";
-
-    QJsonDocument responseDoc(response);
-    qDebug().noquote() << "[서버 응답]" << responseDoc.toJson(QJsonDocument::Compact);
-
-    socket->write(responseDoc.toJson(QJsonDocument::Compact));
+    socket->write(QJsonDocument(response).toJson(QJsonDocument::Compact));
     socket->flush();
 }

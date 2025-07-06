@@ -1,23 +1,31 @@
 #include "usermanager.h"
 #include "userrepository.h"
+#include "responsefactory.h"
 #include <QDebug>
+
 
 UserManager::UserManager() {
     // users.json에서 모든 사용자 불러오기
     users = repository.loadAllUsers("users.json");
 }
 
-bool UserManager::login(const QString& name, const QString& pw) {
+QJsonObject UserManager::login(const QString& name, const QString& pw) {
     for (User& user : users) {
-        if (user.getName() == name && user.getPassword() == pw) {
-            user.setOnline(true);
-            repository.saveAllUsers(users, "users.json");  // 로그인 상태 저장
-            qDebug() << "[UserManager] 로그인 성공:" << name;
-            return true;
+        if (user.getName() == name) {
+            if (user.getPassword() == pw) {
+                user.setOnline(true);
+                repository.saveAllUsers(users, "users.json");
+
+                QJsonObject data;
+                data["name"] = name;
+
+                return ResponseFactory::createResponse("login", "success", data);
+            } else {
+                return ResponseFactory::createResponse("login", "fail", {{"reason", "wrong password"}});
+            }
         }
     }
-    qDebug() << "[UserManager] 로그인 실패:" << name;
-    return false;
+    return ResponseFactory::createResponse("login", "fail", {{"reason", "user not found"}});
 }
 
 void UserManager::setOnlineStatus(const QString& name, bool online) {

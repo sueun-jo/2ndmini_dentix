@@ -9,7 +9,7 @@ class UserManager
 {
 public:
     UserManager();
-    bool login(const QString& name, const QString& pw);
+    QJsonObject login(const QString& name, const QString& pw);
     void setOnlineStatus(const QString& name, bool online);
     QVector<User> getAllUsers() const;
 
