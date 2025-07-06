@@ -19,7 +19,7 @@ public:
     void connectToServer(const QString &host, quint16 port);
 
 signals:
-    void messageReceived(const QString &message); //서버 응답 수신 시
+    void jsonReceived(const QJsonObject &obj); //서버 응답 수신 시
 
 private:
     QTcpSocket* socket; //tcp socket
