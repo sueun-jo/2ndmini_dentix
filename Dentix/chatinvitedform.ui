@@ -33,7 +33,7 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout">
           <item>
-           <widget class="QTreeWidget" name="treeWidget">
+           <widget class="QTreeWidget" name="twUserInvited">
             <property name="maximumSize">
              <size>
               <width>100</width>
@@ -61,7 +61,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_4">
+        <widget class="QPushButton" name="btnLeaveInvited">
          <property name="text">
           <string>나가기</string>
          </property>
@@ -84,17 +84,10 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <widget class="QTextEdit" name="textEdit">
-          <property name="maximumSize">
-           <size>
-            <width>300</width>
-            <height>16777215</height>
-           </size>
-          </property>
-         </widget>
+         <widget class="QListWidget" name="listWidget"/>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit">
+         <widget class="QLineEdit" name="leMessageInvited">
           <property name="maximumSize">
            <size>
             <width>300</width>
@@ -106,7 +99,7 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
-           <widget class="QPushButton" name="pushButton_2">
+           <widget class="QPushButton" name="btnFileInvited">
             <property name="maximumSize">
              <size>
               <width>150</width>
@@ -119,7 +112,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton">
+           <widget class="QPushButton" name="btnSendInvited">
             <property name="maximumSize">
              <size>
               <width>150</width>

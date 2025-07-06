@@ -14,8 +14,7 @@ class ChatBasicForm : public QWidget
 public:
     explicit ChatBasicForm(QWidget *parent = nullptr);
     ~ChatBasicForm();
-private:
-    void on_pushButton_clicked();
+
 private:
     Ui::ChatBasicForm *ui;
 };
