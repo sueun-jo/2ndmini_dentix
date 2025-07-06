@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "patient.h"
+#include "chatPage.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -20,10 +21,14 @@ public:
 
 private slots:
     void on_patinetInfo_clicked();
+    void handleBackFormPatient();
+
+    void on_reservation_clicked();
 
 private:
     Ui::MainWindow *ui;
-    patient* secondWindow;
+    patient* patientWindow = nullptr;
+    chatPage* chatWindow = nullptr;
 
 };
 #endif // MAINWINDOW_H

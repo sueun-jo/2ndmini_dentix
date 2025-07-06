@@ -10,10 +10,9 @@ patient::patient(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::patient)
 {
-    //ui->tabWidget->tabBar()->hide();
 
     ui->setupUi(this);
-
+    /*툴바 위젯 눌렀을 때 엑션 연결 Qt designer 사용 x 코드로 직접 연결 */
     ui->tabWidget->tabBar()->hide();
 
     connect(ui->actionSearch, &QAction::triggered, this, [=]() {
@@ -29,7 +28,7 @@ patient::patient(QWidget *parent)
     connect(ui->actionDelete, &QAction::triggered, this, [=]() {
         ui->tabWidget->setCurrentIndex(3);
     });
-
+    /*툴바 위젯 UI 전환 구현*/
     patientSearchForm* patientSearch  = new patientSearchForm(this);
     ui->tabWidget->addTab(patientSearch, tr("고객 정보"));  // index 0
 
@@ -51,5 +50,9 @@ patient::~patient()
 }
 
 
-
+void patient::on_actionBack_triggered()//백투 윈도우 시그널-->
+{
+    emit backToMainWindow();
+    this->hide();
+}
 
