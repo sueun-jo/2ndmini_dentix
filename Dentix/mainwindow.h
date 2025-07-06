@@ -2,8 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "patient.h"
-#include "chatPage.h"
+#include "patientwindow.h"
+#include "chatwindow.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -27,8 +27,8 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    patient* patientWindow = nullptr;
-    chatPage* chatWindow = nullptr;
+    PatientWindow* patientWindow = nullptr;
+    ChatWindow* chatWindow = nullptr;
 
 };
 #endif // MAINWINDOW_H

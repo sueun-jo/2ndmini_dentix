@@ -1,9 +1,9 @@
-#include "chatform.h"
-#include "ui_chatform.h"
+#include "chatbasicform.h"
+#include "ui_chatbasicform.h"
 
-chatForm::chatForm(QWidget *parent)
+ChatBasicForm::ChatBasicForm(QWidget *parent)
     : QWidget(parent)
-    , ui(new Ui::chatForm)
+    , ui(new Ui::ChatBasicForm)
 {
 
     ui->setupUi(this);
@@ -11,12 +11,12 @@ chatForm::chatForm(QWidget *parent)
 
 }
 
-chatForm::~chatForm()
+ChatBasicForm::~ChatBasicForm()
 {
     delete ui;
 }
 
-void chatForm::on_pushButton_clicked()
+void ChatBasicForm::on_pushButton_clicked()
 {
     QString input = ui->lineEdit->text();
 

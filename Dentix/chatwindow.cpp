@@ -1,12 +1,12 @@
-#include "chatPage.h"
-#include "ui_chatPage.h"
-#include "chatform.h"
+#include "chatwindow.h"
+#include "ui_chatwindow.h"
+#include "chatbasicform.h"
 #include <QTabBar>
-#include "groupchatform.h"
-#include "invitedchatform.h"
-chatPage::chatPage(QWidget *parent)
+#include "chatgroupform.h"
+#include "chatinvitedform.h"
+ChatWindow::ChatWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::chatPage)
+    , ui(new Ui::ChatWindow)
 {
     ui->setupUi(this);
 
@@ -21,20 +21,20 @@ chatPage::chatPage(QWidget *parent)
     connect(ui->actionInvitedChat, &QAction::triggered, this, [=]() {
         ui->tabWidget->setCurrentIndex(2);
     });
-    chatForm* chat = new chatForm(this);
+    ChatBasicForm* chat = new ChatBasicForm(this);
     ui->tabWidget->addTab(chat, tr("고객 정보"));  // index 0
 
-    GroupChatForm* groupchat = new GroupChatForm(this);
+    ChatGroupForm* groupchat = new ChatGroupForm(this);
     ui->tabWidget->addTab(groupchat, tr("그룹채팅")); // index 1
 
-    InvitedChatForm* invitedchat = new InvitedChatForm(this);
+    ChatInvitedForm* invitedchat = new ChatInvitedForm(this);
     ui->tabWidget->addTab(invitedchat, tr("그룹채팅")); // index 2
 
 
     ui->tabWidget->setCurrentIndex(0);  // 처음 보여줄 탭 설정
 }
 
-chatPage::~chatPage()
+ChatWindow::~ChatWindow()
 {
     delete ui;
 }

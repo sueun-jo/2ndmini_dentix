@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>patient</class>
- <widget class="QMainWindow" name="patient">
+ <class>ChatWindow</class>
+ <widget class="QMainWindow" name="ChatWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>673</width>
-    <height>427</height>
+    <width>434</width>
+    <height>290</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -37,22 +37,20 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>673</width>
+     <width>434</width>
      <height>22</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menu">
+   <widget class="QMenu" name="menuoption">
     <property name="title">
-     <string>Option</string>
+     <string>option</string>
     </property>
-    <addaction name="actionSearch"/>
-    <addaction name="actionAdd"/>
-    <addaction name="actionModify"/>
-    <addaction name="actionDelete"/>
-    <addaction name="actionQuit"/>
-    <addaction name="actionBack"/>
+    <addaction name="actionMainChat"/>
+    <addaction name="actionGroupChat"/>
+    <addaction name="actionInvitedChat"/>
+    <addaction name="actionExit"/>
    </widget>
-   <addaction name="menu"/>
+   <addaction name="menuoption"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
@@ -65,63 +63,51 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionSearch"/>
-   <addaction name="actionAdd"/>
-   <addaction name="actionModify"/>
-   <addaction name="actionDelete"/>
+   <addaction name="actionMainChat"/>
+   <addaction name="actionGroupChat"/>
+   <addaction name="actionInvitedChat"/>
    <addaction name="separator"/>
-   <addaction name="actionBack"/>
-   <addaction name="actionQuit"/>
+   <addaction name="actionExit"/>
   </widget>
-  <action name="actionAdd">
+  <action name="actionMainChat">
    <property name="icon">
-    <iconset theme="QIcon::ThemeIcon::ContactNew"/>
+    <iconset theme="QIcon::ThemeIcon::DocumentNew"/>
    </property>
    <property name="text">
-    <string>Add</string>
+    <string>MainChat</string>
+   </property>
+   <property name="toolTip">
+    <string>MainChat</string>
    </property>
   </action>
-  <action name="actionModify">
+  <action name="actionGroupChat">
    <property name="icon">
-    <iconset theme="QIcon::ThemeIcon::EditUndo"/>
+    <iconset theme="QIcon::ThemeIcon::EditCopy"/>
    </property>
    <property name="text">
-    <string>Modify</string>
+    <string>Group Chat</string>
    </property>
   </action>
-  <action name="actionDelete">
-   <property name="icon">
-    <iconset theme="QIcon::ThemeIcon::EditDelete"/>
-   </property>
-   <property name="text">
-    <string>Delete</string>
-   </property>
-  </action>
-  <action name="actionSearch">
-   <property name="icon">
-    <iconset theme="QIcon::ThemeIcon::EditFind"/>
-   </property>
-   <property name="text">
-    <string>Search</string>
-   </property>
-  </action>
-  <action name="actionQuit">
+  <action name="actionExit">
    <property name="icon">
     <iconset theme="QIcon::ThemeIcon::ApplicationExit"/>
    </property>
    <property name="text">
-    <string>Quit</string>
+    <string>Exit</string>
    </property>
   </action>
-  <action name="actionBack">
+  <action name="actionInvitedChat">
    <property name="icon">
-    <iconset theme="QIcon::ThemeIcon::SystemLogOut"/>
+    <iconset theme="QIcon::ThemeIcon::ContactNew"/>
    </property>
    <property name="text">
-    <string>Back</string>
+    <string>Invited Chat</string>
    </property>
   </action>
  </widget>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
