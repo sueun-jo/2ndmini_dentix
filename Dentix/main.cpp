@@ -20,5 +20,9 @@ int main(int argc, char *argv[])
                      client, &Client::requestLogin);
 
     firstScreen->show();
+
+    /*****************************/
+
+
     return a.exec();
 }
