@@ -16,6 +16,7 @@ Server::Server(QObject *parent) : QObject (parent)
     //newConnetion 들어오면 onNewConnection 수행 : 슬롯 연결
     connect (tcpServer, &QTcpServer::newConnection, this, &Server::onNewConnection);
     userManager = new UserManager();
+    patientManager = new PatientManager();
 }
 
 //서버 시작 : 지정 포트로 수신 대기
@@ -55,7 +56,7 @@ void Server::onReadyRead(){
 
         //qDebug().noquote() << QJsonDocument(obj).toJson(QJsonDocument::Compact);
 
-        RequestDispatcher::handleRequest(socket, obj, this, userManager); //클라이언트 메시지 분기
+        RequestDispatcher::handleRequest(socket, obj, this, userManager, patientManager); //클라이언트 메시지 분기
     }
 }
 
@@ -68,4 +69,6 @@ Server::~Server() {
         client->deleteLater();
     }
     clients.clear(); //목록 비우기
+    delete userManager;
+    delete patientManager;
 }

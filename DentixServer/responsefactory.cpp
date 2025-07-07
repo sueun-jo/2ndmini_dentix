@@ -1,5 +1,7 @@
 #include "responsefactory.h"
 #include "logutil.h"
+
+/* ResponseFactory는 클라이언트에 보낼 response만 생성한다 */
 QJsonObject ResponseFactory::createResponse(const QString& forType, const QString& status) {
     QJsonObject obj;
     obj["type"] = "ack";

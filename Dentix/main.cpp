@@ -19,10 +19,6 @@ int main(int argc, char *argv[])
     QObject::connect(firstScreen, &FirstScreen::requestLogin,
                      client, &Client::requestLogin);
 
-    MainWindow mw;
-
-    mw.show();
-
-
+    firstScreen->show();
     return a.exec();
 }

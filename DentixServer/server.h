@@ -11,7 +11,6 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
-#include "jsonfileio.h"
 #include "requestdispatcher.h"
 #include "usermanager.h"
 
@@ -33,6 +32,7 @@ private:
 
     RequestDispatcher *requestDispatcher;
     UserManager *userManager;
+    PatientManager *patientManager;
 
     QList<QTcpSocket*> clients; //현재 연결된 모든 클라이언트 소켓 저장용
     QMap<QTcpSocket*, QString> socketToName; // 소켓과 name 매핑
