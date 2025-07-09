@@ -13,6 +13,7 @@
 
 #include "requestdispatcher.h"
 #include "usermanager.h"
+#include "patientmanager.h"
 
 class Server : public QObject
 {
@@ -36,6 +37,9 @@ private:
 
     QList<QTcpSocket*> clients; //현재 연결된 모든 클라이언트 소켓 저장용
     QMap<QTcpSocket*, QString> socketToName; // 소켓과 name 매핑
+
+public :
+    PatientManager* getPatientManager() const { return patientManager; }
 
 private slots:
     void onNewConnection(); // 새 연결 처리

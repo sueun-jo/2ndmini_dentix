@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     patient.cpp \
+    patientinfocontroller.cpp \
     patientmanager.cpp \
     patientrepository.cpp \
     responsefactory.cpp \
@@ -28,6 +29,7 @@ SOURCES += \
 HEADERS += \
     logutil.h \
     patient.h \
+    patientinfocontroller.h \
     patientmanager.h \
     patientrepository.h \
     patientsearchfilter.h \

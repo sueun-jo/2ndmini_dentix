@@ -1,9 +1,10 @@
 #include "patientinfoform.h"
 #include "ui_patientinfoform.h"
 
-PatientInfoForm::PatientInfoForm(QWidget *parent)
+PatientInfoForm::PatientInfoForm(PatientManager* manager, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::PatientInfoForm)
+    , controller(new PatientInfoController(manager, this))
 {
     ui->setupUi(this);
 
@@ -53,7 +54,18 @@ PatientInfoForm::PatientInfoForm(QWidget *parent)
     ui->genderComboBox->clear();
     ui->genderComboBox->addItems(genderItems);
 
+    if (this->controller){
+        connect(this->controller, &PatientInfoController::patientsLoaded,
+                this, &PatientInfoForm::updatePatientTable);
+        connect(this->controller, &PatientInfoController::searchCompleted,
+                this, &PatientInfoForm::updatePatientTable);
 
+        // 폼이 로드될 때 모든 환자 정보 요청
+        this->controller->loadAllPatients();
+    } else {
+        qWarning() << "[PatientInfoForm] Controller is null!";
+    }
+    connect(ui->pushButton, &QPushButton::clicked, this, &PatientInfoForm::on_pushButton_clicked);
 }
 
 PatientInfoForm::~PatientInfoForm()
@@ -62,6 +74,35 @@ PatientInfoForm::~PatientInfoForm()
     ui->treatComboBox->clear();
     ui->genderComboBox->clear();
     delete ui;
+    delete controller;
 }
 
 
+void PatientInfoForm::on_pushButton_clicked()
+{
+    // UI에서 검색 조건 가져오기
+    QString name = ui->lineEdit->text();
+    QString gender = ui->genderComboBox->currentText();
+    QString diagnosis = ui->diagnosisComboBox->currentText();
+    QString treatment = ui->treatComboBox->currentText();
+
+    // 컨트롤러에 검색 요청
+    if (controller) {
+        controller->searchPatients(name, gender, diagnosis, treatment);
+    }
+}
+
+void PatientInfoForm::updatePatientTable(const QVector<Patient>& patients) {
+    ui->tableWidget->setRowCount(0); // 기존 내용 지우기
+
+    for (int i = 0; i < patients.size(); ++i) {
+        const Patient& p = patients.at(i);
+        ui->tableWidget->insertRow(i);
+        ui->tableWidget->setItem(i, 0, new QTableWidgetItem(p.getName()));
+        ui->tableWidget->setItem(i, 1, new QTableWidgetItem(QString::number(p.getAge())));
+        ui->tableWidget->setItem(i, 2, new QTableWidgetItem(p.getGender()));
+        ui->tableWidget->setItem(i, 3, new QTableWidgetItem(p.getDiagnosis()));
+        ui->tableWidget->setItem(i, 4, new QTableWidgetItem(p.getTreatment()));
+    }
+    qDebug() << "[PatientInfoForm] 테이블 업데이트 완료. 표시된 환자 수:" << patients.size();
+}
