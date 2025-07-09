@@ -25,9 +25,11 @@ public:
 
 private slots:
     void on_loginButton_clicked(); //submit버튼 슬롯
-
+    void handleLoginSuccess(const QString& userName);
 private:
     Ui::FirstScreen *ui;
+    Client *client;
+    MainWindow *mainWindow;
 
 signals:
     void connectToServer(const QString &host, quint16 port);

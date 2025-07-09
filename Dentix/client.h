@@ -20,9 +20,11 @@ public:
 
 signals:
     void jsonReceived(const QJsonObject &obj); //서버 응답 수신 시
+    void loginSuccess(const QString &userName);
 
 private:
     QTcpSocket* socket; //tcp socket
+    QString userName;
 
 private slots:
     void onReadyRead(); //데이터 수신 처리

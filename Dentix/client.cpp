@@ -40,9 +40,42 @@ void Client::sendJson(const QJsonObject &obj){
     socket->flush(); //서버에 전송한다
 }
 
-void Client::onReadyRead(){ //서버로부터 읽을 게 있을 때
+void Client::onReadyRead(){
     QByteArray data = socket->readAll();
-    // emit jsonReceived(QString::fromUtf8(data));
+
+    if (!data.isEmpty()){
+        qDebug().noquote() << "[Client] Received from server:" << QString::fromUtf8(data);
+
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(data, &parseError);
+
+        if (parseError.error == QJsonParseError::NoError && doc.isObject()){
+            QJsonObject receivedObject = doc.object();
+
+            // 로그인 응답 처리
+            if (receivedObject.contains("type") && receivedObject["type"].toString() == "ack" &&
+                receivedObject.contains("for") && receivedObject["for"].toString() == "login")
+            {
+                if (receivedObject.contains("status") && receivedObject["status"].toString() == "success") {
+                    if (receivedObject.contains("data") && receivedObject["data"].isObject()) {
+                        QJsonObject dataObject = receivedObject["data"].toObject();
+                        if (dataObject.contains("name") && dataObject["name"].isString()) {
+                            QString userName = dataObject["name"].toString();
+                            emit loginSuccess(userName); // 로그인 성공 시그널 방출
+                            qDebug() << "[Client] Login successful for user:" << userName;
+                        }
+                    }
+                } else if (receivedObject.contains("status") && receivedObject["status"].toString() == "fail") {
+                    // 로그인 실패 처리 (필요하다면)
+                    QString message = receivedObject.contains("message") ? receivedObject["message"].toString() : "Unknown error";
+                    qDebug() << "Login failed:" << message;
+                }
+            }
+            emit jsonReceived(receivedObject); // 기타 JSON 데이터 처리
+        } else {
+            qWarning() << "[Client] Failed to parse JSON or not an object:" << parseError.errorString();
+        }
+    }
 }
 
 void Client::onErrorOccurred(QAbstractSocket::SocketError socketError){
