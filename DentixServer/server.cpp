@@ -62,8 +62,8 @@ void Server::onReadyRead(){
 
 Server::~Server() {
     tcpServer->close(); // 수신 종료
-    // delete jsonHandler; // 메모리 해제
-    //모든 클라이언트 소켓 정리
+
+    /* 클라이언트 소켓 정리 */
     for (auto client : clients){
         client->disconnectFromHost();
         client->deleteLater();
