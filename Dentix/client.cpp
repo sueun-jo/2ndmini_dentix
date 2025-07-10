@@ -1,8 +1,6 @@
 #include "client.h"
-
 Client::Client(QObject *parent){
     socket = new QTcpSocket(this);
-
     connect(socket, &QTcpSocket::readyRead, this, &Client::onReadyRead);
     connect(socket, &QTcpSocket::errorOccurred, this, &Client::onErrorOccurred);
 }
@@ -16,28 +14,15 @@ void Client::connectToServer(const QString &host, quint16 port){
         qDebug() << "[Client] Connection is established.";
     }
 }
+void Client::sendJson(const QByteArray &jsonData)
+{
+    if(socket->state()== QAbstractSocket::ConnectedState){
+        socket->write(jsonData);
+        qDebug().noquote()<<"[Client] : Sent to server: "<< jsonData;
+    }else{
+        qWarning() <<"[Client] : Cannot send data. Socket not connected.";
+    }
 
-void Client::requestLogin(const QString &name, const QString& pw){
-
-    QJsonObject data; //가변적인 data 영역 설정
-    data["name"] = name;
-    data["pw"] = pw;
-
-    QJsonObject loginInfo;
-    loginInfo["type"] = "login";
-    loginInfo["data"] = data;
-
-    sendJson(loginInfo);
-}
-
-void Client::sendJson(const QJsonObject &obj){
-
-    QJsonDocument doc(obj); //json객체를 doc으로 만듦
-    QByteArray sendedData = doc.toJson(); //json을 문자열로 변환해서 QByteArray로 만든다
-    qDebug().noquote() << "[Client] send json to server: "<< doc.toJson(QJsonDocument::Compact);
-
-    socket->write(sendedData); // 버퍼에 데이터를 적고
-    socket->flush(); //서버에 전송한다
 }
 
 void Client::onReadyRead(){
@@ -66,12 +51,11 @@ void Client::onReadyRead(){
                         }
                     }
                 } else if (receivedObject.contains("status") && receivedObject["status"].toString() == "fail") {
-                    // 로그인 실패 처리 (필요하다면)
+                    // 로그인 실패 처리
                     QString message = receivedObject.contains("message") ? receivedObject["message"].toString() : "Unknown error";
                     qDebug() << "Login failed:" << message;
                 }
             }
-            emit jsonReceived(receivedObject); // 기타 JSON 데이터 처리
         } else {
             qWarning() << "[Client] Failed to parse JSON or not an object:" << parseError.errorString();
         }
@@ -80,4 +64,10 @@ void Client::onReadyRead(){
 
 void Client::onErrorOccurred(QAbstractSocket::SocketError socketError){
     qWarning() << "[Client] Socket Error: " << socketError << socket->errorString();
+    emit loginFailed("Cannot connected server: "+ socket->errorString());
 }
+
+
+
+
+

@@ -15,6 +15,7 @@ SOURCES += \
     chatwindow.cpp \
     client.cpp \
     firstscreen.cpp \
+    logincontroller.cpp \
     main.cpp \
     mainwindow.cpp \
     patientaddform.cpp \
@@ -30,6 +31,7 @@ HEADERS += \
     chatwindow.h \
     client.h \
     firstscreen.h \
+    logincontroller.h \
     mainwindow.h \
     patientaddform.h \
     patientdeleteform.h \
