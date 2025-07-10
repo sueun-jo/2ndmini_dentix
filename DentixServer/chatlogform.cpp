@@ -1,9 +1,8 @@
 #include "chatlogform.h"
-#include "ui_chatlogform.h"
+#include <QDebug>
 
 ChatLogForm::ChatLogForm(QWidget *parent)
-    : QWidget(parent)
-    , ui(new Ui::ChatLogForm)
+    : QWidget(parent), ui(new Ui::ChatLogForm)
 {
     ui->setupUi(this);
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>ChatLogForm</class>
- <widget class="QWidget" name="ChatLog">
+ <widget class="QWidget" name="ChatLogForm">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -13,73 +13,78 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout">
-   <item>
-    <widget class="QListWidget" name="logList">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Maximum" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <item>
-      <property name="text">
-       <string>전체채팅</string>
+  <widget class="QLabel" name="chatTitle">
+   <property name="geometry">
+    <rect>
+     <x>166</x>
+     <y>10</y>
+     <width>461</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>9</x>
+     <y>9</y>
+     <width>621</width>
+     <height>461</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QListWidget" name="logList">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Maximum" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
       </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>김호원</string>
+      <property name="maximumSize">
+       <size>
+        <width>150</width>
+        <height>16777215</height>
+       </size>
       </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>조수은</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>홍대오</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>형건우</string>
-      </property>
-     </item>
-    </widget>
-   </item>
-   <item>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <widget class="QLabel" name="chatTitle">
+      <item>
        <property name="text">
-        <string/>
+        <string>전체채팅</string>
        </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QStackedWidget" name="logStacked">
-       <widget class="QWidget" name="page"/>
-       <widget class="QWidget" name="page_2"/>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="saveLogBtn">
+      </item>
+      <item>
        <property name="text">
-        <string>저장</string>
+        <string>김호원</string>
        </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-  </layout>
+      </item>
+      <item>
+       <property name="text">
+        <string>조수은</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>홍대오</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>형건우</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QStackedWidget" name="logStacked">
+      <widget class="QWidget" name="page"/>
+      <widget class="QWidget" name="page_2"/>
+     </widget>
+    </item>
+   </layout>
+  </widget>
  </widget>
  <resources/>
  <connections/>

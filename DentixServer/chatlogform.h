@@ -6,6 +6,7 @@
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QPlainTextEdit>
+#include "ui_chatlogform.h"
 
 namespace Ui {
 class ChatLogForm;

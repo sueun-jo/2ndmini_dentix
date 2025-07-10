@@ -1,12 +1,12 @@
-#ifndef CHATTING_H
-#define CHATTING_H
+#ifndef CHAT_H
+#define CHAT_H
 
 #include <QObject>
 #include <Qstring>
 #include <QDateTime>
 #include <QUuid> //메시지 고유id 생성하기 위한 헤더 파일
 
-class Chatting : public QObject
+class Chat : public QObject
 {
     Q_OBJECT
 public:
@@ -18,11 +18,11 @@ public:
     Q_ENUM(MessageType) //enum쓰려면 필요함
 
 
-    explicit Chatting(const QString &sender,
-                      const QString& chatRoomID,
-                      const QString& content,
-                      MessageType type = Text,
-                      const QDateTime& timestamp = QDateTime::currentDateTime());
+    explicit Chat(const QString &sender,
+                const QString& chatRoomID,
+                const QString& content,
+                MessageType type = Text,
+                const QDateTime& timestamp = QDateTime::currentDateTime());
 
     /* getter */
     QString getMessageId() const;
@@ -30,7 +30,7 @@ public:
     QString getChatRoomID() const;
     QString getMessageContent() const;
     MessageType getMessageType() const;
-    QDateTime getTimeStamp();
+    QDateTime getTimeStamp() const;
 
     // for debugging
     QString toString() const;
@@ -44,4 +44,4 @@ private:
     QDateTime m_timestamp;             // 메시지 생성 시간
 };
 
-#endif // CHATTING_H
+#endif // CHAT_H
