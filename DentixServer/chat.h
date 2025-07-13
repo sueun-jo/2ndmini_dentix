@@ -4,7 +4,7 @@
 #include <QObject>
 #include <Qstring>
 #include <QDateTime>
-#include <QUuid> //메시지 고유id 생성하기 위한 헤더 파일
+// #include <QUuid> //메시지 고유id 생성하기 위한 헤더 파일
 
 class Chat : public QObject
 {
@@ -25,20 +25,24 @@ public:
                 const QDateTime& timestamp = QDateTime::currentDateTime());
 
     /* getter */
-    QString getMessageId() const;
+    // QString getMessageID() const;
     QString getSender() const;
     QString getChatRoomID() const;
     QString getMessageContent() const;
     MessageType getMessageType() const;
     QDateTime getTimeStamp() const;
 
-    // for debugging
+    // 디버깅 로그 찍는 용도
     QString toString() const;
 
+    // Json직렬화, 역직렬화
+    QJsonObject toJson() const;
+    static Chat fromJson(const QJsonObject& chatJson);
+
 private:
-    QString m_messageId;               //메시지 고유 식별자 (QUid 사용)
+    // QString m_messageID;               //메시지 고유 식별자 (QUid 사용)
     QString m_sender;                  //메세지를 보낸 사용자 name
-    QString m_chatRoomId;              // 매시지가 전송된 채팅방의 고유 ID
+    QString m_chatRoomID;              // 매시지가 전송된 채팅방의 고유 ID
     QString m_messageContent;          // 메시지 실제 내용
     MessageType m_messageType;         // 메시지 종류 (text인지 image인지)
     QDateTime m_timestamp;             // 메시지 생성 시간
