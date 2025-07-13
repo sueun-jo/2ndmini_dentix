@@ -6,7 +6,7 @@ Chat::Chat (const QString& senderName,
             const QString& content,
             MessageType type,
             const QDateTime& timestamp)
-    // 멤버 변수 초기화 리스트: 객체 생성 시 각 멤버 변수를 초기화합니다.
+    // 멤버 변수 초기화
     : m_messageId(QUuid::createUuid().toString()), // 새로운 메시지마다 고유 ID 자동 생성
     m_sender(senderName),
     m_chatRoomId(chatRoomId),
@@ -14,7 +14,7 @@ Chat::Chat (const QString& senderName,
     m_messageType(type),
     m_timestamp(timestamp)
 {
-    //생성자 본문 딱히 쓸 것 없잔아
+    //생성자 본문 딱히 쓸 것 없음
 }
 
 /* getter 구현부 */
