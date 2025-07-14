@@ -2,22 +2,25 @@
 #define CHATMANAGER_H
 
 #include <QObject>
-#include <QMutex>
+#include <QVector>
 #include "chat.h"
 #include "chatrepository.h"
 
-class ChatManager
+class ChatManager : public QObject
 {
+    Q_OBJECT
 public:
-    void logMessage(const Chat& chat);
-    QVector<Chat> getAllChats() const;
-    ChatManager();
+    explicit ChatManager(QObject* parent = nullptr);
+
+    bool addChat(Chat* chat);
+    const QVector<Chat*>& getChats() const;
+
+signals:
+    void chatAdded(Chat* chat); //새로운 채팅 들어오면 보낼 signal
 
 private:
-    QVector<Chat> chatLog; //chatLog로 저장할 QVector
-    QMutex mutex;          // mutex
-    ChatRepository chatrepository;
-
+    QVector<Chat*> chats;
+    ChatRepository chatrepo;
 };
 
 #endif // CHATMANAGER_H

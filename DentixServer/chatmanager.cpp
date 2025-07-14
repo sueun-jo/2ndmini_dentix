@@ -1,13 +1,22 @@
 #include "chatmanager.h"
-#include "chatrepository.h"
+#include "logutil.h"
 
-ChatManager::ChatManager() {
+ChatManager::ChatManager(QObject* parent) : QObject(parent)
+{
+    chats = chatrepo.loadAllChats("chats.json");
+    dprint("[ChatManager] 채팅 로드 완료: ") << chats.size();
 }
 
-void ChatManager::logMessage(const Chat& chat){
-    QMutexLocker locker(&mutex);
-    chatLog.append(chat);
+bool ChatManager::addChat(Chat* chat){
+    if (chat){
+        chats.append(chat);
+        emit chatAdded(chat); //시그널 발생
+        return true;
+    }
+    return false;
+}
 
-    //매번 저장
-    ChatRepository::saveAllChats(chatLog, "chatlog.json");
+const QVector<Chat*>& ChatManager::getChats() const
+{
+    return chats;
 }

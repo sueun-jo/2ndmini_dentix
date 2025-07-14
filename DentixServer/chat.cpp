@@ -72,6 +72,7 @@ QJsonObject Chat::toJson() const {
     chatjson["messageContent"] = m_messageContent;
     chatjson["messageType"] = m_messageType; // Q_ENUM 덕분에 int로 변환됨
     chatjson["timestamp"] = m_timestamp.toString(Qt::ISODate);
+    return chatjson;
 }
 
 Chat Chat::fromJson(const QJsonObject& chatjson){
@@ -80,6 +81,7 @@ Chat Chat::fromJson(const QJsonObject& chatjson){
     QString messageContent = chatjson["messageContent"].toString();
     Chat::MessageType messageType = static_cast<Chat::MessageType>(chatjson["messageType"].toInt());
     QDateTime timestamp = QDateTime::fromString(chatjson["timestamp"].toString(), Qt::ISODate);
+    return Chat(sender, chatRoomID, messageContent, messageType, timestamp);
 }
 
 
