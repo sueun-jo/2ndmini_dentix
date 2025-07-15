@@ -35,7 +35,6 @@ void RequestDispatcher::handleLogin(QTcpSocket* socket, const QJsonObject& data,
     QString pwInput = data["pw"].toString();
 
     dprint("[RequestDispatcher] login 요청 분기");
-    //qDebug() << "[Login 요청]" << nameInput << pwInput;
 
     QJsonObject response = userManager->login(nameInput, pwInput);
 
