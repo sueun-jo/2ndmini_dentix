@@ -2,8 +2,7 @@
 #include "ui_chatbasicform.h"
 #include "chatcontroller.h"
 ChatBasicForm::ChatBasicForm(ChatController *chatController, QWidget *parent)
-    : QWidget(parent), m_chatController(chatController)
-    , ui(new Ui::ChatBasicForm)
+    : QWidget(parent), ui(new Ui::ChatBasicForm) , m_chatController(chatController)
 {
 
     ui->setupUi(this);

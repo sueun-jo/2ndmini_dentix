@@ -11,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
     chatController = new ChatController(client, this);
 
     connect(loginController, &LoginController::loginSuccess, this, &MainWindow::onLoginSuccessful);
-
+    connect(loginController, &LoginController::loginSuccess, chatController, &ChatController::setUserName);
 }
 
 MainWindow::~MainWindow()

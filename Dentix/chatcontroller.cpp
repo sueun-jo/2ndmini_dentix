@@ -7,7 +7,6 @@ ChatController::ChatController(Client* client, QObject *parent) : QObject(parent
 {
 }
 
-
 void ChatController::setUserName(const QString userName)
 {
     m_userName = userName;

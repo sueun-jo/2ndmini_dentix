@@ -16,7 +16,7 @@ class ChatBasicForm : public QWidget
     Q_OBJECT
 
 public:
-    explicit ChatBasicForm(QWidget *parent = nullptr);
+    explicit ChatBasicForm(ChatController *chatController, QWidget *parent = nullptr);
     ~ChatBasicForm();
 
 signals:
