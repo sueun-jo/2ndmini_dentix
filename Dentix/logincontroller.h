@@ -1,0 +1,27 @@
+#ifndef LOGINCONTROLLER_H
+#define LOGINCONTROLLER_H
+#include <QString>
+#include <QJsonObject>
+#include <QJsonDocument>
+#include <QMainWindow>
+#include "client.h" // logincontroller는 client를 알아야 함
+class LoginController : public QObject
+{
+    Q_OBJECT
+signals:
+    void loginSuccess(const QString& userName);
+    void loginFailed();
+public:
+    explicit LoginController(Client *client, QObject *parent = nullptr);//생성자에서 Client 받음
+    void setView(QMainWindow* view); // 어떤 view 제어할지 설정
+public slots:
+    void requestLogin(const QString &name, const QString &pw); //view로부터 요청 받는 슬룟
+
+private slots:
+    void setUserName(const QByteArray &data);
+private:
+    Client *m_client;//Model에 대한 포인터
+
+};
+
+#endif // LOGINCONTROLLER_H

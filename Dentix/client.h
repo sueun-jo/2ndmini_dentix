@@ -7,26 +7,32 @@
 #include <QTextEdit>
 #include <QString>
 #include <QJsonObject>
-
+#include <QJsonDocument>
+class LoginController;
 class Client : public QObject
 {
     Q_OBJECT
+signals:
+    //서버로 부터 온 데이터 loginController로 보내는 시그널
+    void dataReceived(const QByteArray &data);
 
 public:
     explicit Client(QObject *parent = nullptr); //생성자
-    void sendJson(const QJsonObject& obj);
-    void requestLogin(const QString &name, const QString &pw);
-    void connectToServer(const QString &host, quint16 port);
+    //firstscreen으로 부터 받은 연결시그널
 
-signals:
-    void jsonReceived(const QJsonObject &obj); //서버 응답 수신 시
+public slots:
+    void sendJson(const QByteArray &jsonData);
+    void connectToServer(const QString &host, quint16 port);
 
 private:
     QTcpSocket* socket; //tcp socket
+    //loginController가 주는 userName 저장용 문자열 변수
+    LoginController *loginController;
 
 private slots:
     void onReadyRead(); //데이터 수신 처리
     void onErrorOccurred(QAbstractSocket::SocketError socketError); //에러 처리
+
 };
 
 #endif // CLIENT_H
