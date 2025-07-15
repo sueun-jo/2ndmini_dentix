@@ -16,8 +16,8 @@
   <widget class="QPushButton" name="saveButton">
    <property name="geometry">
     <rect>
-     <x>210</x>
-     <y>320</y>
+     <x>200</x>
+     <y>350</y>
      <width>80</width>
      <height>29</height>
     </rect>
@@ -97,6 +97,19 @@
    </property>
    <widget class="QWidget" name="page"/>
    <widget class="QWidget" name="page_2"/>
+  </widget>
+  <widget class="QPushButton" name="test">
+   <property name="geometry">
+    <rect>
+     <x>440</x>
+     <y>350</y>
+     <width>80</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>채팅테스트</string>
+   </property>
   </widget>
  </widget>
  <resources/>

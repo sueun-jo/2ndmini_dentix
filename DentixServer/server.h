@@ -14,6 +14,7 @@
 #include "requestdispatcher.h"
 #include "usermanager.h"
 #include "patientmanager.h"
+#include "chatmanager.h"
 
 class Server : public QObject
 {
@@ -34,6 +35,7 @@ private:
     RequestDispatcher *requestDispatcher;
     UserManager *userManager;
     PatientManager *patientManager;
+    ChatManager *chatManager;
 
     QList<QTcpSocket*> clients; //현재 연결된 모든 클라이언트 소켓 저장용
     QMap<QTcpSocket*, QString> socketToName; // 소켓과 name 매핑
@@ -44,6 +46,7 @@ public :
     Server& operator=(const Server&) = delete;
 
     PatientManager* getPatientManager() const { return patientManager; }
+    ChatManager* getChatManager() const { return chatManager; }
 
 private slots:
     void onNewConnection(); // 새 연결 처리

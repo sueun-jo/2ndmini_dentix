@@ -12,8 +12,10 @@ class ChatManager : public QObject
 public:
     explicit ChatManager(QObject* parent = nullptr);
 
-    bool addChat(Chat* chat);
+    bool addChat(Chat* chat); //채팅 로그에 체팅 추가
     const QVector<Chat*>& getChats() const;
+
+    //테스트용
 
 signals:
     void chatAdded(Chat* chat); //새로운 채팅 들어오면 보낼 signal

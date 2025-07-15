@@ -1,10 +1,13 @@
 #include "chatlogform.h"
+#include "chat.h"
+#include "server.h"
 #include <QDebug>
 
 ChatLogForm::ChatLogForm(QWidget *parent)
     : QWidget(parent), ui(new Ui::ChatLogForm)
 {
     ui->setupUi(this);
+    connect(chatManager, &ChatManager::chatAdded, this, &ChatLogForm::appendChat);
 }
 
 ChatLogForm::~ChatLogForm()
@@ -40,3 +43,21 @@ void ChatLogForm::on_logList_itemClicked(QListWidgetItem *item)
     ui->logStacked->setCurrentWidget(newPage);
 }
 
+
+void ChatLogForm::on_saveButton_clicked()
+{
+
+}
+
+
+void ChatLogForm::on_test_clicked()
+{
+    ChatManager* chatManager = Server::getInstance()->getChatManager();
+    Chat* dummy = new Chat("testuser", "test-all", "this is test message");
+    chatManager->addChat(dummy);
+}
+
+void ChatLogForm::appendChat(Chat* chat){
+    if (!chat) return;
+
+}
