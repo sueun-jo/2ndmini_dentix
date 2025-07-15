@@ -77,7 +77,7 @@
     <string>chatLog</string>
    </property>
    <property name="toolTip">
-    <string>chatLog</string>
+    <string>show chat log</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>

@@ -19,7 +19,6 @@ int main(int argc, char *argv[])
         }
     }
 
-
     /* sueun's main code */
     ServerWindow w;
     w.show();

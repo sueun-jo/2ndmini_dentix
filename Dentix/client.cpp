@@ -42,7 +42,7 @@ void Client::sendJson(const QJsonObject &obj){
 
 void Client::onReadyRead(){ //서버로부터 읽을 게 있을 때
     QByteArray data = socket->readAll();
-    emit messageReceived(QString::fromUtf8(data));
+    // emit jsonReceived(QString::fromUtf8(data));
 }
 
 void Client::onErrorOccurred(QAbstractSocket::SocketError socketError){

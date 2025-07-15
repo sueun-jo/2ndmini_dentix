@@ -6,6 +6,9 @@
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QPlainTextEdit>
+#include "ui_chatlogform.h"
+#include "chatmanager.h"
+#include "chat.h"
 
 namespace Ui {
 class ChatLogForm;
@@ -22,6 +25,12 @@ public:
 private slots:
     void on_logList_itemClicked(QListWidgetItem *item);
 
+    void on_saveButton_clicked();
+
+    void on_test_clicked();
+
+public:
+    void appendChat(Chat* chat);
 private:
     Ui::ChatLogForm *ui;
 };
