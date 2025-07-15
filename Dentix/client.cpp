@@ -1,10 +1,9 @@
 #include "client.h"
-
 Client::Client(QObject *parent){
     socket = new QTcpSocket(this);
-
     connect(socket, &QTcpSocket::readyRead, this, &Client::onReadyRead);
     connect(socket, &QTcpSocket::errorOccurred, this, &Client::onErrorOccurred);
+
 }
 
 void Client::connectToServer(const QString &host, quint16 port){
@@ -16,35 +15,30 @@ void Client::connectToServer(const QString &host, quint16 port){
         qDebug() << "[Client] Connection is established.";
     }
 }
+void Client::sendJson(const QByteArray &jsonData)
+{
 
-void Client::requestLogin(const QString &name, const QString& pw){
+    if(socket->state()== QAbstractSocket::ConnectedState){
+        socket->write(jsonData);
+        qDebug().noquote()<<"[Client] : Sent to server: "<< jsonData;
+    }else{
+        qWarning() <<"[Client] : Cannot send data. Socket not connected.";
+    }
 
-    QJsonObject data; //가변적인 data 영역 설정
-    data["name"] = name;
-    data["pw"] = pw;
-
-    QJsonObject loginInfo;
-    loginInfo["type"] = "login";
-    loginInfo["data"] = data;
-
-    sendJson(loginInfo);
 }
 
-void Client::sendJson(const QJsonObject &obj){
-
-    QJsonDocument doc(obj); //json객체를 doc으로 만듦
-    QByteArray sendedData = doc.toJson(); //json을 문자열로 변환해서 QByteArray로 만든다
-    qDebug().noquote() << "[Client] send json to server: "<< doc.toJson(QJsonDocument::Compact);
-
-    socket->write(sendedData); // 버퍼에 데이터를 적고
-    socket->flush(); //서버에 전송한다
-}
-
-void Client::onReadyRead(){ //서버로부터 읽을 게 있을 때
+void Client::onReadyRead(){
     QByteArray data = socket->readAll();
-    // emit jsonReceived(QString::fromUtf8(data));
+    //서버에서 온 데이터 처리 x
+    //데이터 처리는 loginController에서
+    if(!data.isEmpty()){
+        qDebug()<<"[Client]: Raw Data Recevied, passing to controller";
+        //로그인 컨트롤러로 데이터 전송
+        emit dataReceived(data);
+    }
 }
-
 void Client::onErrorOccurred(QAbstractSocket::SocketError socketError){
     qWarning() << "[Client] Socket Error: " << socketError << socket->errorString();
 }
+
+

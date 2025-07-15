@@ -6,6 +6,12 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    client = new Client(this);
+    loginController = new LoginController(client, this);
+    chatController = new ChatController(client, this);
+
+    connect(loginController, &LoginController::loginSuccess, this, &MainWindow::onLoginSuccessful);
+    connect(loginController, &LoginController::loginSuccess, chatController, &ChatController::setUserName);
 }
 
 MainWindow::~MainWindow()
@@ -38,4 +44,14 @@ void MainWindow::on_reservation_clicked()
     }
     chatWindow->show();
 }
+
+
+
+
+
+void MainWindow::onLoginSuccessful(const QString &userName)
+{
+    chatController->setUserName(userName);
+}
+
 

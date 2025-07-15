@@ -10,11 +10,13 @@ CONFIG += c++17
 
 SOURCES += \
     chatbasicform.cpp \
+    chatcontroller.cpp \
     chatgroupform.cpp \
     chatinvitedform.cpp \
     chatwindow.cpp \
     client.cpp \
     firstscreen.cpp \
+    logincontroller.cpp \
     main.cpp \
     mainwindow.cpp \
     patientaddform.cpp \
@@ -25,11 +27,13 @@ SOURCES += \
 
 HEADERS += \
     chatbasicform.h \
+    chatcontroller.h \
     chatgroupform.h \
     chatinvitedform.h \
     chatwindow.h \
     client.h \
     firstscreen.h \
+    logincontroller.h \
     mainwindow.h \
     patientaddform.h \
     patientdeleteform.h \
