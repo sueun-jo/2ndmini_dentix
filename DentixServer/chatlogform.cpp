@@ -1,13 +1,18 @@
 #include "chatlogform.h"
 #include "chat.h"
+#include "chatrepository.h"
 #include "server.h"
 #include <QDebug>
+#include <QPlainTextEdit>
 
 ChatLogForm::ChatLogForm(QWidget *parent)
     : QWidget(parent), ui(new Ui::ChatLogForm)
 {
     ui->setupUi(this);
-    connect(chatManager, &ChatManager::chatAdded, this, &ChatLogForm::appendChat);
+    logLayout = new QVBoxLayout(ui->logArea);
+    ui->logArea->setLayout(logLayout);
+
+    connect(Server::getInstance()->getChatManager(), &ChatManager::chatAdded, this, &ChatLogForm::appendChat);
 }
 
 ChatLogForm::~ChatLogForm()
@@ -20,32 +25,36 @@ void ChatLogForm::on_logList_itemClicked(QListWidgetItem *item)
     QString name = item->text();
     ui->chatTitle->setText(name + tr("의 채팅 로그")); // QLabel 업데이트
 
-    // 기존 페이지 있는지 확인
-    for (int i = 0; i < ui->logStacked->count(); i++) {
-        QWidget *page = ui->logStacked->widget(i);
-        if (page->objectName() == name) {
-            ui->logStacked->setCurrentWidget(page);
-            return;
-        }
+    QPlainTextEdit * logText = nullptr;
+
+    //logMap에 해당 로그창 있는지 확인
+    if (logMap.contains(name)){
+        logText = logMap[name];
+    } else {
+        //새 로그창 생성
+        logText = new QPlainTextEdit;
+        logText->setReadOnly(true);
+        logMap[name] = logText;
+        logLayout->addWidget(logText);
     }
 
-    // 새 페이지 생성
-    QWidget *newPage = new QWidget;
-    newPage->setObjectName(name);
+    //모든 로그창 숨기고 선택한 로그창만 보여주기
 
-    QVBoxLayout *layout = new QVBoxLayout(newPage);
-    QPlainTextEdit *logText = new QPlainTextEdit;
-
-    layout->addWidget(logText);
-    newPage->setLayout(layout);
-
-    ui->logStacked->addWidget(newPage);
-    ui->logStacked->setCurrentWidget(newPage);
+    for (auto* edit : std::as_const(logMap)){
+        edit->setVisible(false);
+    }
+    logText->setVisible(true);
 }
 
 
 void ChatLogForm::on_saveButton_clicked()
 {
+    ChatManager* chatManager = Server::getInstance()->getChatManager();
+    const QVector<Chat*>& allChats = chatManager->getChats();
+    QString filepath = "chatlog.json";
+
+    ChatRepository::saveAllChats(allChats, filepath);
+
 
 }
 
@@ -53,11 +62,35 @@ void ChatLogForm::on_saveButton_clicked()
 void ChatLogForm::on_test_clicked()
 {
     ChatManager* chatManager = Server::getInstance()->getChatManager();
-    Chat* dummy = new Chat("testuser", "test-all", "this is test message");
+    Chat* dummy = new Chat("testuser", "전체채팅", "this is test message");
     chatManager->addChat(dummy);
+    qDebug() << "test_button_clicked()";
 }
 
 void ChatLogForm::appendChat(Chat* chat){
     if (!chat) return;
 
+    QString key = chat->getChatRoomID(); //chatRoomID가
+
+    QPlainTextEdit* logText = nullptr;
+
+    if (logMap.contains(key)){
+        logText = logMap[key];
+    } else {
+        logText = new QPlainTextEdit;
+        logText->setReadOnly(true);
+        logText->setStyleSheet("background: white;");
+        logMap[key] = logText;
+        logLayout->addWidget(logText);
+        logText->setVisible(false); // 기본은 숨김
+    }
+
+    logText->appendPlainText(chat->toString());
+
+    //현재 선택된 유저/방과 맞으면 보여주기
+    QListWidgetItem *currentItem = ui->logList->currentItem();
+    if (currentItem && currentItem->text() == key) {
+        for (auto* edit : std::as_const(logMap)) edit->setVisible(false);
+        logText->setVisible(true);
+    }
 }

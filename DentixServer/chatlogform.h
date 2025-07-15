@@ -6,6 +6,7 @@
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QPlainTextEdit>
+#include <QMap>
 #include "ui_chatlogform.h"
 #include "chatmanager.h"
 #include "chat.h"
@@ -33,6 +34,9 @@ public:
     void appendChat(Chat* chat);
 private:
     Ui::ChatLogForm *ui;
+    QMap<QString, QPlainTextEdit*> logMap;
+    QVBoxLayout* logLayout; //logTextEdit들 쌓는 레이아웃
+
 };
 
 #endif // CHATLOGFORM_H
