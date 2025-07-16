@@ -38,7 +38,7 @@ void RequestDispatcher::handleLogin(QTcpSocket* socket, const QJsonObject& data,
 
     QJsonObject response = userManager->login(nameInput, pwInput);
 
-    socket->write(QJsonDocument(response).toJson(QJsonDocument::Compact));
+    socket->write(QJsonDocument(response).toJson(QJsonDocument::Indented));
     socket->flush();
 }
 

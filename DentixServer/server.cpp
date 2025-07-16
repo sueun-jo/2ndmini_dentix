@@ -22,9 +22,13 @@ Server::Server(QObject *parent) : QObject (parent)
 
 //서버 시작 : 지정 포트로 수신 대기
 void Server::startServer(quint16 port){
+
+    if (tcpServer->isListening()){
+        qDebug() << "Server is already running on port" << tcpServer->serverPort();
+        return;
+    }
     if (tcpServer->listen(QHostAddress::Any, port)){
-        dprint("Server started on port" << port); // logutil test
-        // qDebug() << "Server started on port " << port; // 수신대기
+        qDebug() << "Server started on port " << port; // 수신대기
     } else{
         qDebug() << "Server failed " << tcpServer->errorString(); //연결 실패
     }
