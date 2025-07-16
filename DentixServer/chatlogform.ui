@@ -86,18 +86,6 @@
     </property>
    </item>
   </widget>
-  <widget class="QStackedWidget" name="logStacked">
-   <property name="geometry">
-    <rect>
-     <x>196</x>
-     <y>80</y>
-     <width>361</width>
-     <height>221</height>
-    </rect>
-   </property>
-   <widget class="QWidget" name="page"/>
-   <widget class="QWidget" name="page_2"/>
-  </widget>
   <widget class="QPushButton" name="test">
    <property name="geometry">
     <rect>
@@ -109,6 +97,16 @@
    </property>
    <property name="text">
     <string>채팅테스트</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="logArea" native="true">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>80</y>
+     <width>381</width>
+     <height>231</height>
+    </rect>
    </property>
   </widget>
  </widget>
