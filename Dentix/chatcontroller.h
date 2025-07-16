@@ -16,6 +16,8 @@ public:
     //void sendMessageToServer(QString userName, QString message);
     //내부의 userName을 사용므로 sendMessageToServer 파라미터 변경
     void sendMessageToServer(QString message);
+
+
 public slots:
     //view(chatbasicForm)에서 메세지 전송요청 받는 슬롯
     void requestMessage(const QString message);// 메세지 처리용

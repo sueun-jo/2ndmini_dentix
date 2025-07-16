@@ -29,7 +29,7 @@ void LoginController::requestLogin(const QString &name, const QString &pw)
 //서버로 부터 받은 데이터에서 userName 추출 -> client에 전송
 void LoginController::setUserName(const QByteArray &data)
 {
-    qDebug().noquote()<<"[LoginController] User data recived from Cilent : "<<QString::fromUtf8(data);
+    qDebug().noquote()<<"[LoginController] User data recived from Server : "<<QString::fromUtf8(data);
 
     //받은 데이터에서 유저이름만 추출
     QJsonParseError parseError;

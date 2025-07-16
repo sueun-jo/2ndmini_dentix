@@ -31,9 +31,9 @@ void ChatController::requestMessage(const QString message)
 void ChatController::sendMessageToServer(QString message)
 {
     QJsonObject data;
-    data["name"] = m_userName;
-    qDebug()<<"userName: "<< m_userName;
-    data["message"] = message;
+    data["senderName"] = "조수은";
+    data["chatRoomID"] = "전체채팅";
+    data["content"] = message;
 
     QJsonObject chatMessage;
     chatMessage["type"] = "chat";
@@ -42,7 +42,8 @@ void ChatController::sendMessageToServer(QString message)
     QJsonDocument doc(chatMessage);
     QByteArray sendedData = doc.toJson();
 
-    qDebug()<<"[ChatController] Sending to server: "<< sendedData;
+    qDebug().noquote()<<"[ChatController] Sending to server: "<< sendedData;
     //헤더에 선언헌 포인터로 클라이언트에 전송
+
     m_client->sendJson(sendedData);
 }
