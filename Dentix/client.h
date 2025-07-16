@@ -8,14 +8,13 @@
 #include <QString>
 #include <QJsonObject>
 #include <QJsonDocument>
-#include "chatbasicform.h"
-class LoginController;
+
 class Client : public QObject
 {
     Q_OBJECT
 signals:
     //서버로 부터 온 데이터 loginController로 보내는 시그널
-    void dataReceived(const QByteArray &data);
+    void jsonReceivedFromServer(const QByteArray &data);
 
 public:
     explicit Client(QObject *parent = nullptr); //생성자
@@ -28,7 +27,7 @@ public slots:
 private:
     QTcpSocket* socket; //tcp socket
     //loginController가 주는 userName 저장용 문자열 변수
-    LoginController *loginController;
+
 
 private slots:
     void onReadyRead(); //데이터 수신 처리
