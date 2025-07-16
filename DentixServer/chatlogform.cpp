@@ -8,6 +8,7 @@
 ChatLogForm::ChatLogForm(QWidget *parent)
     : QWidget(parent), ui(new Ui::ChatLogForm)
 {
+    //update용 주석
     ui->setupUi(this);
     logLayout = new QVBoxLayout(ui->logArea);
     ui->logArea->setLayout(logLayout);
