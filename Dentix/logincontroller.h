@@ -9,11 +9,12 @@ class LoginController : public QObject
 {
     Q_OBJECT
 signals:
-    void loginSuccess(const QString& userName);
+    void loginSuccess();
     void loginFailed();
+    void sendUserName(const QString &userName);
 public:
     explicit LoginController(Client *client, QObject *parent = nullptr);//생성자에서 Client 받음
-    void setView(QMainWindow* view); // 어떤 view 제어할지 설정
+
 public slots:
     void requestLogin(const QString &name, const QString &pw); //view로부터 요청 받는 슬룟
 

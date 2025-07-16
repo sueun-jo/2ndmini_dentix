@@ -1,13 +1,9 @@
 #include "chatbasicform.h"
 #include "ui_chatbasicform.h"
-#include "chatcontroller.h"
-ChatBasicForm::ChatBasicForm(ChatController *chatController, QWidget *parent)
-    : QWidget(parent), ui(new Ui::ChatBasicForm) , m_chatController(chatController)
+ChatBasicForm::ChatBasicForm(QWidget *parent)
+    : QWidget(parent), ui(new Ui::ChatBasicForm)
 {
-
     ui->setupUi(this);
-    //requestMessage시그널 Controller의 슬롯에 연결 : 결합도 낮추기
-    connect(this, &ChatBasicForm::requestMessage, chatController, &ChatController::requestMessage);
 }
 
 ChatBasicForm::~ChatBasicForm()
@@ -25,8 +21,10 @@ void ChatBasicForm::on_btnSendChat_clicked()
     //message -> chatcontroller
     //chatcontroller->requestMessage(message)
     //직접호출 하지 않고 시그널 발생으로 결합도를 낮춤
-    emit requestMessage(message);
+    emit sendMessageData(message);
     //메시지 전송 후 입력창 비우기
     ui->leMessageChat->clear();
 }
-
+// void ChatBasicForm::sendMessageData(const QString &message){
+//     qDebug()<<"sendMessageData *^^*"<< message;
+// }

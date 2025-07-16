@@ -10,7 +10,6 @@ FirstScreen::FirstScreen(QWidget *parent)
     //Model(client)과 Controller 객체 생성
     client = new Client(this); //client 객체 생성
     loginController = new LoginController(client,this); //(client, this) 오류 발생 문제 확인 필요
-
     connect(this, &FirstScreen::loginRequest, loginController, &LoginController::requestLogin);
     connect(loginController, &LoginController::loginSuccess, this, &FirstScreen::handleLoginSuccess);
     //클라이언트 시그널과 firstscreen 연결
@@ -36,8 +35,7 @@ void FirstScreen::on_loginButton_clicked(){
 
 }
 
-void FirstScreen::handleLoginSuccess(const QString& userName){
-    qDebug() << "[firstScreen] Login successful in FirstScreen. Switching to MainWindow." <<userName;
+void FirstScreen::handleLoginSuccess(){
 
     mainWindow = new MainWindow();
     mainWindow ->show();

@@ -46,7 +46,8 @@ void LoginController::setUserName(const QByteArray &data)
                 if(!userName.isEmpty()){
                     qDebug()<<"[LoginController] Loginsuccessfull for user:"<<userName;
                     //로그인 성공 시그널 방출 -> firstscreen에서 받으면 창 전환 , client에 userName 전송, 이후 chatcontroller에서 사용
-                    emit loginSuccess(userName);
+                    emit loginSuccess();
+                    emit sendUserName(userName);//mainwindow로 보낼 시그널임
                 } else{
                     qDebug()<<"[LoginController] Login failed : User name is missing";
                     emit loginFailed();

@@ -10,6 +10,7 @@
 
 #include "client.h"
 #include "logincontroller.h"
+
 class MainWindow;
 class LoginController;
 
@@ -26,7 +27,7 @@ public:
     ~FirstScreen();
 
 public slots:
-    void handleLoginSuccess(const QString& userName);
+    void handleLoginSuccess();
     void handleLoginFailed(const QString& reason);
 
 private slots:
@@ -38,7 +39,6 @@ private:
     LoginController *loginController;
     Client *client; //조립을 위해 잠시 소유
     MainWindow *mainWindow;
-
 signals:
     //View는 Controller에게 요청만 보냄
     void loginRequest(const QString& name, const QString& pw);

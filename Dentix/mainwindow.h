@@ -24,7 +24,7 @@ private slots:
     void on_patinetInfo_clicked();
     void handleBackFormPatient();
     void on_reservation_clicked();
-    void onLoginSuccessful(const QString &userName);
+    void receivedUserName(const QString &userName);
 
 private:
     Ui::MainWindow *ui;

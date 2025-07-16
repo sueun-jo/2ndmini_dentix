@@ -4,7 +4,6 @@
 #include <QTabBar>
 #include "chatgroupform.h"
 #include "chatinvitedform.h"
-#include "chatcontroller.h"
 ChatWindow::ChatWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::ChatWindow)
@@ -13,8 +12,6 @@ ChatWindow::ChatWindow(QWidget *parent)
 
     ui->tabWidget->tabBar()->hide();
 
-    Client *client =new Client(this);
-    ChatController *chatController = new ChatController(client,this);
     connect(ui->actionMainChat, &QAction::triggered, this, [=]() {
         ui->tabWidget->setCurrentIndex(0);
     });
@@ -24,7 +21,7 @@ ChatWindow::ChatWindow(QWidget *parent)
     connect(ui->actionInvitedChat, &QAction::triggered, this, [=]() {
         ui->tabWidget->setCurrentIndex(2);
     });
-    ChatBasicForm* chat = new ChatBasicForm(chatController, this);
+    ChatBasicForm* chat = new ChatBasicForm(this);
     ui->tabWidget->addTab(chat, tr("고객 정보"));  // index 0
 
     ChatGroupForm* groupchat = new ChatGroupForm(this);
