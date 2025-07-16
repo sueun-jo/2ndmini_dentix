@@ -17,6 +17,7 @@ Server::Server(QObject *parent) : QObject (parent)
     connect (tcpServer, &QTcpServer::newConnection, this, &Server::onNewConnection);
     userManager = new UserManager();
     patientManager = new PatientManager();
+    chatManager = new ChatManager();
 }
 
 //서버 시작 : 지정 포트로 수신 대기
@@ -50,7 +51,7 @@ void Server::onReadyRead(){
     QTcpSocket *socket = qobject_cast<QTcpSocket *>(sender()); //어떤 소켓인지 식별
     QByteArray data = socket->readAll(); //수신한 데이터 읽어오기
 
-    QJsonDocument doc = QJsonDocument::fromJson(data); //json 파싱
+    QJsonDocument doc = QJsonDocument::fromJson(data); //json형태로 온 데이터 파싱
     if (doc.isObject()){ //읽어서 request 종류 파악하고 handleRequest 따라감
         QJsonObject obj = doc.object();
 

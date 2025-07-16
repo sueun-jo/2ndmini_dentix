@@ -8,8 +8,8 @@
 class ChatRepository
 {
 public:
-    bool saveAllChats(const QVector<Chat*>& chats, const QString& filepath);
-    QVector<Chat*> loadAllChats(const QString& filepath);
+    static bool saveAllChats(const QVector<Chat*>& chats, const QString& filepath);
+    static QVector<Chat*> loadAllChats(const QString& filepath);
 };
 
 #endif // CHATREPOSITORY_H
