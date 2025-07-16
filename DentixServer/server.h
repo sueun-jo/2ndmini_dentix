@@ -41,7 +41,7 @@ private:
     QMap<QTcpSocket*, QString> socketToName; // 소켓과 name 매핑
 
 public :
-    /* 복사 생성자, 대입 연산자 막음 */
+    /* 복사 생성자, 대입 연산자 막음 for 싱글턴 */
     Server(const Server&) = delete;
     Server& operator=(const Server&) = delete;
 
