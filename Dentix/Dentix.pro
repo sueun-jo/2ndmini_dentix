@@ -9,34 +9,38 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    appcontroller.cpp \
     chatbasicform.cpp \
-    chatcontroller.cpp \
     chatgroupform.cpp \
     chatinvitedform.cpp \
+    chatmanager.cpp \
     chatwindow.cpp \
     client.cpp \
     firstscreen.cpp \
-    logincontroller.cpp \
+    loginmanager.cpp \
     main.cpp \
     mainwindow.cpp \
     patientaddform.cpp \
     patientdeleteform.cpp \
+    patientmanager.cpp \
     patientmodifyform.cpp \
     patientsearchform.cpp \
     patientwindow.cpp
 
 HEADERS += \
+    appcontroller.h \
     chatbasicform.h \
-    chatcontroller.h \
     chatgroupform.h \
     chatinvitedform.h \
+    chatmanager.h \
     chatwindow.h \
     client.h \
     firstscreen.h \
-    logincontroller.h \
+    loginmanager.h \
     mainwindow.h \
     patientaddform.h \
     patientdeleteform.h \
+    patientmanager.h \
     patientmodifyform.h \
     patientsearchform.h \
     patientwindow.h

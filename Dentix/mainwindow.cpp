@@ -1,23 +1,13 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "ui_patientwindow.h"
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    client = new Client(this);
-    loginController = new LoginController(client, this);
-    chatController = new ChatController(client, this);
-
-    connect(loginController, &LoginController::sendUserName, this, &MainWindow::receivedUserName);
-    //connect(loginController, &LoginController::loginSuccess, chatController, &ChatController::setUserName);
+    chatWindow = new ChatWindow(this);
 }
 
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
 
 void MainWindow::on_patinetInfo_clicked()
 {
@@ -44,11 +34,25 @@ void MainWindow::on_reservation_clicked()
     }
     chatWindow->show();
 }
-//로그인 성공 시그널 mainwindow에서 받자
-void MainWindow::receivedUserName(const QString &userName)
+ChatWindow* MainWindow::getChatWindow() {
+    return chatWindow;
+}
+
+//로그인 성공시 logincontroller에서 날라오는 mainwindow에서 받자
+void MainWindow::receiveUserName(const QString &userName)
 {
-    if(!userName.isEmpty())
-    chatController->setUserName(userName);
+    qDebug() << "MainWindow: receivedUserName 슬롯 호출됨, 받은 값:" << userName;
+    if(!userName.isEmpty()){
+        qDebug()<<"No User nameData :";
+    }
+    qDebug()<<"recive userName: "<< userName;
+}
+
+
+
+MainWindow::~MainWindow()
+{
+    delete ui;
 }
 
 

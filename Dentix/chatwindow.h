@@ -3,7 +3,14 @@
 
 #include <QMainWindow>
 
+class ChatBasicForm;
+class ChatGroupForm;
+class ChatInvitedForm;
+
 namespace Ui {
+class ChatBasicForm;
+class ChatGroupForm;
+class ChatInvitedForm;
 class ChatWindow;
 }
 
@@ -15,8 +22,11 @@ public:
     explicit ChatWindow(QWidget *parent = nullptr);
     ~ChatWindow();
 
+    void setChatTabs(ChatBasicForm* basic, ChatGroupForm* group, ChatInvitedForm* invited);
+
 private:
     Ui::ChatWindow *ui;
+    ChatBasicForm* chatForm;
 
 };
 
