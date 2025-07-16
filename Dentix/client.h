@@ -8,6 +8,7 @@
 #include <QString>
 #include <QJsonObject>
 #include <QJsonDocument>
+#include "chatbasicform.h"
 class LoginController;
 class Client : public QObject
 {
@@ -32,6 +33,7 @@ private:
 private slots:
     void onReadyRead(); //데이터 수신 처리
     void onErrorOccurred(QAbstractSocket::SocketError socketError); //에러 처리
+
 
 };
 
