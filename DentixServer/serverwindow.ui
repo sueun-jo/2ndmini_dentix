@@ -41,9 +41,9 @@
    <addaction name="actionstartServer"/>
    <addaction name="actionstopServer"/>
    <addaction name="separator"/>
-   <addaction name="actionshowPatientInfo"/>
+   <addaction name="actionPatientTab"/>
    <addaction name="separator"/>
-   <addaction name="actionchatLog"/>
+   <addaction name="actionChatLog"/>
   </widget>
   <action name="actionstartServer">
    <property name="icon">
@@ -61,15 +61,15 @@
     <string>stopServer</string>
    </property>
   </action>
-  <action name="actionshowPatientInfo">
+  <action name="actionPatientTab">
    <property name="icon">
     <iconset theme="QIcon::ThemeIcon::CameraWeb"/>
    </property>
    <property name="text">
-    <string>showPatientInfo</string>
+    <string>PatientTab</string>
    </property>
   </action>
-  <action name="actionchatLog">
+  <action name="actionChatLog">
    <property name="icon">
     <iconset theme="QIcon::ThemeIcon::MailMessageNew"/>
    </property>

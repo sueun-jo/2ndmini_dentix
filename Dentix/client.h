@@ -22,7 +22,7 @@ public:
 
 public slots:
     void sendJson(const QByteArray &jsonData);
-    void connectToServer(const QString &host, quint16 port);
+    bool connectToServer(const QString &host, quint16 port);
 
 private:
     QTcpSocket* socket; //tcp socket

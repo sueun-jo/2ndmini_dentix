@@ -1,11 +1,14 @@
 #include "serverwindow.h"
 #include "server.h"
+#include "serverinfoform.h"
 #include <QApplication>
 #include <QLocale>
 #include <QTranslator>
 
+
 int main(int argc, char *argv[])
 {
+    qInstallMessageHandler(ServerInfoForm::serverLogMsg); //사용자 정의 핸들러 등록
     QApplication a(argc, argv);
 
     /* 국제화 */

@@ -28,3 +28,23 @@ qrc_*.cpp
 # OS 특화
 .DS_Store
 Thumbs.db
+
+#무시할 프로젝트 폴더
+
+FileTransferClient/
+FileTransferServer/
+MainUIApp/
+ModelandView/
+PainterApp/
+RssReaderApp/
+SaveUrls/
+TableApp/
+TcpServer/
+TreeApp/
+UDP/
+UIApp/
+databaseExample/
+echoclient/
+ftpclient/
+ftpserver/
+jsonparsing/

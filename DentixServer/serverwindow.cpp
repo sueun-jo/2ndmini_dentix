@@ -10,6 +10,7 @@ ServerWindow::ServerWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::ServerWindow)
 {
+
     ui->setupUi(this);
 
     Server* server = Server::getInstance();
@@ -29,3 +30,21 @@ ServerWindow::~ServerWindow()
 
     delete ui;
 }
+
+void ServerWindow::on_actionPatientTab_triggered()
+{
+    ui->tabWidget->setCurrentIndex(1);
+}
+
+
+void ServerWindow::on_actionChatLog_triggered()
+{
+    ui->tabWidget->setCurrentIndex(2);
+}
+
+
+void ServerWindow::on_actionstartServer_triggered()
+{
+    Server::getInstance()->startServer(54321);
+}
+

@@ -4,7 +4,7 @@
 ChatManager::ChatManager(QObject* parent) : QObject(parent)
 {
     chats = chatrepo.loadAllChats("chats.json");
-    dprint("[ChatManager] 채팅 로드 완료: ") << chats.size();
+    qDebug() << "[ChatManager] 채팅 로드 완료: " << chats.size();
 }
 
 bool ChatManager::addChat(Chat* chat){
