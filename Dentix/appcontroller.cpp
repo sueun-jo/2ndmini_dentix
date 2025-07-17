@@ -18,7 +18,7 @@ AppController::AppController(QObject *parent) : QObject(parent)
 
     setupConnectionsLogin();
     setupConnectionsChat();
-    //setupConnectionsPatient();
+    setupConnectionsPatient();
 }
 
 void AppController::setupConnectionsLogin()
@@ -51,7 +51,7 @@ void AppController::setupConnectionsChat()
 
     /***********************+++++Chat Connect**************************/
 
-        /********************Send Message*********************/
+    /********************Send Message*********************/
     connect(m_dataDispatcher, &DataDispatcher::dataSendToBasic, m_chatManager, &ChatManager::setUserName);
     connect(m_loginManager, &LoginManager::sendUserName, m_chatManager, &ChatManager::setUserName);
     connect(m_chatManager, &ChatManager::chatJsonReadyToSend, m_client, &Client::sendJson);
@@ -69,12 +69,14 @@ void AppController::setupConnectionsChat()
 
     connect(m_dataDispatcher, &DataDispatcher::dataSendToBasic, m_chatBasicform, &ChatBasicForm::receiveChatData);
 
-    /*----------------------------------------------------------------*/
+    /*-------------------------------------------g---------------------*/
 }
-// void setupConnectionsPatient()
-// {
+void AppController::setupConnectionsPatient()
+{
+    connect(m_mainWindow, &MainWindow::requestPatientInfo, m_loginManager, &LoginManager::requestPInfo);
+    connect(m_loginManager, &LoginManager::pInfoRequestPassToServer, m_client, &Client::sendJson);
+}
 
-// }
 
 
 /********************  View  ******************/

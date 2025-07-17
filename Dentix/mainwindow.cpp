@@ -16,12 +16,13 @@ void MainWindow::on_patinetInfo_clicked()
         //patient에서 돌아가기 요청이 오면 처리
         connect(patientWindow, &PatientWindow::backToMainWindow, this, &MainWindow::handleBackFormPatient);
     }
+    emit requestPatientInfo();
     patientWindow->show();
     this->hide();
 
 }
 
-
+//type으로 requestPatientInfo
 void MainWindow::handleBackFormPatient()
 {
     this->show();
@@ -44,5 +45,3 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
-
-
