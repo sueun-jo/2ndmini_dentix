@@ -1,22 +1,19 @@
-#include "chatcontroller.h"
-#include "chatbasicform.h"
+#include "chatmanager.h"
 #include <QDebug>//디버깅용
 #include <QJsonObject>
 #include <QJsonDocument>
-ChatController::ChatController(Client* client, QObject *parent) : QObject(parent), m_client(client)
-{
-}
+ChatManager::ChatManager(QObject *parent) : QObject(parent){}
 
-void ChatController::setUserName(const QString userName)
+void ChatManager::setUserName(const QString &userName)
 {
+    if(!userName.isEmpty()){
+        qDebug()<<"Not set username";
+    }
     m_userName = userName;
-    qDebug()<<"[ChatController] : user set to :" << m_userName;
+    qDebug() << "[setUserName] this:" << this << ", m_userName:" << m_userName;
 
 }
-
-
-
-void ChatController::requestMessage(const QString message)
+void ChatManager::handleChatMessage(const QString &message, const QString &chatRoomId)
 {
     //message 비어있는지 확인용
     if(message.isEmpty()){
@@ -24,15 +21,13 @@ void ChatController::requestMessage(const QString message)
         return;
     }
     qDebug()<< "[ChatController] Received message from view:"<<message;
-    sendMessageToServer(message);
-
+    sendMessageToServer(message, chatRoomId);
 }
-
-void ChatController::sendMessageToServer(QString message)
+void ChatManager::sendMessageToServer(const QString &message, const QString &chatRoomId)
 {
     QJsonObject data;
-    data["senderName"] = "조수은";
-    data["chatRoomID"] = "전체채팅";
+    data["senderName"] = m_userName;
+    data["chatRoomID"] = chatRoomId;
     data["content"] = message;
 
     QJsonObject chatMessage;
@@ -44,6 +39,5 @@ void ChatController::sendMessageToServer(QString message)
 
     qDebug().noquote()<<"[ChatController] Sending to server: "<< sendedData;
     //헤더에 선언헌 포인터로 클라이언트에 전송
-
-    m_client->sendJson(sendedData);
+    emit chatJsonReadyToSend(sendedData);
 }

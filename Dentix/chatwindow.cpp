@@ -1,20 +1,17 @@
 #include "chatwindow.h"
 #include "ui_chatwindow.h"
 #include "chatbasicform.h"
-#include <QTabBar>
 #include "chatgroupform.h"
 #include "chatinvitedform.h"
-#include "chatcontroller.h"
+#include <QTabBar>
+
 ChatWindow::ChatWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::ChatWindow)
 {
     ui->setupUi(this);
-
     ui->tabWidget->tabBar()->hide();
 
-    Client *client =new Client(this);
-    ChatController *chatController = new ChatController(client,this);
     connect(ui->actionMainChat, &QAction::triggered, this, [=]() {
         ui->tabWidget->setCurrentIndex(0);
     });
@@ -24,29 +21,22 @@ ChatWindow::ChatWindow(QWidget *parent)
     connect(ui->actionInvitedChat, &QAction::triggered, this, [=]() {
         ui->tabWidget->setCurrentIndex(2);
     });
-    ChatBasicForm* chat = new ChatBasicForm(chatController, this);
-    ui->tabWidget->addTab(chat, tr("고객 정보"));  // index 0
+}
 
-    ChatGroupForm* groupchat = new ChatGroupForm(this);
-    ui->tabWidget->addTab(groupchat, tr("그룹채팅")); // index 1
+void ChatWindow::setChatTabs(ChatBasicForm* basic, ChatGroupForm* group, ChatInvitedForm* invited)
+{
+    if (!basic || !group || !invited) return;
 
-    ChatInvitedForm* invitedchat = new ChatInvitedForm(this);
-    ui->tabWidget->addTab(invitedchat, tr("그룹채팅")); // index 2
+    ui->tabWidget->clear();  // 기존 탭 제거
 
+    ui->tabWidget->addTab(basic, tr("기본 채팅"));    // index 0
+    ui->tabWidget->addTab(group, tr("그룹 채팅"));    // index 1
+    ui->tabWidget->addTab(invited, tr("초대 채팅"));  // index 2
 
-    ui->tabWidget->setCurrentIndex(0);  // 처음 보여줄 탭 설정
+    ui->tabWidget->setCurrentIndex(0);  // 기본 채팅 탭 보여주기
 }
 
 ChatWindow::~ChatWindow()
 {
     delete ui;
 }
-
-
-
-
-
-
-
-
-

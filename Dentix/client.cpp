@@ -33,9 +33,9 @@ void Client::onReadyRead(){
     //서버에서 온 데이터 처리 x
     //데이터 처리는 loginController에서
     if(!data.isEmpty()){
-        qDebug()<<"[Client]: Raw Data Recevied, passing to controller";
+        qDebug()<<"[Client]: Raw Data Recevied, passing to controller"<< data;
         //로그인 컨트롤러로 데이터 전송
-        emit dataReceived(data);
+        emit jsonReceivedFromServer(data);
     }
 }
 void Client::onErrorOccurred(QAbstractSocket::SocketError socketError){
