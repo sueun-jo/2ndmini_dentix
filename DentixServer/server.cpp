@@ -1,5 +1,4 @@
 #include "server.h"
-#include "logutil.h"
 
 Server* Server::instance = nullptr; //싱글턴 instance 초기화
 
@@ -37,14 +36,18 @@ void Server::startServer(quint16 port){
 // 새 클라이언트 연결 수락
 void Server::onNewConnection(){
     QTcpSocket *clientSocket = tcpServer->nextPendingConnection();
-    clients.append(clientSocket); //연결된 클라이언트 목록에 추가
 
-    //해당 소켓에서 데이터 수신되면 onReadyRead 호출
+    //user객체 생성 (이름, 비밀번호는 로그인 시 채워넣음
+    User* user = new User("", "", clientSocket);
+
+    userManager->connectUser(user); // onlineUser에 append함
+
+    //recv from client 처리
     connect (clientSocket, &QTcpSocket::readyRead, this, &Server::onReadyRead);
 
     // 클라이언트가 연결을 끊었을 때 처리 : 람다
     connect(clientSocket, &QTcpSocket::disconnected, this, [=]() {
-        clients.removeAll(clientSocket); // 목록에서 제거
+        userManager->disconnectUser(clientSocket);
         clientSocket->deleteLater();     // 메모리 정리
         qDebug() << "[Server] Client disconnected.";
     });
@@ -59,21 +62,24 @@ void Server::onReadyRead(){
     if (doc.isObject()){ //읽어서 request 종류 파악하고 handleRequest 따라감
         QJsonObject obj = doc.object();
 
-        //qDebug().noquote() << QJsonDocument(obj).toJson(QJsonDocument::Compact);
-
-        RequestDispatcher::handleRequest(socket, obj, this, userManager, patientManager); //클라이언트 메시지 분기
+        RequestDispatcher::handleRequest(socket, obj, this, userManager, patientManager,chatManager); //클라이언트 메시지 분기
     }
 }
 
 Server::~Server() {
     tcpServer->close(); // 수신 종료
 
-    /* 클라이언트 소켓 정리 */
-    for (auto client : clients){
-        client->disconnectFromHost();
-        client->deleteLater();
+    /* 연결된 클라이언트 소켓 정리 */
+    for (User* user : userManager->getOnlineUsers()){
+        QTcpSocket* sock = user->getSocket();
+        if (sock) {
+            sock->disconnectFromHost();
+            sock->deleteLater();
+        }
+        delete user; //user객체 메모리 해제
     }
-    clients.clear(); //목록 비우기
+
     delete userManager;
     delete patientManager;
+    delete chatManager;
 }

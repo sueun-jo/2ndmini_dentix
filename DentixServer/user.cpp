@@ -1,38 +1,28 @@
 #include "user.h"
 
-User::User() : name(""), pw(""), online(false), socketNumber(0){}
+User::User() : name(), pw(""), socket(nullptr) {}
 
-User::User(const QString& name, const QString& pw, bool isOnline, int socketNumber)
-    : name(name), pw(pw), online(isOnline), socketNumber(socketNumber) {}
+User::User(const QString& name, const QString& pw)
+    : name(name), pw(pw), socket(nullptr) {}
+
+User::User(const QString& name, const QString& pw, QTcpSocket* socket)
+    : name(name), pw(pw), socket(socket) {}
 
 /* getter, setter */
-QString User::getName() const {
-    return name;
-}
+QString User::getName() const { return name;}
 
-QString User::getPassword() const {
-    return pw;
-}
+QString User::getPassword() const { return pw; }
 
-bool User::isOnline() const {
-    return online;
-}
+QTcpSocket* User::getSocket() const { return socket; }
 
-int User::getSocketNumber() const {
-    return socketNumber;
-}
-
-void User::setOnline(bool onlineStatus) {
-    online = onlineStatus;
-}
+void User::setSocket(QTcpSocket* s) { socket = s; }
+void User::setName(const QString& nameInput) { name = nameInput;}
 
 /* user 객체를 toJson */
 QJsonObject User::toJson() const {
     QJsonObject obj;
     obj["name"] = name;
     obj["pw"] = pw;
-    obj["online"] = online;
-    obj["socket"] = socketNumber;
     return obj;
 }
 
@@ -40,7 +30,6 @@ QJsonObject User::toJson() const {
 User User::fromJson(const QJsonObject& obj) {
     QString name = obj["name"].toString();
     QString pw = obj["pw"].toString();
-    bool online = obj["online"].toBool();
-    int socket = obj["socket"].toInt();
-    return User(name, pw, online, socket);
+
+    return User(name, pw);
 }
