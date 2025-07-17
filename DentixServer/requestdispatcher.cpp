@@ -21,9 +21,10 @@ void RequestDispatcher::handleRequest(QTcpSocket* socket, const QJsonObject& obj
         handleLogin(socket, data, server, userManager);
     } else if (type == "updatePatients"){
         handleUpdatePatients(socket, data, patientManager);
-
     } else if ( type == "chat"){
         handleChat(socket, data, server, chatManager, userManager);
+    } else if ( type == "requestPatientInfo"){
+        handlePatientInfoRequest(socket, patientManager);
     }
     else {
         QJsonObject response{
@@ -86,17 +87,31 @@ void RequestDispatcher::handleChat(QTcpSocket* socket,const QJsonObject& data,Se
         dataObj["sender"] = chat->getSender();
 
         QJsonObject response = ResponseFactory::createResponse("chat", "success", dataObj);
-        QByteArray json = QJsonDocument(response).toJson();
 
-        for (User* user : onlineUsers){
-            QTcpSocket* sock = user->getSocket();
-            if (sock && sock->state() == QAbstractSocket::ConnectingState){
-                sock->write(json);
+        for (User* onlineUser : onlineUsers){ //onlineUser를 하나씩 순회
+            QTcpSocket* sock = onlineUser->getSocket(); //sock에다가 onlineUser의 socket값 가져옴
+            if (sock && sock->state() == QAbstractSocket::ConnectedState){
+                sock->write(QJsonDocument(response).toJson(QJsonDocument::Compact));
                 sock->flush();
             }
         }
     }
+    //추후 다른 채팅일때 분기 (ex. 김호원의 방, 조수은의 방 등)
+}
 
-    //추후 다른 채팅일때 분기
 
+void RequestDispatcher::handlePatientInfoRequest(QTcpSocket* socket, PatientManager* patientManager){
+    QVector<Patient> allPatients = patientManager->getAllPatients();
+
+    QJsonArray patientarr;
+    for (const Patient& p : allPatients){
+        patientarr.append(p.toJson());
+    }
+
+    QJsonObject patientObj;
+    patientObj["patients"] = patientarr;
+
+    QJsonObject response = ResponseFactory::createResponse("requestPatientInfo", "success", patientObj);
+    socket->write(QJsonDocument(response).toJson(QJsonDocument::Indented));
+    socket->flush();
 }
