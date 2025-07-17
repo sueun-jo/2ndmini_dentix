@@ -18,7 +18,7 @@ AppController::AppController(QObject *parent) : QObject(parent)
 
     setupConnectionsLogin();
     setupConnectionsChat();
-    setupConnectionsPatient();
+    // setupConnectionsPatient();
 }
 
 void AppController::setupConnectionsLogin()
@@ -71,12 +71,12 @@ void AppController::setupConnectionsChat()
 
     /*-------------------------------------------g---------------------*/
 }
+
 void AppController::setupConnectionsPatient()
 {
     connect(m_mainWindow, &MainWindow::requestPatientInfo, m_loginManager, &LoginManager::requestPInfo);
     connect(m_loginManager, &LoginManager::pInfoRequestPassToServer, m_client, &Client::sendJson);
 }
-
 
 
 /********************  View  ******************/
