@@ -5,7 +5,7 @@ LoginManager::LoginManager(QObject *parent)//헤더 생성자 잘 확인하기
 
 void LoginManager::requestLogin(const QString &name, const QString &pw)
 {
-    qDebug()<<"데이터 받음 %s"<<name;
+    qDebug()<<"데이터 받음 " << name; //%s 빼야됨 c++ 스타일 출력은 포맷지정X
     QJsonObject data; //가변적인 data 영역 설정
     data["name"] = name;
     data["pw"] = pw;

@@ -22,7 +22,8 @@ void Client::sendJson(const QByteArray &jsonData)
 
     if(socket->state()== QAbstractSocket::ConnectedState){
         socket->write(jsonData);
-        qDebug()<<"[Client] : Sent to server: "<< jsonData;
+        // qDebug()<<"[Client] : Sent to server: "<< jsonData;
+        qDebug().noquote() << "[Client] : Sent to server: " << QString::fromUtf8(jsonData);
     }else{
         qWarning() <<"[Client] : Cannot send data. Socket not connected.";
     }
@@ -33,7 +34,7 @@ void Client::onReadyRead(){
     //서버에서 온 데이터 처리 x
     //데이터 처리는 loginController에서
     if(!data.isEmpty()){
-        qDebug()<<"[Client]: Raw Data Recevied, passing to controller"<< data;
+        qDebug()<<"[Client]: Data Recevied From Server, passing to controller"<< data;
         //로그인 컨트롤러로 데이터 전송
         emit jsonReceivedFromServer(data);
     }

@@ -17,7 +17,7 @@ AppController::AppController(QObject *parent) : QObject(parent)
 
     setupConnectionsLogin();
     setupConnectionsChat();
-    setupConnectionsPatient();
+    // setupConnectionsPatient();
 }
 
 void AppController::setupConnectionsLogin()
@@ -67,10 +67,11 @@ void AppController::setupConnectionsChat()
 
     /*----------------------------------------------------------------*/
 }
-void setupConnectionsPatient()
-{
-
-}
+// void setupConnectionsPatient()
+// {
+//     //not yet implemented
+//     return;
+// }
 /********************  View  ******************/
 
 void AppController::startApplication()
