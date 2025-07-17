@@ -16,7 +16,8 @@ public:
     static void handleRequest(QTcpSocket* socket, const QJsonObject& obj, Server* server,
                               UserManager* userManager, PatientManager* patientManager, ChatManager* chatManager);
     static void handleLogin(QTcpSocket* socket, const QJsonObject& data, Server* server, UserManager* userManager);
-    static void handleChat(QTcpSocket* socket, const QJsonObject& data, Server* server, ChatManager* chatManager);
+    static void handleChat(QTcpSocket* socket, const QJsonObject& data, Server* server,
+                           ChatManager* chatManager, UserManager* userManager);
     static void handleUpdatePatients(QTcpSocket* socket, const QJsonValue& data, PatientManager* patientManager);
 };
 

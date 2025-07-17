@@ -9,37 +9,59 @@ UserManager::UserManager() {
     users = repository.loadAllUsers("users.json");
 }
 
-QJsonObject UserManager::login(const QString& name, const QString& pw) {
-    for (User& user : users) {
-        if (user.getName() == name) {
-            if (user.getPassword() == pw) {
-                user.setOnline(true);
-                repository.saveAllUsers(users, "users.json");
+QJsonObject UserManager::login(const QString& name, const QString& pw, QTcpSocket* socket) {
 
-                QJsonObject data;
-                data["name"] = name;
+    //전체 회원 목록에서 name/pw인증
+    bool found = false;
+    for (const User& user : users){
+        if (user.getName() == name && user.getPassword() == pw){
+            found = true;
+            break;
+        }
+    }
 
-                return ResponseFactory::createResponse("login", "success", data);
-            } else {
-                return ResponseFactory::createResponse("login", "fail", {{"reason", "wrong password"}});
+    if (found){
+        for (User* user : onlineUsers){
+            if (user->getSocket() == socket){
+                user->setName(name);
+                break;
             }
         }
-    }
+        QJsonObject data;
+        data["name"] = name;
+        return ResponseFactory::createResponse("login", "success", data);
+    } else {
     return ResponseFactory::createResponse("login", "fail", {{"reason", "user not found"}});
-}
 
-void UserManager::setOnlineStatus(const QString& name, bool online) {
-    for (User& user : users) {
-        if (user.getName() == name) {
-            user.setOnline(online);
-            repository.saveAllUsers(users, "users.json");
-            qDebug() << "[UserManager] 온라인 상태 변경:" << name << "->" << (online ? "온라인" : "오프라인");
-            return;
-        }
     }
-    qDebug() << "[UserManager] 온라인 상태 변경 실패: 유저 없음:" << name;
 }
 
 QVector<User> UserManager::getAllUsers() const {
-    return users;
+    return users; // 그냥 user목록 전체
+}
+
+QVector<User*> UserManager::getOnlineUsers() const{
+    return onlineUsers; //온라인인 애들
+}
+void UserManager::connectUser(User* user){
+    onlineUsers.append(user);
+}
+
+void UserManager::disconnectUser(QTcpSocket* socket){
+    auto it = std::remove_if(onlineUsers.begin(), onlineUsers.end(),
+                     [socket](User* u){ return u->getSocket() == socket; });
+    if (it != onlineUsers.end()) {
+    delete *it;
+    onlineUsers.erase(it, onlineUsers.end());
+    }
+}
+
+User* UserManager::findUserBySocket(const QTcpSocket* socket) const{
+    qDebug() << "find user by socket ..." << socket;
+    for (User* user : onlineUsers){
+        if (user->getSocket() == socket){
+            return user;
+        }
+    }
+    return nullptr;
 }

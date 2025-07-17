@@ -3,7 +3,6 @@
 #include "usermanager.h"
 #include "patientmanager.h"
 #include "chatmanager.h"
-#include "logutil.h"
 #include "responsefactory.h"
 #include "jsonfileio.h"
 
@@ -24,7 +23,7 @@ void RequestDispatcher::handleRequest(QTcpSocket* socket, const QJsonObject& obj
         handleUpdatePatients(socket, data, patientManager);
 
     } else if ( type == "chat"){
-        handleChat(socket, data, server, chatManager);
+        handleChat(socket, data, server, chatManager, userManager);
     }
     else {
         QJsonObject response{
@@ -41,9 +40,10 @@ void RequestDispatcher::handleLogin(QTcpSocket* socket, const QJsonObject& data,
     QString nameInput = data["name"].toString();
     QString pwInput = data["pw"].toString();
 
-    dprint("[RequestDispatcher] login 요청 분기");
+    qDebug() << "[RequestDispatcher] login 요청 분기";
+    User* user = userManager->findUserBySocket(socket);
 
-    QJsonObject response = userManager->login(nameInput, pwInput);
+    QJsonObject response = userManager->login(nameInput, pwInput, socket);
 
     socket->write(QJsonDocument(response).toJson(QJsonDocument::Indented));
     socket->flush();
@@ -72,6 +72,31 @@ void RequestDispatcher::handleUpdatePatients(QTcpSocket* socket, const QJsonValu
     socket->flush();
 }
 
-void RequestDispatcher::handleChat(QTcpSocket* socket,const QJsonObject& data,Server* server,ChatManager* chatManager){
+void RequestDispatcher::handleChat(QTcpSocket* socket,const QJsonObject& data,Server* server,
+                                   ChatManager* chatManager, UserManager* userManager){
     Chat *chat = new Chat (Chat::fromJson(data));
+    chatManager->addChat(chat);
+
+    if (chat->getChatRoomID() == "전체채팅"){
+        const QVector<User*>& onlineUsers = userManager->getOnlineUsers();
+
+        QJsonObject dataObj;
+        dataObj["chatRoomID"] = chat->getChatRoomID();
+        dataObj["messageContent"] = chat->getMessageContent();
+        dataObj["sender"] = chat->getSender();
+
+        QJsonObject response = ResponseFactory::createResponse("chat", "success", dataObj);
+        QByteArray json = QJsonDocument(response).toJson();
+
+        for (User* user : onlineUsers){
+            QTcpSocket* sock = user->getSocket();
+            if (sock && sock->state() == QAbstractSocket::ConnectingState){
+                sock->write(json);
+                sock->flush();
+            }
+        }
+    }
+
+    //추후 다른 채팅일때 분기
+
 }
