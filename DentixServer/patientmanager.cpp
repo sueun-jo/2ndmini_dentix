@@ -4,7 +4,7 @@
 #include "patientsearchfilter.h"
 
 PatientManager::PatientManager() {
-    /* patientmanager 객체 생성될 때 repository에서 불러옴*/
+    /* patientmanager 생성자에서 repository로부터 json파일 읽어옴 */
     patients = repository.loadAllPatients("patients.json");
     dprint("[PatientManager] 환자 정보 로드 완료: ") << patients.size();
 }
