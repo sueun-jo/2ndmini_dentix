@@ -90,8 +90,10 @@ void RequestDispatcher::handleChat(QTcpSocket* socket,const QJsonObject& data,Se
 
         for (User* user : onlineUsers){
             QTcpSocket* sock = user->getSocket();
-            if (sock && sock->state() == QAbstractSocket::ConnectingState){
-                sock->write(json);
+
+            if (sock && sock->state() == QAbstractSocket::ConnectedState){
+                sock->write(QJsonDocument(response).toJson(QJsonDocument::Compact));
+
                 sock->flush();
             }
         }

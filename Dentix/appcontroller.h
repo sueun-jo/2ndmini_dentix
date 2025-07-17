@@ -1,3 +1,4 @@
+
 #ifndef APPCONTROLLER_H
 #define APPCONTROLLER_H
 
@@ -19,15 +20,14 @@ class AppController : public QObject
     Q_OBJECT
 
 public:
-   explicit AppController(QObject *parent =nullptr);
+    explicit AppController(QObject *parent =nullptr);
 
     void startApplication();
     void handleLoginScreenTransition();
 private:
     void setupConnectionsLogin();
     void setupConnectionsChat();
-
-    //void setupConnectionsPatient();
+    void setupConnectionsPatient();
 
     //관리할 모든 객체들 포인터 변수 선언
     Client *m_client;
