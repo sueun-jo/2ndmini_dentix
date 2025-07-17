@@ -37,11 +37,8 @@ private:
     PatientManager *patientManager;
     ChatManager *chatManager;
 
-    QList<QTcpSocket*> clients; //현재 연결된 모든 클라이언트 소켓 저장용
-    QMap<QTcpSocket*, QString> socketToName; // 소켓과 name 매핑
-
 public :
-    /* 복사 생성자, 대입 연산자 막음 */
+    /* 복사 생성자, 대입 연산자 막음 for 싱글턴 */
     Server(const Server&) = delete;
     Server& operator=(const Server&) = delete;
 

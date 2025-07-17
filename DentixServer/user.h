@@ -3,28 +3,33 @@
 
 #include <QString>
 #include <QJsonObject>
+#include <QTcpSocket>
 
 class User
 {
 public:
     User();
-    User(const QString& name, const QString& pw, bool isOnline, int socketNumber);
+    User(const QString& name, const QString& pw );
+    User(const QString& name, const QString& pw, QTcpSocket* socket);
     QJsonObject toJson() const;
     static User fromJson(const QJsonObject& obj);
 
+    /* getter setter*/
     QString getName() const;
     QString getPassword() const;
-    bool isOnline() const;
-    int getSocketNumber() const;
+
+    QTcpSocket* getSocket() const;
 
     void setOnline(bool online);
+    void setSocket(QTcpSocket* s);
+
+    void setName(const QString& nameInput);
 
 
 private:
     QString name;
     QString pw;
-    bool online;
-    int socketNumber;
+    QTcpSocket* socket;
 };
 
 #endif // USER_H

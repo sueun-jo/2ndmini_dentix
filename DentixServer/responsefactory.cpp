@@ -8,7 +8,7 @@ QJsonObject ResponseFactory::createResponse(const QString& forType, const QStrin
     obj["for"] = forType;
     obj["status"] = status;
     return obj;
-    dprint("[ResponseFactory] 응답 생성: ") << QJsonDocument(obj).toJson(QJsonDocument::Compact);
+    qDebug ()<<"[ResponseFactory] 응답 생성: " << QJsonDocument(obj).toJson(QJsonDocument::Compact);
 }
 
 QJsonObject ResponseFactory::createResponse(const QString& forType, const QString& status, const QJsonObject& data) {

@@ -6,13 +6,15 @@ Client::Client(QObject *parent){
 
 }
 
-void Client::connectToServer(const QString &host, quint16 port){
+bool Client::connectToServer(const QString &host, quint16 port){
     socket->connectToHost(host, port);
 
     if (!socket->waitForConnected(1000)){
         qWarning() << "[Client] Cannot connect to Server." << socket->errorString();
+        return false;
     } else {
         qDebug() << "[Client] Connection is established.";
+        return true;
     }
 }
 void Client::sendJson(const QByteArray &jsonData)
@@ -20,7 +22,9 @@ void Client::sendJson(const QByteArray &jsonData)
 
     if(socket->state()== QAbstractSocket::ConnectedState){
         socket->write(jsonData);
-        qDebug().noquote()<<"[Client] : Sent to server: "<< QString::fromUtf8(jsonData);
+
+        qDebug().noquote()<<"[Client] : Send from server: "<< QString::fromUtf8(jsonData);
+
     }else{
         qWarning() <<"[Client] : Cannot send data. Socket not connected.";
     }

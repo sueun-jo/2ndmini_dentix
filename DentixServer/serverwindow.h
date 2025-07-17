@@ -19,5 +19,11 @@ public:
 
 private:
     Ui::ServerWindow *ui;
+
+private slots:
+
+    void on_actionPatientTab_triggered();
+    void on_actionChatLog_triggered();
+    void on_actionstartServer_triggered();
 };
 #endif // SERVERWINDOW_H
