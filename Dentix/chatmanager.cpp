@@ -28,10 +28,10 @@ void ChatManager::sendMessageToServer(const QString &message, const QString &cha
 {
     QJsonObject data;
 
+
     data["sender"] = m_userName;
     data["chatRoomID"] = chatRoomId;
     data["messageContent"] = message;
-
 
     QJsonObject chatMessage;
         chatMessage["type"] = "chat";
