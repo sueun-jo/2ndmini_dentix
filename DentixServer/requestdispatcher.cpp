@@ -2,24 +2,31 @@
 #include "server.h"
 #include "usermanager.h"
 #include "patientmanager.h"
+#include "chatmanager.h"
 #include "logutil.h"
 #include "responsefactory.h"
 #include "jsonfileio.h"
+
 
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QDebug>
 
-void RequestDispatcher::handleRequest(QTcpSocket* socket, const QJsonObject& obj, Server* server, UserManager* userManager, PatientManager* patientManager) {
-    QString type = obj["type"].toString();
-    QJsonObject data = obj["data"].toObject();
+void RequestDispatcher::handleRequest(QTcpSocket* socket, const QJsonObject& obj, Server* server,
+                                      UserManager* userManager, PatientManager* patientManager,
+                                                                    ChatManager *chatManager) {
+    QString type = obj["type"].toString(); //type
+    QJsonObject data = obj["data"].toObject(); //data (가변)
 
     if (type == "login") {
         handleLogin(socket, data, server, userManager);
     } else if (type == "updatePatients"){
         handleUpdatePatients(socket, data, patientManager);
 
-    } else {
+    } else if ( type == "chat"){
+        handleChat(socket, data, server, chatManager);
+    }
+    else {
         QJsonObject response{
             {"type", "error"},
             {"for", type},
@@ -60,8 +67,11 @@ void RequestDispatcher::handleUpdatePatients(QTcpSocket* socket, const QJsonValu
         response = ResponseFactory::createResponse("updatePatients", "fail",
                                                    {{"reason", "서버 파일 저장에 실패했습니다."}});
     }
-
     // 생성된 응답을 클라이언트에 전송
     socket->write(QJsonDocument(response).toJson(QJsonDocument::Compact));
     socket->flush();
+}
+
+void RequestDispatcher::handleChat(QTcpSocket* socket,const QJsonObject& data,Server* server,ChatManager* chatManager){
+    Chat *chat = new Chat (Chat::fromJson(data));
 }
