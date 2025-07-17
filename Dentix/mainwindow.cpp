@@ -16,12 +16,13 @@ void MainWindow::on_patinetInfo_clicked()
         //patient에서 돌아가기 요청이 오면 처리
         connect(patientWindow, &PatientWindow::backToMainWindow, this, &MainWindow::handleBackFormPatient);
     }
+    emit requestPatientInfo();
     patientWindow->show();
     this->hide();
 
 }
 
-
+//type으로 requestPatientInfo
 void MainWindow::handleBackFormPatient()
 {
     this->show();
@@ -38,21 +39,9 @@ ChatWindow* MainWindow::getChatWindow() {
     return chatWindow;
 }
 
-//로그인 성공시 logincontroller에서 날라오는 mainwindow에서 받자
-void MainWindow::receiveUserName(const QString &userName)
-{
-    qDebug() << "MainWindow: receivedUserName 슬롯 호출됨, 받은 값:" << userName;
-    if(!userName.isEmpty()){
-        qDebug()<<"No User nameData :";
-    }
-    qDebug()<<"recive userName: "<< userName;
-}
-
 
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
-
-

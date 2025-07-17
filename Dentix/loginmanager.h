@@ -8,6 +8,8 @@ class LoginManager : public QObject
 {
     Q_OBJECT
 signals:
+
+    void pInfoRequestPassToServer(const QByteArray &jsonData);
     void loginSuccess();
     void loginFailed();
     void sendUserName(const QString &userName);
@@ -19,7 +21,7 @@ public slots:
     void requestLogin(const QString &name, const QString &pw); //view로부터 요청 받는 슬룟
 
     void setUserName(const QByteArray &data);
-
+    void requestPInfo();
 };
 
 #endif // LOGINMANAGER_H

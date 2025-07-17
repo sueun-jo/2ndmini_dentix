@@ -15,6 +15,7 @@ public:
 public slots:
     //view(chatbasicForm)에서 메세지 전송요청 받는 슬롯
     void handleChatMessage(const QString &message, const QString &chatRoomId);// 메세지 처리용
+
 private:
 //사용자 이름을 저장할 멤버변수 선언
     QString m_userName;

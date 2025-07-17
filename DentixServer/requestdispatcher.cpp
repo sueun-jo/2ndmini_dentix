@@ -92,6 +92,7 @@ void RequestDispatcher::handleChat(QTcpSocket* socket,const QJsonObject& data,Se
             QTcpSocket* sock = onlineUser->getSocket(); //sock에다가 onlineUser의 socket값 가져옴
             if (sock && sock->state() == QAbstractSocket::ConnectedState){
                 sock->write(QJsonDocument(response).toJson(QJsonDocument::Compact));
+
                 sock->flush();
             }
         }

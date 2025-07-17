@@ -14,6 +14,7 @@ AppController::AppController(QObject *parent) : QObject(parent)
     m_chatBasicform = new ChatBasicForm(nullptr);
     m_chatGroupform = new ChatGroupForm(nullptr);
     m_chatInvitedform = new ChatInvitedForm(nullptr);
+    m_dataDispatcher = new DataDispatcher(this);
 
     setupConnectionsLogin();
     setupConnectionsChat();
@@ -22,25 +23,27 @@ AppController::AppController(QObject *parent) : QObject(parent)
 
 void AppController::setupConnectionsLogin()
 {
+    /***********************+++++dispatcher Connect***********************/
 
+    connect(m_client, &Client::jsonReceivedFromServer, m_dataDispatcher, &DataDispatcher::SignalHandler);
 
     /***********************+++++Server Connect***********************/
 
     connect(m_firstScreen, &FirstScreen::connectServerRequest, m_client, &Client::connectToServer);
 
+
     /***********************+++++Login Connect************************/
 
     connect(m_firstScreen, &FirstScreen::loginRequest, m_loginManager, &LoginManager::requestLogin);
     connect(m_loginManager, &LoginManager::sendJsonToClient, m_client, &Client::sendJson);
-    connect(m_client, &Client::jsonReceivedFromServer, m_loginManager, &LoginManager::setUserName);
+    connect(m_dataDispatcher, &DataDispatcher::loginReceivedJson, m_loginManager, &LoginManager::setUserName);
     connect(m_loginManager, &LoginManager::loginSuccess, this, &AppController::handleLoginScreenTransition);
 
     /*----------------------------------------------------------------*/
-
+    //connect(m_userManager, &UserManager::userListUpdated, m_chatBasicform, &ChatBasicForm::updateUserList);
 
     //chatwindow toolbar setting
     m_mainWindow->getChatWindow()->setChatTabs(m_chatBasicform, m_chatGroupform, m_chatInvitedform);
-
 }
 
 void AppController::setupConnectionsChat()
@@ -48,8 +51,8 @@ void AppController::setupConnectionsChat()
 
     /***********************+++++Chat Connect**************************/
 
-        /********************Send Message*********************/
-
+    /********************Send Message*********************/
+    connect(m_dataDispatcher, &DataDispatcher::dataSendToBasic, m_chatManager, &ChatManager::setUserName);
     connect(m_loginManager, &LoginManager::sendUserName, m_chatManager, &ChatManager::setUserName);
     connect(m_chatManager, &ChatManager::chatJsonReadyToSend, m_client, &Client::sendJson);
 
@@ -64,14 +67,18 @@ void AppController::setupConnectionsChat()
 
     /********************Receive Message******************/
 
+    connect(m_dataDispatcher, &DataDispatcher::dataSendToBasic, m_chatBasicform, &ChatBasicForm::receiveChatData);
 
-    /*----------------------------------------------------------------*/
+    /*-------------------------------------------g---------------------*/
 }
-// void setupConnectionsPatient()
-// {
-//     //not yet implemented
-//     return;
-// }
+
+void AppController::setupConnectionsPatient()
+{
+    connect(m_mainWindow, &MainWindow::requestPatientInfo, m_loginManager, &LoginManager::requestPInfo);
+    connect(m_loginManager, &LoginManager::pInfoRequestPassToServer, m_client, &Client::sendJson);
+}
+
+
 /********************  View  ******************/
 
 void AppController::startApplication()

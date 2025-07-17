@@ -14,12 +14,12 @@ QT_END_NAMESPACE
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-
+signals:
+    void requestPatientInfo();
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    void receiveUserName(const QString &userName);
     ChatWindow* getChatWindow();
     ChatWindow* chatWindow = nullptr;
 private slots:
