@@ -27,7 +27,7 @@ void ChatManager::handleChatMessage(const QString &message, const QString &chatR
 void ChatManager::sendMessageToServer(const QString &message, const QString &chatRoomId)
 {
     QJsonObject data;
-        data["senderName"] = m_userName;
+        data["sender"] = m_userName;
         data["chatRoomID"] = chatRoomId;
         data["messageContent"] = message;
 
