@@ -18,18 +18,20 @@ void ChatManager::handleChatMessage(const QString &message, const QString &chatR
 {
     //message 비어있는지 확인용
     if(message.isEmpty()){
-        qDebug()<<"[ChatController]Error : No message, Cannot send message";
+        qDebug()<<"[ChatManager]Error : No message, Cannot send message";
         return;
     }
-    qDebug()<< "[ChatController] Received message from view:"<<message;
+    qDebug()<< "[ChatManager] Received message from view:"<<message;
     sendMessageToServer(message, chatRoomId);
 }
 void ChatManager::sendMessageToServer(const QString &message, const QString &chatRoomId)
 {
     QJsonObject data;
-        data["senderName"] = m_userName;
-        data["chatRoomID"] = chatRoomId;
-        data["messageContent"] = message;
+
+    data["sender"] = m_userName;
+    data["chatRoomID"] = chatRoomId;
+    data["messageContent"] = message;
+
 
     QJsonObject chatMessage;
         chatMessage["type"] = "chat";
