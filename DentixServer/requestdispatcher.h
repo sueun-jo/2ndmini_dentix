@@ -19,6 +19,7 @@ public:
     static void handleChat(QTcpSocket* socket, const QJsonObject& data, Server* server,
                            ChatManager* chatManager, UserManager* userManager);
     static void handleUpdatePatients(QTcpSocket* socket, const QJsonValue& data, PatientManager* patientManager);
+    static void handlePatientInfoRequest(QTcpSocket* socket, PatientManager* patientManager);
 };
 
 #endif // REQUESTDISPATCHER_H
