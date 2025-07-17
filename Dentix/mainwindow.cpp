@@ -38,16 +38,6 @@ ChatWindow* MainWindow::getChatWindow() {
     return chatWindow;
 }
 
-//로그인 성공시 logincontroller에서 날라오는 mainwindow에서 받자
-void MainWindow::receiveUserName(const QString &userName)
-{
-    qDebug() << "MainWindow: receivedUserName 슬롯 호출됨, 받은 값:" << userName;
-    if(!userName.isEmpty()){
-        qDebug()<<"No User nameData :";
-    }
-    qDebug()<<"recive userName: "<< userName;
-}
-
 
 
 MainWindow::~MainWindow()
