@@ -53,4 +53,18 @@ void LoginManager::setUserName(const QByteArray &data)
 }
 
 
+void LoginManager::requestPInfo()
+{
+    qDebug()<<"p signal ";
 
+    QJsonObject chatMessage;
+    chatMessage["type"] = "requestPatientInfo";
+
+
+    QJsonDocument doc(chatMessage);
+    QByteArray sendedData = doc.toJson();
+
+    qDebug().noquote()<<"[Chatmanager] pass to Client: "<< sendedData;
+
+    emit pInfoRequestPassToServer(sendedData);
+}

@@ -14,7 +14,7 @@ signals:
     void sendMessageSubmit(const QString &message, const QString &chatRoomId);
 
 public:
-    explicit ChatInvitedForm(QWidget *parent = nullptr, const QString &chatRoomId ="초대된 채팅");
+    explicit ChatInvitedForm(QWidget *parent = nullptr, const QString &chatRoomId ="초대된채팅");
     ~ChatInvitedForm();
 
 private slots:

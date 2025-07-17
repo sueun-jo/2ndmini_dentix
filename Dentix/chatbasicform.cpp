@@ -1,5 +1,7 @@
 #include "chatbasicform.h"
 #include "ui_chatbasicform.h"
+#include <QJsonDocument>
+#include <QJsonObject>
 ChatBasicForm::ChatBasicForm(QWidget *parent, const QString &chatRoomId)
     : QWidget(parent), ui(new Ui::ChatBasicForm), m_chatRoomId(chatRoomId)
 { ui->setupUi(this); }
@@ -16,4 +18,18 @@ void ChatBasicForm::on_btnSendChat_clicked()
     emit sendMessageSubmit(message, m_chatRoomId);
     //메시지 전송 후 입력창 비우기
     ui->leMessageChat->clear();
+}
+
+void ChatBasicForm::receiveChatData(const QByteArray &data)
+{
+    QJsonDocument doc = QJsonDocument::fromJson(data);
+    QJsonObject obj = doc.object();
+
+    QString user = obj.contains("senderName")? obj["senderName"].toString():"SYSTEM";
+    QString message = obj["messageContent"].toString();
+
+    QString logEntry = QString("[%1]: %2").arg(user, message);
+    ui->lwLogChat->addItem(logEntry);
+
+    ui->lwLogChat->scrollToTop();
 }
