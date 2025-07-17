@@ -20,6 +20,7 @@ public:
     explicit ChatBasicForm(QWidget *parent = nullptr, const QString &chatRoomId = "전체채팅");
     ~ChatBasicForm();
 
+    void receiveChatData(const QByteArray &data);
 
 private slots:
     void on_btnSendChat_clicked();//send 버튼
