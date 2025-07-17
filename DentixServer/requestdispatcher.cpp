@@ -21,7 +21,6 @@ void RequestDispatcher::handleRequest(QTcpSocket* socket, const QJsonObject& obj
         handleLogin(socket, data, server, userManager);
     } else if (type == "updatePatients"){
         handleUpdatePatients(socket, data, patientManager);
-
     } else if ( type == "chat"){
         handleChat(socket, data, server, chatManager, userManager);
     }
@@ -86,12 +85,11 @@ void RequestDispatcher::handleChat(QTcpSocket* socket,const QJsonObject& data,Se
         dataObj["sender"] = chat->getSender();
 
         QJsonObject response = ResponseFactory::createResponse("chat", "success", dataObj);
-        QByteArray json = QJsonDocument(response).toJson();
 
         for (User* user : onlineUsers){
             QTcpSocket* sock = user->getSocket();
             if (sock && sock->state() == QAbstractSocket::ConnectingState){
-                sock->write(json);
+                sock->write(QJsonDocument(response).toJson(QJsonDocument::Compact));
                 sock->flush();
             }
         }
