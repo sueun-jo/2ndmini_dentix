@@ -27,7 +27,7 @@ public:
 private:
     void setupConnectionsLogin();
     void setupConnectionsChat();
-    // void setupConnectionsPatient();
+    void setupConnectionsPatient();
 
     //관리할 모든 객체들 포인터 변수 선언
     Client *m_client;
