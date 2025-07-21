@@ -31,7 +31,17 @@ ChatLogForm::ChatLogForm(QWidget *parent)
         qDebug() << "[멀티스레드] 채팅 로그 저장 완료!";
     });
 
+    // timeout 신호가 오면 자동 저장 시그널 emit
+    connect(autoSaveTimer, &QTimer::timeout, this, [this]() {
+        ChatManager* chatManager = Server::getInstance()->getChatManager();
+        const QVector<Chat*>& allChats = chatManager->getChats();
+        emit requestSaveChats(allChats, "chatlog.json");
+        qDebug() << "[Timer] 자동 저장 요청!";
+    });
+
     connect(Server::getInstance()->getChatManager(), &ChatManager::chatAdded, this, &ChatLogForm::appendChat);
+
+    autoSaveTimer->start(5000);
 }
 
 ChatLogForm::~ChatLogForm()
