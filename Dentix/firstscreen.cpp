@@ -5,6 +5,7 @@ FirstScreen::FirstScreen(QWidget *parent)
 {
     ui->setupUi(this);
 
+    connect(ui->pwInput, &QLineEdit::returnPressed, ui->loginButton, &QPushButton::click);
 
 }
 

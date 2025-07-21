@@ -68,6 +68,7 @@
    <addaction name="actionInvitedChat"/>
    <addaction name="separator"/>
    <addaction name="actionExit"/>
+   <addaction name="separator"/>
   </widget>
   <action name="actionMainChat">
    <property name="icon">
