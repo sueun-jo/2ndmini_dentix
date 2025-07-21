@@ -5,9 +5,9 @@
 #include "patientaddform.h"
 #include "patientdeleteform.h"
 #include "patientmodifyform.h"
-
-PatientWindow::PatientWindow(QWidget *patientForm)
-    : QMainWindow(patientForm)
+#include <QTabBar>
+PatientWindow::PatientWindow(QWidget *parent)
+    : QMainWindow(parent)
     , ui(new Ui::PatientWindow)
 {
 
@@ -18,7 +18,6 @@ PatientWindow::PatientWindow(QWidget *patientForm)
     connect(ui->actionSearch, &QAction::triggered, this, [=]() {
         ui->tabWidget->setCurrentIndex(0);
     });
-
     connect(ui->actionAdd, &QAction::triggered, this, [=]() {
         ui->tabWidget->setCurrentIndex(1);
     });
@@ -28,18 +27,24 @@ PatientWindow::PatientWindow(QWidget *patientForm)
     connect(ui->actionDelete, &QAction::triggered, this, [=]() {
         ui->tabWidget->setCurrentIndex(3);
     });
-    /*툴바 위젯 UI 전환 구현*/
-    patientSearchForm* patientSearch  = new patientSearchForm(this);
-    ui->tabWidget->addTab(patientSearch, tr("고객 정보"));  // index 0
 
-    patientAddForm* patientAdd  = new patientAddForm(this);
-    ui->tabWidget->addTab(patientAdd, tr("고객 정보"));  // index 1
 
-    PatientModifyForm* PatientModify = new PatientModifyForm(this);
-    ui->tabWidget->addTab(PatientModify, tr("그룹채팅")); // index 2
+}
 
-    patientDeleteForm* patientDelete = new patientDeleteForm(this);
-    ui->tabWidget->addTab(patientDelete, tr("그룹채팅")); // index 2
+
+void PatientWindow::setPatientTap(PatientSearchForm* searchForm, PatientAddForm* addForm,PatientDeleteForm* deleteForm,PatientModifyForm* modifyForm)
+{
+    if (!searchForm || !addForm || !modifyForm || !deleteForm ) return;
+
+    ui->tabWidget->clear();
+
+    ui->tabWidget->addTab(searchForm, tr("고객정보검색"));  // index 0
+
+    ui->tabWidget->addTab(addForm, tr("고객정보추가"));  // index 1
+
+    ui->tabWidget->addTab(modifyForm, tr("고객정보수정")); // index 2
+
+    ui->tabWidget->addTab(deleteForm, tr("고객정보삭제")); // index 2
 
     ui->tabWidget->setCurrentIndex(0);  // 처음 보여줄 탭 설정
 }

@@ -4,19 +4,24 @@
 #include <QWidget>
 
 namespace Ui {
-class patientAddForm;
+class PatientAddForm;
 }
 
-class patientAddForm : public QWidget
+class PatientAddForm : public QWidget
 {
     Q_OBJECT
-
+signals:
+    void requestAddPatient(const QString &name, int age, const QString &gender,
+                              const QString &diagnosis, const QString &treatment, const QString doctorNote);
 public:
-    explicit patientAddForm(QWidget *parent = nullptr);
-    ~patientAddForm();
+    explicit PatientAddForm(QWidget *parent = nullptr);
+    ~PatientAddForm();
+
+private slots:
+    void on_btnSaveAdd_clicked();
 
 private:
-    Ui::patientAddForm *ui;
+    Ui::PatientAddForm *ui;
 };
 
 #endif // PATIENTADDFORM_H

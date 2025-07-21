@@ -4,7 +4,10 @@
 #include <QJsonObject>
 ChatBasicForm::ChatBasicForm(QWidget *parent, const QString &chatRoomId)
     : QWidget(parent), ui(new Ui::ChatBasicForm), m_chatRoomId(chatRoomId)
-{ ui->setupUi(this); }
+{
+    ui->setupUi(this);
+    connect(ui->leMessageChat, &QLineEdit::returnPressed, ui->btnSendChat, &QPushButton::click);
+}
 
 ChatBasicForm::~ChatBasicForm()
 { delete ui; }
@@ -24,9 +27,15 @@ void ChatBasicForm::receiveChatData(const QByteArray &data)
 {
     QJsonDocument doc = QJsonDocument::fromJson(data);
     QJsonObject obj = doc.object();
+    QJsonObject dataObj = obj["data"].toObject();
 
-    QString user = obj.contains("senderName")? obj["senderName"].toString():"SYSTEM";
-    QString message = obj["messageContent"].toString();
+    QString user;
+    if (dataObj.contains("sender") && dataObj["sender"].isString()) {
+        user = dataObj["sender"].toString();
+    } else {
+        user = "SYSTEM";
+    }
+    QString message = dataObj["messageContent"].toString();
 
     QString logEntry = QString("[%1]: %2").arg(user, message);
     ui->lwLogChat->addItem(logEntry);

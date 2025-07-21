@@ -6,13 +6,13 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     chatWindow = new ChatWindow(this);
+    patientWindow = new PatientWindow(this);
 }
 
 
 void MainWindow::on_patinetInfo_clicked()
 {
     if(!patientWindow){
-        patientWindow = new PatientWindow(this);
         //patient에서 돌아가기 요청이 오면 처리
         connect(patientWindow, &PatientWindow::backToMainWindow, this, &MainWindow::handleBackFormPatient);
     }
@@ -44,4 +44,7 @@ ChatWindow* MainWindow::getChatWindow() {
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+PatientWindow* MainWindow::getPatientWindow(){
+    return patientWindow;
 }

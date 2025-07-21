@@ -15,10 +15,14 @@ AppController::AppController(QObject *parent) : QObject(parent)
     m_chatGroupform = new ChatGroupForm(nullptr);
     m_chatInvitedform = new ChatInvitedForm(nullptr);
     m_dataDispatcher = new DataDispatcher(this);
-
+    m_patientManager = new PatientManager(this);
+    m_patientDeleteForm = new PatientDeleteForm(nullptr);
+    m_patientAddForm = new PatientAddForm(nullptr);
+    m_patientSearchForm = new PatientSearchForm(nullptr);
+    m_patientModifyForm = new PatientModifyForm(nullptr);
     setupConnectionsLogin();
     setupConnectionsChat();
-    // setupConnectionsPatient();
+    setupConnectionsPatient();
 }
 
 void AppController::setupConnectionsLogin()
@@ -44,6 +48,7 @@ void AppController::setupConnectionsLogin()
 
     //chatwindow toolbar setting
     m_mainWindow->getChatWindow()->setChatTabs(m_chatBasicform, m_chatGroupform, m_chatInvitedform);
+    m_mainWindow->getPatientWindow()->setPatientTap(m_patientSearchForm, m_patientAddForm,  m_patientDeleteForm, m_patientModifyForm);
 }
 
 void AppController::setupConnectionsChat()
@@ -76,6 +81,30 @@ void AppController::setupConnectionsPatient()
 {
     connect(m_mainWindow, &MainWindow::requestPatientInfo, m_loginManager, &LoginManager::requestPInfo);
     connect(m_loginManager, &LoginManager::pInfoRequestPassToServer, m_client, &Client::sendJson);
+    connect(m_dataDispatcher, &DataDispatcher::patientInfo, m_patientManager, &PatientManager::updatePatientInfo);
+    connect(m_patientManager,&PatientManager::updateCompleted, m_patientDeleteForm, &PatientDeleteForm::updatePatientTable);
+
+    connect(m_patientDeleteForm, &PatientDeleteForm::deleteRequest, m_patientManager, &PatientManager::deletePatientJson );
+    connect(m_patientManager, &PatientManager::deleteRequestToServer, m_client, &Client::sendJson) ;
+
+
+    /*deleteform*/
+        //search
+    connect(m_patientDeleteForm, &PatientDeleteForm::requestSearchPatient, m_patientManager, &PatientManager::findPatient);
+    connect(m_patientManager, &PatientManager::searchCompleted, m_patientDeleteForm, &PatientDeleteForm::updatePatientTable);
+        //delete
+    connect(m_patientDeleteForm, &PatientDeleteForm::deleteRequest, m_patientManager, &PatientManager::deletePatientJson );
+    connect(m_patientManager, &PatientManager::deleteRequestToServer, m_client, &Client::sendJson) ;
+
+
+    /*Search Form*/
+
+    connect(m_patientSearchForm, &PatientSearchForm::requestSearchPatient, m_patientManager, &PatientManager::findPatient);
+    connect(m_patientManager, &PatientManager::searchCompleted, m_patientSearchForm, &PatientSearchForm::updatePatientList);
+
+    /*Add Form*/
+    connect(m_patientAddForm, &PatientAddForm::requestAddPatient, m_patientManager, &PatientManager::addPatientJson);
+    connect(m_patientManager, &PatientManager::sendPatientInfoToServer, m_client, &Client::sendJson) ;
 }
 
 
@@ -95,3 +124,7 @@ void AppController::handleLoginScreenTransition()
 
 }
 /***********************************************/
+
+
+
+

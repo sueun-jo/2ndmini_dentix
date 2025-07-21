@@ -2,21 +2,34 @@
 #define PATIENTSEARCHFORM_H
 
 #include <QWidget>
+#include "patient.h"
 
+#include <QVector>
+#include <QListWidget>
+class Patient;
 namespace Ui {
-class patientSearchForm;
+class PatientSearchForm;
 }
 
-class patientSearchForm : public QWidget
+class PatientSearchForm : public QWidget
 {
     Q_OBJECT
-
+signals:
+    void requestSearchPatient(const QString &name, const QString &gender,
+                              const QString &diagnosis, const QString &treatment);
 public:
-    explicit patientSearchForm(QWidget *parent = nullptr);
-    ~patientSearchForm();
+    explicit PatientSearchForm(QWidget *parent = nullptr);
+    ~PatientSearchForm();
+public slots:
+    void on_btnSearahSearch_clicked();
+    void updatePatientList(const QVector<Patient> &newPatients);
+    //void updatePatientTable(const QVector<Patient> &newPatients);
+private slots:
+    void on_lwListSearch_itemDoubleClicked(QListWidgetItem *item);
 
 private:
-    Ui::patientSearchForm *ui;
+    Ui::PatientSearchForm *ui;
+    QVector<Patient> Patients;
 };
 
-#endif // PATIENTSEARCHFORM_H
+#endif // PATIENTSEARCHFORM_Hupd

@@ -29,6 +29,9 @@ void DataDispatcher::SignalHandler(const QByteArray &data)
     else if (type == "chat") {
         qDebug()<<"Dispatcher: chat"<<QString::fromUtf8(data);
         chatSignalHandler(data);  // 채팅 메시지
+    } else if(type == "requestPatientInfo"){
+        qDebug()<<"Dispatcher: PatientInfo"<<QString::fromUtf8(data);
+        emit patientInfo(data);
     }
 }
 
@@ -56,11 +59,11 @@ void DataDispatcher::chatSignalHandler(const QByteArray &data)
 
      if (type == "chat") {
         emit dataSendToBasic(data);
-    } /*else if (type == "그룹채팅") {
-        emit dataSendToGroup(data);  // 채팅 메시지
-    } else if (type == "초대된채팅") {
-        emit dataSendToInvtied(data);  // 채팅 메시지
-    } else { qDebug() << "[SignalDispatcher] Unknown type:" << type; }*/
+    } //else if (type == "그룹채팅") {
+    //     emit dataSendToGroup(data);  // 채팅 메시지
+    // } else if (type == "초대된채팅") {
+    //     emit dataSendToInvtied(data);  // 채팅 메시지
+    // } else { qDebug() << "[SignalDispatcher] Unknown type:" << type; }
 
 
 }

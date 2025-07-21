@@ -21,8 +21,10 @@ SOURCES += \
     loginmanager.cpp \
     main.cpp \
     mainwindow.cpp \
+    patient.cpp \
     patientaddform.cpp \
     patientdeleteform.cpp \
+    patientmanager.cpp \
     patientmodifyform.cpp \
     patientsearchform.cpp \
     patientwindow.cpp
@@ -39,9 +41,12 @@ HEADERS += \
     firstscreen.h \
     loginmanager.h \
     mainwindow.h \
+    patient.h \
     patientaddform.h \
     patientdeleteform.h \
+    patientmanager.h \
     patientmodifyform.h \
+    patientsearchfilter.h \
     patientsearchform.h \
     patientwindow.h
 
