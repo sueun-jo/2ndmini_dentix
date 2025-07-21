@@ -2,8 +2,11 @@
 #include "chat.h"
 #include "chatrepository.h"
 #include "server.h"
+#include "chatlogworker.h"
 #include <QDebug>
 #include <QPlainTextEdit>
+#include <QThread>
+
 
 ChatLogForm::ChatLogForm(QWidget *parent)
     : QWidget(parent), ui(new Ui::ChatLogForm)
@@ -12,6 +15,21 @@ ChatLogForm::ChatLogForm(QWidget *parent)
     ui->setupUi(this);
     logLayout = new QVBoxLayout(ui->logArea);
     ui->logArea->setLayout(logLayout);
+
+    ChatLogWorker* logWorker = new ChatLogWorker;
+    QThread* logThread = new QThread;
+    autoSaveTimer = new QTimer(this);
+
+    logWorker->moveToThread(logThread);
+    logThread->start();
+
+    // 저장 요청 - 시그널/슬롯 연결
+    connect(this, &ChatLogForm::requestSaveChats,
+            logWorker, &ChatLogWorker::saveChats);
+
+    connect(logWorker, &ChatLogWorker::saveDone, this, [](){
+        qDebug() << "[멀티스레드] 채팅 로그 저장 완료!";
+    });
 
     connect(Server::getInstance()->getChatManager(), &ChatManager::chatAdded, this, &ChatLogForm::appendChat);
 }
@@ -50,13 +68,16 @@ void ChatLogForm::on_logList_itemClicked(QListWidgetItem *item)
 
 void ChatLogForm::on_saveButton_clicked()
 {
+    // ChatManager* chatManager = Server::getInstance()->getChatManager();
+    // const QVector<Chat*>& allChats = chatManager->getChats();
+    // QString filepath = "chatlog.json";
+
+    // ChatRepository::saveAllChats(allChats, filepath);
     ChatManager* chatManager = Server::getInstance()->getChatManager();
-    const QVector<Chat*>& allChats = chatManager->getChats();
+    const QVector<Chat*>& chats = chatManager->getChats();
     QString filepath = "chatlog.json";
 
-    ChatRepository::saveAllChats(allChats, filepath);
-
-
+    emit requestSaveChats(chats, filepath);
 }
 
 

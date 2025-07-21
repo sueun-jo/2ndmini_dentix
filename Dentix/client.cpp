@@ -24,7 +24,7 @@ void Client::sendJson(const QByteArray &jsonData)
     if(socket->state()== QAbstractSocket::ConnectedState){
         socket->write(jsonData);
 
-        qDebug().noquote()<<"[Client] : Send from server: "<< QString::fromUtf8(jsonData);
+        qDebug().noquote() << "[Client] : Send to server: " << QString::fromUtf8(jsonData);
 
     }else{
         qWarning() <<"[Client] : Cannot send data. Socket not connected.";
