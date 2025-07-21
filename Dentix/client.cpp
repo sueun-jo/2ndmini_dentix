@@ -37,7 +37,7 @@ void Client::onReadyRead(){
     //데이터 처리는 loginController에서
     if(!data.isEmpty()){
 
-        qDebug().noquote()<<"[Client]: recived Data from server, sned to DataDitpatcher "<< QString::fromUtf8(data);
+        qDebug().noquote()<<"[Client]: recived Data from server, send to DataDitpatcher "<< QString::fromUtf8(data);
 
         //로그인 컨트롤러로 데이터 전송
         emit jsonReceivedFromServer(data);
