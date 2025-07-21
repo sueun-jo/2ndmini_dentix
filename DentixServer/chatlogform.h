@@ -7,6 +7,7 @@
 #include <QPushButton>
 #include <QPlainTextEdit>
 #include <QMap>
+#include <QTimer>
 #include "ui_chatlogform.h"
 #include "chatmanager.h"
 #include "chat.h"
@@ -32,11 +33,15 @@ private slots:
 
 public:
     void appendChat(Chat* chat);
+
 private:
     Ui::ChatLogForm *ui;
     QMap<QString, QPlainTextEdit*> logMap;
     QVBoxLayout* logLayout; //logTextEdit들 쌓는 레이아웃
+    QTimer* autoSaveTimer;
 
+signals:
+    void requestSaveChats(const QVector<Chat*>&, const QString&);
 };
 
 #endif // CHATLOGFORM_H
