@@ -12,6 +12,13 @@
 #include "chatgroupform.h"
 #include "chatinvitedform.h"
 #include "datadispatcher.h"
+#include "patientmanager.h"
+#include "patientdeleteform.h"
+#include "patientaddform.h"
+#include "patientmodifyform.h"
+#include "patientsearchform.h"
+
+
 //#include "usermanager.h"
 
 
@@ -42,7 +49,14 @@ private:
     ChatGroupForm* m_chatGroupform;
     ChatInvitedForm* m_chatInvitedform;
 
+    PatientSearchForm* m_patientSearchForm; // 이들이 빠져있음
+    PatientAddForm* m_patientAddForm;
+    PatientDeleteForm* m_patientDeleteForm;
+    PatientModifyForm* m_patientModifyForm;
+
+    PatientManager* m_patientManager;
     DataDispatcher* m_dataDispatcher;
+
 };
 
 #endif // APPCONTROLLER_H

@@ -11,9 +11,9 @@ void ChatManager::setUserName(const QString &userName)
     m_userName = userName;
     qDebug() << "[setUserName] this:" << this << ", m_userName:" << m_userName;
 
+
 }
 
-//void ChatManager::
 void ChatManager::handleChatMessage(const QString &message, const QString &chatRoomId)
 {
     //message 비어있는지 확인용
@@ -28,21 +28,21 @@ void ChatManager::sendMessageToServer(const QString &message, const QString &cha
 {
     QJsonObject data;
 
+
     data["sender"] = m_userName;
     data["chatRoomID"] = chatRoomId;
     data["messageContent"] = message;
-
 
     QJsonObject chatMessage;
         chatMessage["type"] = "chat";
         chatMessage["data"] = data;
 
     QJsonDocument doc(chatMessage);
-    QByteArray sendedData = doc.toJson();
+    QByteArray sendData = doc.toJson();
 
-    qDebug().noquote()<<"[ChatController] Sending to server: "<< sendedData;
+    qDebug().noquote()<<"[ChatController] Sending to server: "<< sendData;
 
-    emit chatJsonReadyToSend(sendedData);
+    emit chatJsonReadyToSend(sendData);
 }
 
 

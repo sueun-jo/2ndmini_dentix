@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>patientSearchForm</class>
- <widget class="QWidget" name="patientSearchForm">
+ <class>PatientSearchForm</class>
+ <widget class="QWidget" name="PatientSearchForm">
   <property name="enabled">
    <bool>true</bool>
   </property>
@@ -198,7 +198,7 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_5">
         <item>
-         <widget class="QTableWidget" name="tableWidget">
+         <widget class="QTableWidget" name="twInfoSearch">
           <column>
            <property name="text">
             <string>이름</string>
@@ -270,7 +270,7 @@
             <number>4</number>
            </property>
            <item>
-            <widget class="QTextEdit" name="teOpinionSearch">
+            <widget class="QTextEdit" name="teDoctorNote">
              <property name="font">
               <font>
                <bold>false</bold>

@@ -1,4 +1,5 @@
 #include "client.h"
+
 Client::Client(QObject *parent){
     socket = new QTcpSocket(this);
     connect(socket, &QTcpSocket::readyRead, this, &Client::onReadyRead);
@@ -23,9 +24,7 @@ void Client::sendJson(const QByteArray &jsonData)
     if(socket->state()== QAbstractSocket::ConnectedState){
         socket->write(jsonData);
 
-        // qDebug()<<"[Client] : Sent to server: "<< jsonData;
         qDebug().noquote() << "[Client] : Send to server: " << QString::fromUtf8(jsonData);
-
 
     }else{
         qWarning() <<"[Client] : Cannot send data. Socket not connected.";
@@ -38,7 +37,7 @@ void Client::onReadyRead(){
     //데이터 처리는 loginController에서
     if(!data.isEmpty()){
 
-        qDebug()<<"[Client]: recived Data from server, sned to DataDitpatcher "<< QString::fromUtf8(data);
+        qDebug().noquote()<<"[Client]: recived Data from server, sned to DataDitpatcher "<< QString::fromUtf8(data);
 
         //로그인 컨트롤러로 데이터 전송
         emit jsonReceivedFromServer(data);

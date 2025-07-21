@@ -21,7 +21,9 @@ public:
     ~MainWindow();
 
     ChatWindow* getChatWindow();
+    PatientWindow* getPatientWindow();
     ChatWindow* chatWindow = nullptr;
+    PatientWindow* patientWindow = nullptr;
 private slots:
     void on_patinetInfo_clicked();
     void handleBackFormPatient();
@@ -29,7 +31,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    PatientWindow* patientWindow = nullptr;
 
 
 
