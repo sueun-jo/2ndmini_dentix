@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     chat.cpp \
+    chatlogworker.cpp \
     chatmanager.cpp \
     chatrepository.cpp \
     patient.cpp \
@@ -31,6 +32,7 @@ SOURCES += \
 
 HEADERS += \
     chat.h \
+    chatlogworker.h \
     chatmanager.h \
     chatrepository.h \
     logutil.h \
