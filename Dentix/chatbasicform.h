@@ -3,8 +3,10 @@
 
 #include <QWidget>
 #include <QString>
-
-
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+class Patient;
 namespace Ui {
 class ChatBasicForm;
 }
