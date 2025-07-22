@@ -25,6 +25,8 @@ void RequestDispatcher::handleRequest(QTcpSocket* socket, const QJsonObject& obj
         handleChat(socket, data, server, chatManager, userManager);
     } else if ( type == "requestPatientInfo"){
         handlePatientInfoRequest(socket, patientManager);
+    } else if (type == "requestUserList"){
+        handleUserListRequest(socket, userManager);
     }
     else {
         QJsonObject response{
@@ -85,19 +87,19 @@ void RequestDispatcher::handleChat(QTcpSocket* socket,const QJsonObject& data,Se
         dataObj["chatRoomID"] = chat->getChatRoomID();
         dataObj["messageContent"] = chat->getMessageContent();
         dataObj["sender"] = chat->getSender();
+        dataObj["onlineUserNames"] = getOnlineUserNamesArray(userManager);
 
         QJsonObject response = ResponseFactory::createResponse("chat", "success", dataObj);
 
         for (User* onlineUser : onlineUsers){ //onlineUser를 하나씩 순회
             QTcpSocket* sock = onlineUser->getSocket(); //sock에다가 onlineUser의 socket값 가져옴
             if (sock && sock->state() == QAbstractSocket::ConnectedState){
-                sock->write(QJsonDocument(response).toJson(QJsonDocument::Compact));
-
+                sock->write(QJsonDocument(response).toJson(QJsonDocument::Indented));
                 sock->flush();
             }
         }
     }
-    //추후 다른 채팅일때 분기 (ex. 김호원의 방, 조수은의 방 등)
+    //추후 다른 채팅일때 분기 (ex. 김호원의 방, 조수은의 방 등) +@
 }
 
 
@@ -115,4 +117,24 @@ void RequestDispatcher::handlePatientInfoRequest(QTcpSocket* socket, PatientMana
     QJsonObject response = ResponseFactory::createResponse("requestPatientInfo", "success", patientObj);
     socket->write(QJsonDocument(response).toJson(QJsonDocument::Indented));
     socket->flush();
+}
+
+void RequestDispatcher::handleUserListRequest(QTcpSocket* socket, UserManager* manager){
+
+    QJsonObject nameObj;
+    nameObj["onlineUserNames"] = getOnlineUserNamesArray(manager);
+
+    QJsonObject response = ResponseFactory::createResponse("requestUserList", "success", nameObj);
+    socket->write(QJsonDocument(response).toJson(QJsonDocument::Indented));
+    socket->flush();
+}
+
+//이름 보내줄 func
+QJsonArray RequestDispatcher::getOnlineUserNamesArray(UserManager* manager) {
+    QJsonArray arr;
+    const QVector<User*>& onlineUsers = manager->getOnlineUsers();
+    for (User* user : onlineUsers) {
+        arr.append(user->getName());
+    }
+    return arr;
 }
