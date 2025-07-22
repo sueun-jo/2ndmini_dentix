@@ -41,7 +41,7 @@ ChatLogForm::ChatLogForm(QWidget *parent)
 
     connect(Server::getInstance()->getChatManager(), &ChatManager::chatAdded, this, &ChatLogForm::appendChat);
 
-    autoSaveTimer->start(5000);
+    autoSaveTimer->start(30000); //30초에 한번씩 저장
 }
 
 ChatLogForm::~ChatLogForm()
@@ -78,9 +78,6 @@ void ChatLogForm::on_logList_itemClicked(QListWidgetItem *item)
 
 void ChatLogForm::on_saveButton_clicked()
 {
-    // ChatManager* chatManager = Server::getInstance()->getChatManager();
-    // const QVector<Chat*>& allChats = chatManager->getChats();
-    // QString filepath = "chatlog.json";
 
     // ChatRepository::saveAllChats(allChats, filepath);
     ChatManager* chatManager = Server::getInstance()->getChatManager();
