@@ -8,7 +8,7 @@ PatientInfoController::PatientInfoController(PatientManager* manager, QObject *p
 {
     // PatientManager가 유효한지 확인
     if (!patientManager) {
-        eprint ("[PatientInfoController] Error: PatientManager pointer is null!");
+        qDebug() << "[PatientInfoController] Error: PatientManager pointer is null!";
     }
 }
 

@@ -47,26 +47,25 @@ QString Chat::toString() const {
     QString typeStr; //messageType은 enum값 문자열로 변환
     switch (m_messageType) {
     case Text:
-        typeStr = "Text";
+        typeStr = "💬";
         break;
-    case Image: typeStr = "Image";
+    case Image: typeStr = "🖼️";
         break;
     default:
-        typeStr = "Unknown";
+        typeStr = "❓";
         break;
     }
-    return QString("Time: %1 | Room: %2 | Sender: %3 | Type: %4 | Content: \"%5\"")
-        .arg(m_timestamp.toString("yyyy-MM-dd hh:mm:ss.zzz")) //타임스탬프
-        .arg(m_chatRoomID)
-        .arg(m_sender)
-        .arg(typeStr)
-        .arg(m_messageContent);
+    return QString("[%1][%2] %3: %4 %5")
+        .arg(m_timestamp.toString("hh:mm:ss")) //타임스탬프 %1
+        .arg(m_chatRoomID)                                // %2
+        .arg(m_sender)                                    // %3
+        .arg(typeStr)                                     // %4
+        .arg(m_messageContent);                           // %5
 }
 
 /* json식으로 만들거나 json 식으로 읽어오는 로직 */
 QJsonObject Chat::toJson() const {
     QJsonObject chatjson;
-    // chatjson["messageID"] = m_messageID;
     chatjson["sender"] = m_sender;
     chatjson["chatRoomID"] = m_chatRoomID;
     chatjson["messageContent"] = m_messageContent;
@@ -80,7 +79,8 @@ Chat Chat::fromJson(const QJsonObject& chatjson){
     QString chatRoomID = chatjson["chatRoomID"].toString();
     QString messageContent = chatjson["messageContent"].toString();
     Chat::MessageType messageType = static_cast<Chat::MessageType>(chatjson["messageType"].toInt());
-    QDateTime timestamp = QDateTime::fromString(chatjson["timestamp"].toString(), Qt::ISODate);
+    QDateTime timestamp = QDateTime::currentDateTime();
+
     return Chat(sender, chatRoomID, messageContent, messageType, timestamp);
 }
 
