@@ -13,9 +13,11 @@ public:
 
     bool addPatient(const Patient& patient);                 // 환자 추가
     bool removePatient(const QString& name);                // 환자 삭제
+    bool modifyPatient(const QString& name);                // 환자 수정
+
     QVector<Patient> findPatient(const PatientSearchFilter& criteria);   // 조건으로 환자 찾기
     QVector<Patient> getAllPatients() const;              // 전체 목록 반환
-    bool setAllPatients(const QVector<Patient>& updated); // 환자 정보 수정
+    bool setAllPatients(const QVector<Patient>& updated); // 환자 정보 수정사항 update
 
 private:
     QVector<Patient> patients;                // 메모리 상 환자 목록
