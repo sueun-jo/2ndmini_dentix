@@ -57,7 +57,6 @@ void AppController::setupConnectionsChat()
     /***********************+++++Chat Connect**************************/
 
     /********************Send Message*********************/
-    connect(m_dataDispatcher, &DataDispatcher::dataSendToBasic, m_chatManager, &ChatManager::setUserName);
     connect(m_loginManager, &LoginManager::sendUserName, m_chatManager, &ChatManager::setUserName);
     connect(m_chatManager, &ChatManager::chatJsonReadyToSend, m_client, &Client::sendJson);
 
