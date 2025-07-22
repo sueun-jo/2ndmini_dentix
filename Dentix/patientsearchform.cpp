@@ -69,8 +69,7 @@ PatientSearchForm::PatientSearchForm(QWidget *parent)
     ui->cbGenderSearch->addItems(genderItems);
 
 
-    connect(ui->lwListSearch, &QListWidget::itemDoubleClicked,
-            this, &PatientSearchForm::on_lwListSearch_itemDoubleClicked);
+    connect(ui->lwListSearch, &QListWidget::itemDoubleClicked, this, &PatientSearchForm::on_lwListSearch_itemDoubleClicked);
 }
 
 //유저리스트
@@ -111,11 +110,11 @@ void PatientSearchForm::updatePatientList(const QVector<Patient> &newPatients)
 
 
 
-//Manager에 검색요청
 PatientSearchForm::~PatientSearchForm()
 {
     delete ui;
 }
+//Manager에 검색요청
 
 void PatientSearchForm::on_btnSearahSearch_clicked()
 {

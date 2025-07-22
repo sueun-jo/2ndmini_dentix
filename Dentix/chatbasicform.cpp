@@ -1,7 +1,6 @@
 #include "chatbasicform.h"
 #include "ui_chatbasicform.h"
-#include <QJsonDocument>
-#include <QJsonObject>
+
 ChatBasicForm::ChatBasicForm(QWidget *parent, const QString &chatRoomId)
     : QWidget(parent), ui(new Ui::ChatBasicForm), m_chatRoomId(chatRoomId)
 {
@@ -41,4 +40,16 @@ void ChatBasicForm::receiveChatData(const QByteArray &data)
     ui->lwLogChat->addItem(logEntry);
 
     ui->lwLogChat->scrollToTop();
+
+    QStringList onlineUsers;
+    QJsonArray nameArray = dataObj["onlineUserName"].toArray();
+    for (const QJsonValue &val : nameArray) {
+        onlineUsers.append(val.toString());
+    }
+
+    // listWidget UI 업데이트
+    ui->listWidget->clear();
+    for (const QString &name : onlineUsers) {
+        ui->listWidget->addItem(name);
+    }
 }

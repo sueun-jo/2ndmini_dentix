@@ -57,7 +57,6 @@ void AppController::setupConnectionsChat()
     /***********************+++++Chat Connect**************************/
 
     /********************Send Message*********************/
-    connect(m_dataDispatcher, &DataDispatcher::dataSendToBasic, m_chatManager, &ChatManager::setUserName);
     connect(m_loginManager, &LoginManager::sendUserName, m_chatManager, &ChatManager::setUserName);
     connect(m_chatManager, &ChatManager::chatJsonReadyToSend, m_client, &Client::sendJson);
 
@@ -79,13 +78,13 @@ void AppController::setupConnectionsChat()
 
 void AppController::setupConnectionsPatient()
 {
+    //환자정보 요청 및 업데이트
     connect(m_mainWindow, &MainWindow::requestPatientInfo, m_loginManager, &LoginManager::requestPInfo);
     connect(m_loginManager, &LoginManager::pInfoRequestPassToServer, m_client, &Client::sendJson);
     connect(m_dataDispatcher, &DataDispatcher::patientInfo, m_patientManager, &PatientManager::updatePatientInfo);
-    connect(m_patientManager,&PatientManager::updateCompleted, m_patientDeleteForm, &PatientDeleteForm::updatePatientTable);
-
-    connect(m_patientDeleteForm, &PatientDeleteForm::deleteRequest, m_patientManager, &PatientManager::deletePatientJson );
-    connect(m_patientManager, &PatientManager::deleteRequestToServer, m_client, &Client::sendJson) ;
+    connect(m_patientManager, &PatientManager::updateCompleted, m_patientDeleteForm, &PatientDeleteForm::updatePatientTable);
+    connect(m_patientManager, &PatientManager::updateCompleted, m_patientModifyForm, &PatientModifyForm::updatePatientList);
+    connect(m_patientManager, &PatientManager::updateCompleted, m_patientSearchForm, &PatientSearchForm::updatePatientList);
 
 
     /*deleteform*/
@@ -93,7 +92,7 @@ void AppController::setupConnectionsPatient()
     connect(m_patientDeleteForm, &PatientDeleteForm::requestSearchPatient, m_patientManager, &PatientManager::findPatient);
     connect(m_patientManager, &PatientManager::searchCompleted, m_patientDeleteForm, &PatientDeleteForm::updatePatientTable);
         //delete
-    connect(m_patientDeleteForm, &PatientDeleteForm::deleteRequest, m_patientManager, &PatientManager::deletePatientJson );
+    connect(m_patientDeleteForm, &PatientDeleteForm::deleteRequest, m_patientManager, &PatientManager::deletePatientData );
     connect(m_patientManager, &PatientManager::deleteRequestToServer, m_client, &Client::sendJson) ;
 
 
@@ -103,8 +102,15 @@ void AppController::setupConnectionsPatient()
     connect(m_patientManager, &PatientManager::searchCompleted, m_patientSearchForm, &PatientSearchForm::updatePatientList);
 
     /*Add Form*/
-    connect(m_patientAddForm, &PatientAddForm::requestAddPatient, m_patientManager, &PatientManager::addPatientJson);
+    connect(m_patientAddForm, &PatientAddForm::requestAddPatient, m_patientManager, &PatientManager::addPatientData);
     connect(m_patientManager, &PatientManager::sendPatientInfoToServer, m_client, &Client::sendJson) ;
+    /*Modify Form*/
+        //Search
+    connect(m_patientModifyForm, &PatientModifyForm::requestSearchPatient, m_patientManager, &PatientManager::findPatient);
+    connect(m_patientManager, &PatientManager::searchCompleted, m_patientModifyForm, &PatientModifyForm::updatePatientInfo);
+        //Modify
+    connect(m_patientModifyForm, &PatientModifyForm::requestModifyUpdate, m_patientManager, &PatientManager::modifyPatientData);
+    connect(m_patientManager, &PatientManager::searchCompleted, m_patientModifyForm, &PatientModifyForm::updatePatientList);
 }
 
 
