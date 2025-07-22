@@ -17,6 +17,7 @@ ServerWindow::ServerWindow(QWidget *parent)
     PatientManager* patientManager = server->getPatientManager();
 
     ServerInfoForm* serverInfo = new ServerInfoForm(this);
+    this->move(50, 50); //thanks to 준혁
     PatientInfoForm* patientInfo = new PatientInfoForm(patientManager, this);
     ChatLogForm* chatLogForm = new ChatLogForm(this);
 

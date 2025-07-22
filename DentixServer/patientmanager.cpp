@@ -22,8 +22,15 @@ bool PatientManager::removePatient(const QString& name) {
             return repository.saveAllPatients(patients, "patients.json");
         }
     }
-    return false; //못찾은 경우
+    return false; //못찾은 경우 false값 반환
 }
+
+// 환자 정보 수정도 이름을 기반으로 한다
+bool PatientManager::modifyPatient(const QString& name){
+    return repository.saveAllPatients(patients, "patients.json");
+}
+
+
 
 // 다중 조건 검색을 기반으로 한 findPatient 함수
 QVector<Patient> PatientManager::findPatient(const PatientSearchFilter& criteria) {
