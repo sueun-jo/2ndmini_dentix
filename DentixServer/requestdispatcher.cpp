@@ -27,6 +27,8 @@ void RequestDispatcher::handleRequest(QTcpSocket* socket, const QJsonObject& obj
         handlePatientInfoRequest(socket, patientManager);
     } else if (type == "requestUserList"){
         handleUserListRequest(socket, userManager);
+    } else if (type == "add"){
+        handleAddPatient(socket, data, patientManager);
     }
     else {
         QJsonObject response{
@@ -39,6 +41,7 @@ void RequestDispatcher::handleRequest(QTcpSocket* socket, const QJsonObject& obj
     }
 }
 
+/* login 요청 들어왔을 때 */
 void RequestDispatcher::handleLogin(QTcpSocket* socket, const QJsonObject& data, Server* server, UserManager* userManager) {
     QString nameInput = data["name"].toString();
     QString pwInput = data["pw"].toString();
@@ -52,6 +55,7 @@ void RequestDispatcher::handleLogin(QTcpSocket* socket, const QJsonObject& data,
     socket->flush();
 }
 
+/* updatePatients */
 void RequestDispatcher::handleUpdatePatients(QTcpSocket* socket, const QJsonValue& data, PatientManager* patientManager){
     QJsonArray arr = data["patients"].toArray();
     QVector<Patient> updatedPatients;
@@ -71,10 +75,11 @@ void RequestDispatcher::handleUpdatePatients(QTcpSocket* socket, const QJsonValu
                                                    {{"reason", "서버 파일 저장에 실패했습니다."}});
     }
     // 생성된 응답을 클라이언트에 전송
-    socket->write(QJsonDocument(response).toJson(QJsonDocument::Compact));
+    socket->write(QJsonDocument(response).toJson(QJsonDocument::Indented));
     socket->flush();
 }
 
+/* chat 들어왔을 때 */
 void RequestDispatcher::handleChat(QTcpSocket* socket,const QJsonObject& data,Server* server,
                                    ChatManager* chatManager, UserManager* userManager){
     Chat *chat = new Chat (Chat::fromJson(data));
@@ -119,12 +124,28 @@ void RequestDispatcher::handlePatientInfoRequest(QTcpSocket* socket, PatientMana
     socket->flush();
 }
 
+/* userlist 요청 들어오면 */
 void RequestDispatcher::handleUserListRequest(QTcpSocket* socket, UserManager* manager){
 
     QJsonObject nameObj;
     nameObj["onlineUserNames"] = getOnlineUserNamesArray(manager);
 
     QJsonObject response = ResponseFactory::createResponse("requestUserList", "success", nameObj);
+    socket->write(QJsonDocument(response).toJson(QJsonDocument::Indented));
+    socket->flush();
+}
+
+void RequestDispatcher::handleAddPatient(QTcpSocket* socket, const QJsonObject& data, PatientManager* patientManger){
+    Patient newPatient = Patient::fromJson(data); //클라이언트한테서 받은 data파싱
+    bool ret = patientManger->addPatient(newPatient);
+
+    QJsonObject response;
+    if (ret) {
+        response = ResponseFactory::createResponse("add", "success");
+    } else {
+        response = ResponseFactory::createResponse("add", "fail", {{"reason", "failed to add patient."}});
+    }
+
     socket->write(QJsonDocument(response).toJson(QJsonDocument::Indented));
     socket->flush();
 }

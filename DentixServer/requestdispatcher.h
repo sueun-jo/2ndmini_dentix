@@ -21,7 +21,7 @@ public:
     static void handleUpdatePatients(QTcpSocket* socket, const QJsonValue& data, PatientManager* patientManager);
     static void handlePatientInfoRequest(QTcpSocket* socket, PatientManager* patientManager);
     static void handleUserListRequest(QTcpSocket* socket, UserManager* userManager);
-
+    static void handleAddPatient(QTcpSocket* socket, const QJsonObject& data, PatientManager* patientManager);
     static QJsonArray getOnlineUserNamesArray(UserManager* manager);
 };
 
