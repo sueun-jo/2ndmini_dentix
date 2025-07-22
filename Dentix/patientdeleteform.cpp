@@ -3,6 +3,7 @@
 #include <QTableWidgetItem>
 #include <QHeaderView>
 #include <QMessageBox>
+#include "patientmanager.h"
 PatientDeleteForm::PatientDeleteForm(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::patientDeleteForm)
@@ -110,17 +111,6 @@ void PatientDeleteForm::onDeleteButtonClicked()
     }
 }
 
-void PatientDeleteForm::deletePatientByName(const QString &name)
-{
-    for (int i = 0; i < Patients.size(); ++i) {
-        if (Patients[i].getName() == name) {
-            Patients.removeAt(i);
-            break; // 이름이 같은 환자가 여럿일 경우 하나만 삭제
-        }
-    }
-
-    updatePatientTable(Patients); // 테이블도 갱신
-}
 
 
 void PatientDeleteForm::on_btnSearchDelete_clicked()

@@ -2,10 +2,9 @@
 #define PATIENTSEARCHFORM_H
 
 #include <QWidget>
-#include "patient.h"
-
 #include <QVector>
 #include <QListWidget>
+#include "patient.h"
 class Patient;
 namespace Ui {
 class PatientSearchForm;
@@ -23,7 +22,7 @@ public:
 public slots:
     void on_btnSearahSearch_clicked();
     void updatePatientList(const QVector<Patient> &newPatients);
-    //void updatePatientTable(const QVector<Patient> &newPatients);
+
 private slots:
     void on_lwListSearch_itemDoubleClicked(QListWidgetItem *item);
 

@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <QVector>
- #include "patient.h"
+#include "patient.h"
 class Patient;
 namespace Ui {
 class patientDeleteForm;
@@ -14,16 +14,15 @@ class PatientDeleteForm : public QWidget
     Q_OBJECT
 signals:
     void deleteRequest(const QString &name);
-
     void requestSearchPatient(const QString &name, const QString &gender,
                            const QString &diagnosis, const QString &treatment);
+    void deletePatientByName(const QString &name);
 public:
     explicit PatientDeleteForm(QWidget *parent = nullptr);
 
-
     void updatePatientTable(const QVector<Patient> &patientList);
-    void deletePatientByName(const QString &name);
     void onDeleteButtonClicked();
+
 private slots:
     void on_btnSearchDelete_clicked();
 

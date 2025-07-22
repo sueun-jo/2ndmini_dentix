@@ -18,17 +18,19 @@ signals:
     void deleteRequestToServer(const QByteArray &JsonData);
     void searchCompleted(const QVector<Patient> &result);
     void sendPatientInfoToServer(const QByteArray &sendData);
+    /*추가될 시그널 (미완성)*/
 public:
     explicit PatientManager(QObject *parent = nullptr);
-
+    const QVector<Patient>& getPatientList() const {return m_patients;};
 public slots:
-    void addPatientJson(const QString &name, int age, const QString &gender,
-                        const QString &diagnosis, const QString &treatment, const QString &doctorNote);
+    void modifyPatientData(const QString &newName, const QString &newGender,
+                           const QString &newDiagnosis, const QString &newTreatment, const QString &newDoctorNote);
     void updatePatientInfo(const QByteArray &data);
-    void deletePatientJson(const QString &name);
+    void deletePatientData(const QString &name);
     void findPatient(const QString &name, const QString &gender,
                            const QString &diagnosis, const QString &treatment);
-
+    void addPatientData(const QString &name, int age, const QString &gender,
+                        const QString &diagnosis, const QString &treatment, const QString &doctorNote);
 private:
     QVector<Patient> m_patients;
 };

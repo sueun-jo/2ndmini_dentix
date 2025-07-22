@@ -6,10 +6,10 @@ PatientManager::PatientManager(QObject *parent)
 {
 }
 
-//서버로부터 JSON을 받아 임시 저장소에 저장
+//서버로부터 JSON을 받아 백터에 저장
 void PatientManager::updatePatientInfo(const QByteArray &data)
 {
-    m_patients.clear(); // 기존 임시 저장소 비움
+    m_patients.clear();
 
     QJsonDocument doc = QJsonDocument::fromJson(data);
     if (!doc.isObject()) return;
@@ -28,51 +28,69 @@ void PatientManager::updatePatientInfo(const QByteArray &data)
     // 업데이트 완료 시그널 방출
     emit updateCompleted(m_patients);
 }
-void PatientManager::addPatientJson(const QString &name, int age, const QString &gender,
+void PatientManager::addPatientData(const QString &name, int age, const QString &gender,
                                     const QString &diagnosis, const QString &treatment, const QString &doctorNote)
 {
 
-    QString p_name = name;             // 이름
-    int p_age = age;                   // 나이
-    QString p_gender = gender;         // 성별
-    QString p_diagnosis = diagnosis;   // 진단
-    QString p_treatment = treatment;   // 치료
-    QString p_doctorNote = doctorNote; // 의사 소견
 
     QJsonObject dataObj;
-    dataObj["name"] = p_name;
-    dataObj["age"] = p_age;
-    dataObj["gender"] = p_gender;
-    dataObj["diagnosis"] = p_diagnosis;
-    dataObj["treatment"] = p_treatment;
-    dataObj["doctorNote"] = p_doctorNote;
+    dataObj["name"] = name;
+    dataObj["age"] = age;
+    dataObj["gender"] = gender;
+    dataObj["diagnosis"] = diagnosis;
+    dataObj["treatment"] = treatment;
+    dataObj["doctorNote"] = doctorNote;
 
     QJsonObject reqObj;
     reqObj["type"] = "add";
     reqObj["data"] = dataObj;
 
-    // 직렬화
+    //백터 업데이트
+    Patient patient = Patient::fromJson(dataObj);
+    m_patients.append(patient);
+
+    //서버 전송
     QJsonDocument doc(reqObj);
     QByteArray sendData = doc.toJson();
     qDebug().noquote()<<"[PatientManager] Sending to server: "<< sendData;
     emit sendPatientInfoToServer(sendData);
 
+
+    emit updateCompleted(m_patients);
+
+
 }
-void PatientManager::deletePatientJson(const QString &name)
+
+//삭제기능
+void PatientManager::deletePatientData(const QString &name)
 {
+    bool found = false; //
+    for (int i = 0; i < m_patients.size(); ++i) {
+        if (m_patients[i].getName() == name) {
+            m_patients.removeAt(i);
+            found = true;
+            break; // 이름이 같은 환자가 여럿일 경우 하나만 삭제
+        }
+    }
+    //모든 view에 연결
+    //updatePatientTable 함수에 연결
+    if(found){
+        emit updateCompleted(m_patients);
 
-    QString patientName = name;
+        // JSON 생성
+        QJsonObject reqObj;
+        reqObj["type"] = "delete";
+        reqObj["name"] = name;
 
-    // JSON 생성
-    QJsonObject reqObj;
-    reqObj["type"] = "delete";
-    reqObj["name"] = patientName;
+        QJsonDocument doc(reqObj);
+        QByteArray sendData = doc.toJson();
+        emit deleteRequestToServer(sendData); // AppController로 전송
+    } else{
+        qDebug() << "[PatientManager] 삭제 실패 : 이름 존재하지 않음." << name;
+    }
 
-    QJsonDocument doc(reqObj);
-    QByteArray sendData = doc.toJson();
-    emit deleteRequestToServer(sendData); // AppController로 전송
 }
-
+//검색기능
 void PatientManager::findPatient(const QString &name, const QString &gender,
                                  const QString &diagnosis, const QString &treatment)
 {
@@ -103,5 +121,42 @@ void PatientManager::findPatient(const QString &name, const QString &gender,
 
     emit searchCompleted(results);
     qDebug() << "[PatientManager] 환자 검색 완료. 검색된 환자 수:" << results.size();
+}
+
+
+
+
+
+void PatientManager::modifyPatientData(const QString &newName, const QString &newGender,
+                                       const QString &newDiagnosis, const QString &newTreatment, const QString &newDoctorNote)
+{
+    for (Patient &p : m_patients) {
+        if (p.getName() == newName) {
+            p.setGender(newGender);
+            p.setDiagnosis(newDiagnosis);
+            p.setTreatment(newTreatment);
+            p.setDoctorNote(newDoctorNote);
+            break;
+        }
+    }
+
+    emit updateCompleted(m_patients);
+
+    QJsonObject dataObj;
+    dataObj["name"] = newName;
+    dataObj["gender"] = newGender;
+    dataObj["diagnosis"] = newDiagnosis;
+    dataObj["treatment"] = newTreatment;
+    dataObj["doctorNote"] = newDoctorNote;
+
+    QJsonObject reqObj;
+    reqObj["type"] = "modify";
+    reqObj["data"] = dataObj;
+
+    // 4. 서버 전송
+    QJsonDocument doc(reqObj);
+    QByteArray sendData = doc.toJson();
+    emit sendPatientInfoToServer(sendData);  // AppController에서 처리
+    qDebug().noquote() << "[PatientManager] 수정 요청 전송:" << sendData;
 }
 
