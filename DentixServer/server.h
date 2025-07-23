@@ -19,11 +19,11 @@
 class Server : public QObject
 {
     Q_OBJECT
-    friend class ProtocolHandler;
 
 public:
     static Server* getInstance(); //싱글턴
     void startServer(quint16 port = 54321); //포트 번호는 54321로 고정한다
+    void stopServer();
     ~Server();
 
 private:
@@ -44,10 +44,10 @@ public :
 
     PatientManager* getPatientManager() const { return patientManager; }
     ChatManager* getChatManager() const { return chatManager; }
+    UserManager* getUserManager() const {return userManager; }
 
 private slots:
     void onNewConnection(); // 새 연결 처리
     void onReadyRead(); // 데이터 수신 처리
-
 };
 #endif // SERVER_H

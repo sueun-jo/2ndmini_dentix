@@ -1,5 +1,4 @@
 #include "responsefactory.h"
-#include "logutil.h"
 
 /* ResponseFactory는 클라이언트에 보낼 response만 생성한다 */
 QJsonObject ResponseFactory::createResponse(const QString& forType, const QString& status) {
@@ -8,7 +7,7 @@ QJsonObject ResponseFactory::createResponse(const QString& forType, const QStrin
     obj["for"] = forType;
     obj["status"] = status;
     return obj;
-    qDebug ()<<"[ResponseFactory] 응답 생성: " << QJsonDocument(obj).toJson(QJsonDocument::Compact);
+    qDebug().noquote()<<"[ResponseFactory] 응답 생성: " << QJsonDocument(obj).toJson(QJsonDocument::Indented);
 }
 
 QJsonObject ResponseFactory::createResponse(const QString& forType, const QString& status, const QJsonObject& data) {
@@ -17,6 +16,6 @@ QJsonObject ResponseFactory::createResponse(const QString& forType, const QStrin
     obj["for"] = forType;
     obj["status"] = status;
     obj["data"] = data;
-    dprint("[ResponseFactory] 응답 생성: ") << QJsonDocument(obj).toJson(QJsonDocument::Compact);
+    qDebug().noquote() << "[ResponseFactory] 응답 생성: " << QJsonDocument(obj).toJson(QJsonDocument::Compact);
     return obj;
 }

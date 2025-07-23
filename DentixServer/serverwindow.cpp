@@ -43,9 +43,13 @@ void ServerWindow::on_actionChatLog_triggered()
     ui->tabWidget->setCurrentIndex(2);
 }
 
-
 void ServerWindow::on_actionstartServer_triggered()
 {
     Server::getInstance()->startServer(54321);
+}
+
+void ServerWindow::on_actionstopServer_triggered()
+{
+    ServerInfoForm::instance()->shutdownServer();
 }
 
