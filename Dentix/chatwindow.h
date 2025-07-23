@@ -22,8 +22,7 @@ public:
     explicit ChatWindow(QWidget *parent = nullptr);
     ~ChatWindow();
 
-    void setChatTabs(ChatBasicForm* basic, ChatGroupForm* group, ChatInvitedForm* invited);
-
+    void setChatTabs(ChatBasicForm* basic);
 private:
     Ui::ChatWindow *ui;
     ChatBasicForm* chatForm;
@@ -31,3 +30,6 @@ private:
 };
 
 #endif // CHATWINDOW_H
+
+
+

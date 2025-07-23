@@ -23,7 +23,7 @@ public:
     ~ChatBasicForm();
 
     void receiveChatData(const QByteArray &data);
-
+    void userListUpdate(const QByteArray &data);
 private slots:
     void on_btnSendChat_clicked();//send 버튼
 

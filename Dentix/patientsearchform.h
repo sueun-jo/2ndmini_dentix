@@ -14,7 +14,8 @@ class PatientSearchForm : public QWidget
 {
     Q_OBJECT
 signals:
-    void requestSearchPatient(const QString &name, const QString &gender,
+    void requestImageToServer(const QByteArray &sendData);
+    void requestSearchPatient(const QString &name, int age, const QString &gender,
                               const QString &diagnosis, const QString &treatment);
 public:
     explicit PatientSearchForm(QWidget *parent = nullptr);

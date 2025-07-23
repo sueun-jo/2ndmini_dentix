@@ -27,8 +27,6 @@ PatientWindow::PatientWindow(QWidget *parent)
     connect(ui->actionDelete, &QAction::triggered, this, [=]() {
         ui->tabWidget->setCurrentIndex(3);
     });
-
-
 }
 
 
@@ -58,6 +56,5 @@ PatientWindow::~PatientWindow()
 void PatientWindow::on_actionBack_triggered()//백투 윈도우 시그널-->
 {
     emit backToMainWindow();
-    this->hide();
 }
 

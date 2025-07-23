@@ -49,7 +49,6 @@
     <addaction name="actionAdd"/>
     <addaction name="actionModify"/>
     <addaction name="actionDelete"/>
-    <addaction name="actionQuit"/>
     <addaction name="actionBack"/>
    </widget>
    <addaction name="menu"/>
@@ -71,7 +70,6 @@
    <addaction name="actionDelete"/>
    <addaction name="separator"/>
    <addaction name="actionBack"/>
-   <addaction name="actionQuit"/>
   </widget>
   <action name="actionAdd">
    <property name="icon">
@@ -83,7 +81,7 @@
   </action>
   <action name="actionModify">
    <property name="icon">
-    <iconset theme="QIcon::ThemeIcon::EditUndo"/>
+    <iconset theme="QIcon::ThemeIcon::MailMessageNew"/>
    </property>
    <property name="text">
     <string>Modify</string>
@@ -105,17 +103,9 @@
     <string>Search</string>
    </property>
   </action>
-  <action name="actionQuit">
-   <property name="icon">
-    <iconset theme="QIcon::ThemeIcon::ApplicationExit"/>
-   </property>
-   <property name="text">
-    <string>Quit</string>
-   </property>
-  </action>
   <action name="actionBack">
    <property name="icon">
-    <iconset theme="QIcon::ThemeIcon::SystemLogOut"/>
+    <iconset theme="QIcon::ThemeIcon::EditClear"/>
    </property>
    <property name="text">
     <string>Back</string>

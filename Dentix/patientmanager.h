@@ -23,11 +23,11 @@ public:
     explicit PatientManager(QObject *parent = nullptr);
     const QVector<Patient>& getPatientList() const {return m_patients;};
 public slots:
-    void modifyPatientData(const QString &newName, const QString &newGender,
+    void modifyPatientData(const QString &newName, int newAge, const QString &newGender,
                            const QString &newDiagnosis, const QString &newTreatment, const QString &newDoctorNote);
     void updatePatientInfo(const QByteArray &data);
     void deletePatientData(const QString &name);
-    void findPatient(const QString &name, const QString &gender,
+    void findPatient(const QString &name, int age, const QString &gender,
                            const QString &diagnosis, const QString &treatment);
     void addPatientData(const QString &name, int age, const QString &gender,
                         const QString &diagnosis, const QString &treatment, const QString &doctorNote);

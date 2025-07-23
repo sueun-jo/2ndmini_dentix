@@ -3,6 +3,7 @@
 #include <QPixmap>
 #include <QTableWidgetItem>
 #include <QHeaderView>
+#include <QLabel>
 PatientSearchForm::PatientSearchForm(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::PatientSearchForm)
@@ -86,27 +87,7 @@ void PatientSearchForm::updatePatientList(const QVector<Patient> &newPatients)
     }
 }
 
-// void PatientSearchForm::updatePatientTable(const QVector<Patient> &newPatients)
-// {
-//     Patients = newPatients;  // 내부 저장소 갱신
 
-//     // 테이블 초기화
-//     ui->twInfoSearch->clearContents();
-//     ui->twInfoSearch->setRowCount(0);
-
-
-//     // 데이터 출력
-//     for (int i = 0; i < Patients.size(); ++i) {
-//         const Patient &p = Patients[i];
-//         ui->twInfoSearch->insertRow(i);
-//         ui->twInfoSearch->setItem(i, 0, new QTableWidgetItem(p.getName()));
-//         ui->twInfoSearch->setItem(i, 1, new QTableWidgetItem(QString::number(p.getAge())));
-//         ui->twInfoSearch->setItem(i, 2, new QTableWidgetItem(p.getGender()));
-//         ui->twInfoSearch->setItem(i, 3, new QTableWidgetItem(p.getDiagnosis()));
-//         ui->twInfoSearch->setItem(i, 4, new QTableWidgetItem(p.getTreatment()));
-
-//     }
-// }
 
 
 
@@ -119,17 +100,26 @@ PatientSearchForm::~PatientSearchForm()
 void PatientSearchForm::on_btnSearahSearch_clicked()
 {
     QString name = ui->leNameSearch->text();
+    int age = -1;
+    if (!ui->leAgeSearch->text().trimmed().isEmpty()) {
+        age = ui->leAgeSearch->text().toInt();
+    }
     QString gender = ui->cbGenderSearch->currentText();
     QString diagnosis = ui->cbDiagnosisSearch->currentText();
     QString treatment = ui->cbTreatmentSearch->currentText();
 
     //매니저에 검색 요청 -> connect patient manager
-    emit requestSearchPatient(name, gender, diagnosis, treatment);
+    emit requestSearchPatient(name, age, gender, diagnosis, treatment);
 }
 
 
 void PatientSearchForm::on_lwListSearch_itemDoubleClicked(QListWidgetItem *item)
 {
+
+
+    ui->lbImageSearch->clear();
+
+
     QString selectedName = item->text();  // 리스트에서 선택된 이름
 
     for (const Patient &p : Patients) {
@@ -146,8 +136,40 @@ void PatientSearchForm::on_lwListSearch_itemDoubleClicked(QListWidgetItem *item)
             // 닥터 노트 텍스트 위젯 갱신
             ui->teDoctorNote->clear();
             ui->teDoctorNote->setText(p.getDoctorNote());
+
+            QPixmap pix(p.getImagePath());
+
+            if (!pix.isNull()) {
+                ui->lbImageSearch->setPixmap(pix.scaled(ui->lbImageSearch->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+            } else {
+                qDebug() << "이미지를 불러올 수 없습니다:" << p.getImagePath();
+            }
             break;
         }
     }
+
+
+    /*현재는 로컬이미지를 띄우는 형식으로 되어있음 하지만 이후에 서버에서 데이터 받아와서 띄우는 형식으로 수정 예정*/
+    //이미지 요청 시그널 추가
+    //아래 코드는 보내는 시그널 요청 형식
+    QString imagePath;
+    for (const Patient &p : Patients) {
+        if (p.getName() == selectedName) {
+            imagePath = p.getImagePath();
+            break;
+        }
+    }
+
+    QJsonObject data;
+    data["path"] = imagePath;
+
+    QJsonObject imageData;
+    imageData["type"] = "requestPatientImage";
+    imageData["data"] = data;
+    QJsonDocument doc(imageData);
+    QByteArray sendData = doc.toJson();
+
+    qDebug().noquote() << "[PatientSearchForm] 요청 전송: " << sendData;
+    emit requestImageToServer(sendData);
 }
 

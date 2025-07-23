@@ -6,23 +6,39 @@ AppController::AppController(QObject *parent) : QObject(parent)
 {
     //모든 핵심 객체들 SignalManager의 생성자에서 단 한번만 생성하고 소유
     m_client = new Client(this);
-    m_loginManager = new LoginManager(this);
-    m_firstScreen = new FirstScreen(nullptr);
-    m_chatManager = new ChatManager(this);
-    m_mainWindow = new MainWindow(nullptr);
+    m_dataDispatcher = new DataDispatcher(this);
 
+
+    m_firstScreen = new FirstScreen(nullptr);
+    m_loginManager = new LoginManager(this);
+
+    //MainWindow
+    m_mainWindow = new MainWindow(nullptr);
+    //Chat
+    m_chatWindow = new ChatWindow(nullptr);
+    m_chatManager = new ChatManager(this);
     m_chatBasicform = new ChatBasicForm(nullptr);
     m_chatGroupform = new ChatGroupForm(nullptr);
     m_chatInvitedform = new ChatInvitedForm(nullptr);
-    m_dataDispatcher = new DataDispatcher(this);
+    //Patient
+    m_patientWindow = new PatientWindow(nullptr);
     m_patientManager = new PatientManager(this);
     m_patientDeleteForm = new PatientDeleteForm(nullptr);
     m_patientAddForm = new PatientAddForm(nullptr);
     m_patientSearchForm = new PatientSearchForm(nullptr);
     m_patientModifyForm = new PatientModifyForm(nullptr);
+    //m_patientWindow = new PatientWindow(m_patientAddForm, m_patientDeleteForm, m_patientSearchForm, m_patientModifyForm, nullptr);
+
     setupConnectionsLogin();
     setupConnectionsChat();
     setupConnectionsPatient();
+    m_patientWindow->setPatientTap(m_patientSearchForm, m_patientAddForm, m_patientDeleteForm, m_patientModifyForm);
+    m_chatWindow->setChatTabs(m_chatBasicform);
+
+
+    connect(m_mainWindow, &MainWindow::requestPatientInfo, this, &AppController::handlePatientWindow);
+    connect(m_mainWindow, &MainWindow::requestUserList, this, &AppController::handleChatWindow);
+    connect(m_patientWindow, &PatientWindow::backToMainWindow, this, &AppController::showMainWindow);
 }
 
 void AppController::setupConnectionsLogin()
@@ -44,18 +60,14 @@ void AppController::setupConnectionsLogin()
     connect(m_loginManager, &LoginManager::loginSuccess, this, &AppController::handleLoginScreenTransition);
 
     /*----------------------------------------------------------------*/
-    //connect(m_userManager, &UserManager::userListUpdated, m_chatBasicform, &ChatBasicForm::updateUserList);
 
-    //chatwindow toolbar setting
-    m_mainWindow->getChatWindow()->setChatTabs(m_chatBasicform, m_chatGroupform, m_chatInvitedform);
-    m_mainWindow->getPatientWindow()->setPatientTap(m_patientSearchForm, m_patientAddForm,  m_patientDeleteForm, m_patientModifyForm);
 }
 
 void AppController::setupConnectionsChat()
 {
 
     /***********************+++++Chat Connect**************************/
-
+    connect(m_dataDispatcher, &DataDispatcher::updateOnlineUserlist, m_chatBasicform, &ChatBasicForm::userListUpdate);
     /********************Send Message*********************/
     connect(m_loginManager, &LoginManager::sendUserName, m_chatManager, &ChatManager::setUserName);
     connect(m_chatManager, &ChatManager::chatJsonReadyToSend, m_client, &Client::sendJson);
@@ -85,7 +97,9 @@ void AppController::setupConnectionsPatient()
     connect(m_patientManager, &PatientManager::updateCompleted, m_patientDeleteForm, &PatientDeleteForm::updatePatientTable);
     connect(m_patientManager, &PatientManager::updateCompleted, m_patientModifyForm, &PatientModifyForm::updatePatientList);
     connect(m_patientManager, &PatientManager::updateCompleted, m_patientSearchForm, &PatientSearchForm::updatePatientList);
-
+    //접속자 정보 요청 및 업데이트
+    connect(m_chatManager, &ChatManager::requestUserListToServer, m_client, &Client::sendJson);
+    connect(m_mainWindow, &MainWindow::requestUserList,  m_chatManager, &ChatManager::requestUserList);
 
     /*deleteform*/
         //search
@@ -100,10 +114,11 @@ void AppController::setupConnectionsPatient()
 
     connect(m_patientSearchForm, &PatientSearchForm::requestSearchPatient, m_patientManager, &PatientManager::findPatient);
     connect(m_patientManager, &PatientManager::searchCompleted, m_patientSearchForm, &PatientSearchForm::updatePatientList);
-
+    connect(m_patientSearchForm, &PatientSearchForm::requestImageToServer, m_client, &Client::sendJson);
     /*Add Form*/
     connect(m_patientAddForm, &PatientAddForm::requestAddPatient, m_patientManager, &PatientManager::addPatientData);
     connect(m_patientManager, &PatientManager::sendPatientInfoToServer, m_client, &Client::sendJson) ;
+
     /*Modify Form*/
         //Search
     connect(m_patientModifyForm, &PatientModifyForm::requestSearchPatient, m_patientManager, &PatientManager::findPatient);
@@ -129,8 +144,20 @@ void AppController::handleLoginScreenTransition()
     m_mainWindow->show();
 
 }
+void AppController::handlePatientWindow() {
+    m_patientWindow->show();
+    // 초기 데이터 요청 or 설정도 여기서 수행
+}
+
+void AppController::handleChatWindow() {
+    m_mainWindow->hide();
+    m_chatWindow->show();
+}
+
+void AppController::showMainWindow() {
+    m_patientWindow->hide();
+    m_mainWindow->show();
+}
+
 /***********************************************/
-
-
-
 
