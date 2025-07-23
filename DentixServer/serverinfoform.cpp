@@ -52,7 +52,6 @@ void ServerInfoForm::on_startServer_clicked()
         });
         autoSaveTimer->start(30000);
     }
-
 }
 
 void ServerInfoForm::on_stopServer_clicked()
@@ -77,6 +76,7 @@ ServerInfoForm* ServerInfoForm::instance(){
 }
 
 
+/* 서버 정리 */
 void ServerInfoForm::shutdownServer()
 {
     Server::getInstance()->stopServer();
