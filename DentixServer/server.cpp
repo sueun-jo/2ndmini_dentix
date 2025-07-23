@@ -27,9 +27,9 @@ void Server::startServer(quint16 port){
         return;
     }
     if (tcpServer->listen(QHostAddress::Any, port)){
-        qDebug() << "Server started on port " << port; // 수신대기
+        qDebug() << "[Server] ▶️ Server started on port " << port; // 수신대기
     } else{
-        qDebug() << "Server failed " << tcpServer->errorString(); //연결 실패
+        qDebug() << "[Server] ❌ Server failed " << tcpServer->errorString(); //연결 실패
     }
 }
 
@@ -66,18 +66,23 @@ void Server::onReadyRead(){
     }
 }
 
-Server::~Server() {
+void Server::stopServer(){
     tcpServer->close(); // 수신 종료
 
-    /* 연결된 클라이언트 소켓 정리 */
     for (User* user : userManager->getOnlineUsers()){
         QTcpSocket* sock = user->getSocket();
         if (sock) {
             sock->disconnectFromHost();
             sock->deleteLater();
         }
-        delete user; //user객체 메모리 해제
+        delete user;
     }
+    qDebug() << "[Server] 💔Stop Server";
+}
+
+Server::~Server() {
+
+    stopServer();
 
     delete userManager;
     delete patientManager;

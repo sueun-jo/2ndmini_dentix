@@ -29,6 +29,8 @@ void RequestDispatcher::handleRequest(QTcpSocket* socket, const QJsonObject& obj
         handleUserListRequest(socket, userManager);
     } else if (type == "add"){
         handleAddPatient(socket, data, patientManager);
+    } else if (type == "requestPatientImage"){
+        //handlePatientImageRequest (socket, data, )
     }
     else {
         QJsonObject response{
@@ -36,7 +38,7 @@ void RequestDispatcher::handleRequest(QTcpSocket* socket, const QJsonObject& obj
             {"for", type},
             {"reason", "unknown request type"}
         };
-        socket->write(QJsonDocument(response).toJson(QJsonDocument::Compact));
+        socket->write(QJsonDocument(response).toJson(QJsonDocument::Indented));
         socket->flush();
     }
 }
@@ -149,6 +151,7 @@ void RequestDispatcher::handleAddPatient(QTcpSocket* socket, const QJsonObject& 
     socket->write(QJsonDocument(response).toJson(QJsonDocument::Indented));
     socket->flush();
 }
+
 
 //이름 보내줄 func
 QJsonArray RequestDispatcher::getOnlineUserNamesArray(UserManager* manager) {

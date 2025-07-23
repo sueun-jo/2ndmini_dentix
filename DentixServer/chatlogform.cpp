@@ -3,6 +3,7 @@
 #include "chatrepository.h"
 #include "server.h"
 #include "chatlogworker.h"
+
 #include <QDebug>
 #include <QPlainTextEdit>
 #include <QThread>
@@ -16,32 +17,8 @@ ChatLogForm::ChatLogForm(QWidget *parent)
     logLayout = new QVBoxLayout(ui->logArea);
     ui->logArea->setLayout(logLayout);
 
-    ChatLogWorker* logWorker = new ChatLogWorker;
-    QThread* logThread = new QThread;
-    autoSaveTimer = new QTimer(this);
-
-    logWorker->moveToThread(logThread);
-    logThread->start();
-
-    // 저장 요청 - 시그널/슬롯 연결
-    connect(this, &ChatLogForm::requestSaveChats,
-            logWorker, &ChatLogWorker::saveChats);
-
-    connect(logWorker, &ChatLogWorker::saveDone, this, [](){
-        qDebug() << "[멀티스레드] 채팅 로그 저장 완료!";
-    });
-
-    // timeout 신호가 오면 자동 저장 시그널 emit
-    connect(autoSaveTimer, &QTimer::timeout, this, [this]() {
-        ChatManager* chatManager = Server::getInstance()->getChatManager();
-        const QVector<Chat*>& allChats = chatManager->getChats();
-        emit requestSaveChats(allChats, "chatlog.json");
-        qDebug() << "[Timer] 자동 저장 요청!";
-    });
-
     connect(Server::getInstance()->getChatManager(), &ChatManager::chatAdded, this, &ChatLogForm::appendChat);
 
-    autoSaveTimer->start(30000); //30초에 한번씩 저장
 }
 
 ChatLogForm::~ChatLogForm()
