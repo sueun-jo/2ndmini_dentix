@@ -118,7 +118,7 @@ void AppController::setupConnectionsPatient()
     /*Add Form*/
     connect(m_patientAddForm, &PatientAddForm::requestAddPatient, m_patientManager, &PatientManager::addPatientData);
     connect(m_patientManager, &PatientManager::sendPatientInfoToServer, m_client, &Client::sendJson) ;
-
+    connect(m_patientManager, &PatientManager::sendImageData, m_client, &Client::sendRaw);
     /*Modify Form*/
         //Search
     connect(m_patientModifyForm, &PatientModifyForm::requestSearchPatient, m_patientManager, &PatientManager::findPatient);

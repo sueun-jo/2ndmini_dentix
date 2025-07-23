@@ -75,43 +75,11 @@ void PatientAddForm::on_btnSaveAdd_clicked()
     QString treatment = ui->cbTreatmentAdd->currentText();
     QString doctorNote = ui->teDoctorNote->toPlainText();
 
-    emit requestAddPatient(name, age, gender, diagnosis, treatment, doctorNote);
 
 
-    QFile file(filePath);
-    if (!file.open(QIODevice::ReadOnly)) {
-        qDebug() << "파일 열기 실패:" << file.errorString();
-        return;
-    }
 
-    QPixmap pix = filePath;
-    ui->lbImageAdd->setPixmap(pix);
-
-    QFileInfo info(file);
-    QString fileName = info.fileName();
-    qint64 fileSize = info.size();
-
-    // 2. 헤더 생성 (JSON)
-    QJsonObject header;
-    header["type"] = "imageUpload";
-    header["fileName"] = fileName;
-    header["fileSize"] = fileSize;
-
-    QJsonDocument headerDoc(header);
-    QByteArray headerData = headerDoc.toJson(QJsonDocument::Compact);
-    headerData.append('\n');  // 헤더와 바디 구분용
-
-    // 3. 서버로 전송
-    emit sendImageHeader(headerData);  // AppController에서 연결
-
-    while (!file.atEnd()) {
-        QByteArray chunk = file.read(4096);
-        emit sendImageData(chunk);     // 서버로 데이터 청크 전송
-    }
-
-    file.close();
-    qDebug() << "이미지 전송 완료:" << fileName;
-
+    emit requestAddPatient(name, age, gender, diagnosis, treatment, doctorNote, m_filePath);
+    ui->lbImageAdd->clear();
 }
 
 
@@ -119,10 +87,13 @@ void PatientAddForm::on_btnFileAdd_clicked()
 {
     // 1. 이미지 파일 선택
     QString filePath = QFileDialog::getOpenFileName(this, "이미지 선택", "", "Images (*.png *.jpg *.jpeg *.bmp)");
+    m_filePath = filePath;
     if (filePath.isEmpty()) {
         qDebug() << "파일 선택 취소됨.";
         return;
     }
+    QPixmap pix = filePath;
+    ui->lbImageAdd->setPixmap(pix);
 
 }
 

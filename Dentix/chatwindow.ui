@@ -46,9 +46,6 @@
      <string>option</string>
     </property>
     <addaction name="actionMainChat"/>
-    <addaction name="actionGroupChat"/>
-    <addaction name="actionInvitedChat"/>
-    <addaction name="actionExit"/>
    </widget>
    <addaction name="menuoption"/>
   </widget>
@@ -64,15 +61,13 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionMainChat"/>
-   <addaction name="actionGroupChat"/>
-   <addaction name="actionInvitedChat"/>
    <addaction name="separator"/>
-   <addaction name="actionExit"/>
    <addaction name="separator"/>
   </widget>
   <action name="actionMainChat">
    <property name="icon">
-    <iconset theme="QIcon::ThemeIcon::DocumentNew"/>
+    <iconset resource="iconFile.qrc">
+     <normaloff>:/new/prefix1/image/chat.png</normaloff>:/new/prefix1/image/chat.png</iconset>
    </property>
    <property name="text">
     <string>MainChat</string>
@@ -81,34 +76,12 @@
     <string>MainChat</string>
    </property>
   </action>
-  <action name="actionGroupChat">
-   <property name="icon">
-    <iconset theme="QIcon::ThemeIcon::EditCopy"/>
-   </property>
-   <property name="text">
-    <string>Group Chat</string>
-   </property>
-  </action>
-  <action name="actionExit">
-   <property name="icon">
-    <iconset theme="QIcon::ThemeIcon::ApplicationExit"/>
-   </property>
-   <property name="text">
-    <string>Exit</string>
-   </property>
-  </action>
-  <action name="actionInvitedChat">
-   <property name="icon">
-    <iconset theme="QIcon::ThemeIcon::ContactNew"/>
-   </property>
-   <property name="text">
-    <string>Invited Chat</string>
-   </property>
-  </action>
  </widget>
  <tabstops>
   <tabstop>tabWidget</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="iconFile.qrc"/>
+ </resources>
  <connections/>
 </ui>
