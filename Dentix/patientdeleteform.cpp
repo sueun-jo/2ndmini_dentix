@@ -116,11 +116,15 @@ void PatientDeleteForm::onDeleteButtonClicked()
 void PatientDeleteForm::on_btnSearchDelete_clicked()
 {
     QString name = ui->leNameDelete->text();
+    int age = -1;
+    if (!ui->leAgeDelete->text().trimmed().isEmpty()) {
+        age = ui->leAgeDelete->text().toInt();
+    }
     QString gender = ui->cbGenderDelete->currentText();
     QString diagnosis = ui->cbDiagnosisDelete->currentText();
     QString treatment = ui->cbTreatmentDelete->currentText();
 
     //매니저에 검색 요청 -> connect patient manager
-    emit requestSearchPatient(name, gender, diagnosis, treatment);
+    emit requestSearchPatient(name, age, gender, diagnosis, treatment);
 }
 

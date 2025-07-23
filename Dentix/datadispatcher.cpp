@@ -32,6 +32,8 @@ void DataDispatcher::SignalHandler(const QByteArray &data)
     } else if(type == "requestPatientInfo"){
         qDebug()<<"Dispatcher: PatientInfo"<<QString::fromUtf8(data);
         emit patientInfo(data);
+    } else if(type == "requestUserList"){
+        emit updateOnlineUserlist(data);
     }
 }
 

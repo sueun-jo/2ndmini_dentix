@@ -16,18 +16,15 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 signals:
     void requestPatientInfo();
+    void requestUserList();
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    ChatWindow* getChatWindow();
-    PatientWindow* getPatientWindow();
-    ChatWindow* chatWindow = nullptr;
-    PatientWindow* patientWindow = nullptr;
-private slots:
-    void on_patinetInfo_clicked();
     void handleBackFormPatient();
+private slots:
     void on_reservation_clicked();
+    void on_patinetInfo_clicked();
 
 private:
     Ui::MainWindow *ui;

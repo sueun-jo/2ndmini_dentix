@@ -92,7 +92,11 @@
        <widget class="QLineEdit" name="nameInput"/>
       </item>
       <item>
-       <widget class="QLineEdit" name="pwInput"/>
+       <widget class="QLineEdit" name="pwInput">
+        <property name="echoMode">
+         <enum>QLineEdit::EchoMode::Password</enum>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>

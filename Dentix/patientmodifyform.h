@@ -19,9 +19,9 @@ public:
     ~PatientModifyForm();
 
 signals:
-    void requestSearchPatient(const QString &name, const QString &gender,
+    void requestSearchPatient(const QString &name, int age, const QString &gender,
                               const QString &diagnosis, const QString &treatment);
-    void requestModifyUpdate(const QString &newName, const QString &newGender,
+    void requestModifyUpdate(const QString &newName, int age, const QString &newGender,
                       const QString &newDiagnosis, const QString &newTreatment, const QString &newDoctorNote);
 public slots:
 

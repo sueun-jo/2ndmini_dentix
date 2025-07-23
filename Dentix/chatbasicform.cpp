@@ -6,6 +6,7 @@ ChatBasicForm::ChatBasicForm(QWidget *parent, const QString &chatRoomId)
 {
     ui->setupUi(this);
     connect(ui->leMessageChat, &QLineEdit::returnPressed, ui->btnSendChat, &QPushButton::click);
+
 }
 
 ChatBasicForm::~ChatBasicForm()
@@ -42,12 +43,31 @@ void ChatBasicForm::receiveChatData(const QByteArray &data)
     ui->lwLogChat->scrollToTop();
 
     QStringList onlineUsers;
-    QJsonArray nameArray = dataObj["onlineUserName"].toArray();
+    QJsonArray nameArray = dataObj["onlineUserNames"].toArray();
     for (const QJsonValue &val : nameArray) {
         onlineUsers.append(val.toString());
     }
 
     // listWidget UI 업데이트
+    ui->listWidget->clear();
+    for (const QString &name : onlineUsers) {
+        ui->listWidget->addItem(name);
+    }
+}
+
+
+void ChatBasicForm::userListUpdate(const QByteArray &data)
+{
+    QJsonDocument doc = QJsonDocument::fromJson(data);
+    QJsonObject obj = doc.object();
+    QJsonObject dataObj = obj["data"].toObject();
+
+
+    QStringList onlineUsers;
+    QJsonArray nameArray = dataObj["onlineUserNames"].toArray();
+    for (const QJsonValue &val : nameArray) {
+        onlineUsers.append(val.toString());
+    }
     ui->listWidget->clear();
     for (const QString &name : onlineUsers) {
         ui->listWidget->addItem(name);

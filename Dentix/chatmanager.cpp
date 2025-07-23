@@ -47,3 +47,15 @@ void ChatManager::sendMessageToServer(const QString &message, const QString &cha
 
 
 
+void ChatManager::requestUserList(){
+
+    QJsonObject data;
+    data["sender"] = m_userName;
+
+    QJsonObject chatMessage;
+    chatMessage["type"] = "requestUserList";
+    chatMessage["data"] = data;
+    QJsonDocument doc(chatMessage);
+    QByteArray sendData = doc.toJson();
+    emit requestUserListToServer(sendData);
+}

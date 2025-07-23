@@ -94,12 +94,16 @@ void PatientModifyForm::updatePatientList(const QVector<Patient> &newPatients)
 void PatientModifyForm::on_btnSearchModify_clicked()
 {
     QString name = ui->leNameModify->text();
+    int age = -1;
+    if (!ui->leAgeModify->text().trimmed().isEmpty()) {
+        age = ui->leAgeModify->text().toInt();
+    }
     QString gender = ui->cbGenderModify->currentText();
     QString diagnosis = ui->cbDiagnosisModify->currentText();
     QString treatment = ui->cbTreatmentModify->currentText();
 
     //매니저에 검색 요청 -> connect patient manager
-    emit requestSearchPatient(name, gender, diagnosis, treatment);
+    emit requestSearchPatient(name, age, gender, diagnosis, treatment);
 }
 
 
@@ -149,6 +153,7 @@ void PatientModifyForm::updatePatientInfo(const QVector<Patient> &newPatients)
     // 만약 Patients[0]의 정보를 초기 표시하려면 아래처럼 설정
     if (!Patients.isEmpty()) {
         const Patient &first = Patients.first();
+        ui->leAgeModify->setText(QString::number(first.getAge()));
         ui->cbGenderModify->setCurrentText(first.getGender());
         ui->cbDiagnosisModify->setCurrentText(first.getDiagnosis());
         ui->cbTreatmentModify->setCurrentText(first.getTreatment());
@@ -163,11 +168,12 @@ void PatientModifyForm::on_btnSaveModify_clicked()
 {
     if (Patients.isEmpty()) return;
     QString newName = ui->leNameModify->text();
+    int newAge = ui->leAgeModify->text().toInt();
     QString newGender = ui->cbGenderModify->currentText();
     QString newDiagnosis = ui->cbDiagnosisModify->currentText();
     QString newTreatment = ui->cbTreatmentModify->currentText();
     QString newDoctorNote = ui->teDoctorNote->toPlainText();
 
-    emit requestModifyUpdate(newName, newGender,newDiagnosis, newTreatment, newDoctorNote);
+    emit requestModifyUpdate(newName, newAge, newGender,newDiagnosis, newTreatment, newDoctorNote);
 }
 

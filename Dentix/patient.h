@@ -31,7 +31,6 @@ public:
     void setTreatment(const QString& treatment);
     void setImagePath(const QString& path);
     void setDoctorNote(const QString& note);
-
     QJsonObject toJson() const;
     static Patient fromJson(const QJsonObject& obj);
 
