@@ -138,7 +138,6 @@ void RequestDispatcher::handleDeletePatient(QTcpSocket* socket, const QJsonObjec
     QString name = data["name"].toString().trimmed();
     bool ret = patientManager->deletePatient(name);
 
-
     QJsonObject response;
     if (ret){
         response = ResponseFactory::createResponse("delete", "success");
