@@ -6,28 +6,39 @@
 PatientManager::PatientManager() {
     /* patientmanager 생성자에서 repository로부터 json파일 읽어옴 */
     patients = repository.loadAllPatients("patients.json");
-    dprint("[PatientManager] 환자 정보 로드 완료: ") << patients.size();
+    qDebug() <<"[PatientManager] 환자 정보 로드 완료: " << patients.size();
 }
 
 bool PatientManager::addPatient(const Patient& patient) {
     patients.append(patient); //vector에 append
-    return repository.saveAllPatients(patients, "patients.json"); //저장
+    // return repository.saveAllPatients(patients, "patients.json");
+    return setAllPatients(patients);
 }
 
 // 환자 삭제는 클라이언트에서 특정 환자를 넘기게 돼있으니까 이름을 고유자로 해서 삭제한다
-bool PatientManager::removePatient(const QString& name) {
-    for (int i=0; i < patients.size(); i++){
+bool PatientManager::deletePatient(const QString& name) {
+
+    for (int i=0; i<patients.size(); i++){
         if (patients[i].getName() == name){
-            patients.removeAt(i);
-            return repository.saveAllPatients(patients, "patients.json");
+            return setAllPatients(patients);
         }
     }
     return false; //못찾은 경우 false값 반환
 }
 
 // 환자 정보 수정도 이름을 기반으로 한다
-bool PatientManager::modifyPatient(const QString& name){
-    return repository.saveAllPatients(patients, "patients.json");
+bool PatientManager::modifyPatient(const QJsonObject& newData){
+    QString newName = newData["name"].toString().trimmed();
+
+    for (Patient& p : patients){
+        if (p.getName().trimmed() == newName){
+            if (newData.contains("diagnosis"))   p.setDiagnosis(newData["diagnosis"].toString());
+            if (newData.contains("doctorNote"))  p.setDoctorNote(newData["doctorNote"].toString());
+            if (newData.contains("gender"))      p.setGender(newData["gender"].toString());
+            if (newData.contains("treatment"))   p.setTreatment(newData["treatment"].toString());
+        }
+    }
+    return setAllPatients(patients);
 }
 
 
@@ -60,10 +71,10 @@ bool PatientManager::setAllPatients(const QVector<Patient>& updated) {
     patients = updated; //업데이트 된 걸로 patients 갱신
     bool ret = repository.saveAllPatients(patients, "patients.json");
     if (ret){
-        dprint("[PatientManager] 환자 목록 갱신 및 저장 완료. 총 수: ") << patients.size();
+        qDebug()<<"[PatientManager] 환자 목록 갱신 및 저장 완료. 총 수: " << patients.size();
         return ret;
     } else {
-        wprint("[PatientManager] 환자 목록 저장 실패!");
+        qDebug()<<"[PatientManager] 환자 목록 저장 실패!";
     }
     return ret;
 }
