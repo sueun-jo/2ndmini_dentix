@@ -56,7 +56,7 @@ QString Chat::toString() const {
         break;
     }
     return QString("[%1][%2] %3: %4 %5")
-        .arg(m_timestamp.toString("hh:mm:ss")) //타임스탬프 %1
+        .arg(m_timestamp.toString("hh:mm:ss"))            //타임스탬프 %1
         .arg(m_chatRoomID)                                // %2
         .arg(m_sender)                                    // %3
         .arg(typeStr)                                     // %4

@@ -26,7 +26,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="stopServe">
+        <widget class="QPushButton" name="stopServer">
          <property name="text">
           <string>서버 종료</string>
          </property>

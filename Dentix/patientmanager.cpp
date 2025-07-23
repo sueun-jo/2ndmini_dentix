@@ -128,12 +128,17 @@ void PatientManager::deletePatientData(const QString &name)
     if(found){
         emit updateCompleted(m_patients);
 
+        QJsonObject dataObj;
+        dataObj["name"] = name;
+
         // JSON 생성
         QJsonObject dataObj;
-            dataObj["name"] = name;
+        dataObj["name"] = name;
+      
         QJsonObject reqObj;
-            reqObj["type"] = "delete";
-            reqObj["name"] = dataObj;
+        reqObj["type"] = "delete";
+        reqObj["data"] = dataObj;
+
 
         QJsonDocument doc(reqObj);
         QByteArray sendData = doc.toJson();

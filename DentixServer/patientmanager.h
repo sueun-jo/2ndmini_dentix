@@ -12,8 +12,9 @@ public:
     PatientManager();
 
     bool addPatient(const Patient& patient);                 // 환자 추가
-    bool removePatient(const QString& name);                // 환자 삭제
-    bool modifyPatient(const QString& name);                // 환자 수정
+    bool deletePatient(const QString& name);                 // 환자 삭제
+    bool modifyPatient(const QJsonObject& newData);          // 환자 수정
+    bool sendPatientImage();
 
     QVector<Patient> findPatient(const PatientSearchFilter& criteria);   // 조건으로 환자 찾기
     QVector<Patient> getAllPatients() const;              // 전체 목록 반환
