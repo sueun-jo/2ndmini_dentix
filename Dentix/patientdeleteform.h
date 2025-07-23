@@ -14,7 +14,7 @@ class PatientDeleteForm : public QWidget
     Q_OBJECT
 signals:
     void deleteRequest(const QString &name);
-    void requestSearchPatient(const QString &name, const QString &gender,
+    void requestSearchPatient(const QString &name, int age, const QString &gender,
                            const QString &diagnosis, const QString &treatment);
     void deletePatientByName(const QString &name);
 public:

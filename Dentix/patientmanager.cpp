@@ -88,15 +88,16 @@ void PatientManager::deletePatientData(const QString &name)
     } else{
         qDebug() << "[PatientManager] 삭제 실패 : 이름 존재하지 않음." << name;
     }
-
 }
+
 //검색기능
-void PatientManager::findPatient(const QString &name, const QString &gender,
+void PatientManager::findPatient(const QString &name, int age, const QString &gender,
                                  const QString &diagnosis, const QString &treatment)
 {
     // 검색 필터 구성
     PatientSearchFilter criteria;
     criteria.name = name;
+    criteria.age = age;
     criteria.gender = (gender == "전체") ? "" : gender;
     criteria.diagnosis = (diagnosis == "전체") ? "" : diagnosis;
     criteria.treatment = (treatment == "전체") ? "" : treatment;
@@ -105,33 +106,36 @@ void PatientManager::findPatient(const QString &name, const QString &gender,
 
     for (const Patient& p : m_patients) {
         if (!criteria.name.isEmpty() && !p.getName().contains(criteria.name, Qt::CaseInsensitive))
+            continue;   
+        if (criteria.age != -1 && p.getAge() != criteria.age)
             continue;
-
         if (!criteria.gender.isEmpty() && p.getGender() != criteria.gender)
             continue;
-
         if (!criteria.diagnosis.isEmpty() && p.getDiagnosis() != criteria.diagnosis)
             continue;
-
         if (!criteria.treatment.isEmpty() && p.getTreatment() != criteria.treatment)
             continue;
-
+        if (!criteria.imagePath.isEmpty() && p.getImagePath() != criteria.imagePath)
+            continue;
+        qDebug() << "검색 시작: 이름=" << name << " 나이=" << age;
         results.append(p);
     }
 
     emit searchCompleted(results);
     qDebug() << "[PatientManager] 환자 검색 완료. 검색된 환자 수:" << results.size();
+
 }
 
 
 
 
 
-void PatientManager::modifyPatientData(const QString &newName, const QString &newGender,
+void PatientManager::modifyPatientData(const QString &newName, int newAge, const QString &newGender,
                                        const QString &newDiagnosis, const QString &newTreatment, const QString &newDoctorNote)
 {
     for (Patient &p : m_patients) {
         if (p.getName() == newName) {
+            p.setAge(newAge);
             p.setGender(newGender);
             p.setDiagnosis(newDiagnosis);
             p.setTreatment(newTreatment);

@@ -4,23 +4,26 @@
 
 //관리할 모든 클래스의 헤더 파일 포함
 #include "client.h"
+
+
+#include "datadispatcher.h"
+#include "mainwindow.h"
 #include "loginmanager.h"
 #include "firstscreen.h"
+
 #include "chatbasicform.h"
 #include "chatmanager.h"
-#include "mainwindow.h"
+#include "chatwindow.h"
 #include "chatgroupform.h"
 #include "chatinvitedform.h"
-#include "datadispatcher.h"
+
+
+#include "patientwindow.h"
 #include "patientmanager.h"
 #include "patientdeleteform.h"
 #include "patientaddform.h"
 #include "patientmodifyform.h"
 #include "patientsearchform.h"
-
-
-//#include "usermanager.h"
-
 
 class AppController : public QObject
 {
@@ -31,6 +34,9 @@ public:
 
     void startApplication();
     void handleLoginScreenTransition();
+    void handleChatWindow();
+    void handlePatientWindow();
+    void showMainWindow();
 private:
     void setupConnectionsLogin();
     void setupConnectionsChat();
@@ -41,14 +47,14 @@ private:
     LoginManager *m_loginManager;
     MainWindow *m_mainWindow;
     FirstScreen *m_firstScreen;
-    //UserManager *m_userManager;
 
-
+    ChatWindow *m_chatWindow;
     ChatManager *m_chatManager;
     ChatBasicForm* m_chatBasicform;
     ChatGroupForm* m_chatGroupform;
     ChatInvitedForm* m_chatInvitedform;
 
+    PatientWindow *m_patientWindow;
     PatientSearchForm* m_patientSearchForm; // 이들이 빠져있음
     PatientAddForm* m_patientAddForm;
     PatientDeleteForm* m_patientDeleteForm;
@@ -56,7 +62,6 @@ private:
 
     PatientManager* m_patientManager;
     DataDispatcher* m_dataDispatcher;
-
 };
 
 #endif // APPCONTROLLER_H

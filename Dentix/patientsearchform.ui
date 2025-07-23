@@ -122,6 +122,21 @@
             <widget class="QLineEdit" name="leNameSearch"/>
            </item>
            <item>
+            <widget class="QLabel" name="label_2">
+             <property name="font">
+              <font>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>나이</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="leAgeSearch"/>
+           </item>
+           <item>
             <widget class="QLabel" name="label_3">
              <property name="font">
               <font>
