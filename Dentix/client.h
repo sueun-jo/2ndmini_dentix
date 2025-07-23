@@ -23,7 +23,7 @@ public:
 public slots:
     void sendJson(const QByteArray &jsonData);
     bool connectToServer(const QString &host, quint16 port);
-
+    void sendRaw(const QByteArray &chunk);
 private:
     QTcpSocket* socket; //tcp socket
     //loginController가 주는 userName 저장용 문자열 변수

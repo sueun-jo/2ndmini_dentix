@@ -152,16 +152,16 @@ void PatientSearchForm::on_lwListSearch_itemDoubleClicked(QListWidgetItem *item)
     /*현재는 로컬이미지를 띄우는 형식으로 되어있음 하지만 이후에 서버에서 데이터 받아와서 띄우는 형식으로 수정 예정*/
     //이미지 요청 시그널 추가
     //아래 코드는 보내는 시그널 요청 형식
-    QString imagePath;
+    QString name;
     for (const Patient &p : Patients) {
         if (p.getName() == selectedName) {
-            imagePath = p.getImagePath();
+            name = p.getName();
             break;
         }
     }
 
     QJsonObject data;
-    data["path"] = imagePath;
+    data["name"] = name;
 
     QJsonObject imageData;
     imageData["type"] = "requestPatientImage";
