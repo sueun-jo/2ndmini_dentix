@@ -42,6 +42,10 @@ bool PatientManager::modifyPatient(const QJsonObject& newData){
 }
 
 
+bool PatientManager::sendPatientImage(){
+    return true;
+}
+
 
 // 다중 조건 검색을 기반으로 한 findPatient 함수
 QVector<Patient> PatientManager::findPatient(const PatientSearchFilter& criteria) {

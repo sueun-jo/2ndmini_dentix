@@ -33,6 +33,7 @@ void RequestDispatcher::handleRequest(QTcpSocket* socket, const QJsonObject& obj
         handleModifyPatient (socket, data, patientManager);
     } else if (type == "requestPatientImage"){
         //사진 fpt로 전송
+        handlePatientImageRequest(socket, data, patientManager);
     }
     else {
         QJsonObject response{
@@ -115,6 +116,7 @@ void RequestDispatcher::handleUserListRequest(QTcpSocket* socket, UserManager* m
     socket->flush();
 }
 
+/* 환자 추가 */
 void RequestDispatcher::handleAddPatient(QTcpSocket* socket, const QJsonObject& data, PatientManager* patientManger){
     Patient newPatient = Patient::fromJson(data); //클라이언트한테서 받은 data파싱
     bool ret = patientManger->addPatient(newPatient);
@@ -130,13 +132,13 @@ void RequestDispatcher::handleAddPatient(QTcpSocket* socket, const QJsonObject& 
     socket->flush();
 }
 
+/* 환자 지우기 */
 void RequestDispatcher::handleDeletePatient(QTcpSocket* socket, const QJsonObject& data, PatientManager* patientManager){
-    qDebug() << "[handleDeletePatient] data:" << data;
+
     QString name = data["name"].toString().trimmed();
-    qDebug() << "삭제 요청 이름:" << name;
     bool ret = patientManager->deletePatient(name);
 
-    qDebug()<< "ret값 in R.D handleDeletePatient : " << ret;
+
     QJsonObject response;
     if (ret){
         response = ResponseFactory::createResponse("delete", "success");
@@ -162,7 +164,7 @@ void RequestDispatcher::handleModifyPatient(QTcpSocket* socket, const QJsonObjec
     socket->flush();
 }
 
-//이름 보내줄 func
+/* userlist 만드는 func */
 QJsonArray RequestDispatcher::getOnlineUserNamesArray(UserManager* manager) {
     QJsonArray arr;
     const QVector<User*>& onlineUsers = manager->getOnlineUsers();

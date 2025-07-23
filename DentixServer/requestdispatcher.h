@@ -23,7 +23,7 @@ public:
     static void handleAddPatient(QTcpSocket* socket, const QJsonObject& data, PatientManager* patientManager);
     static void handleDeletePatient(QTcpSocket* socket, const QJsonObject& data, PatientManager* patientManager);
     static void handleModifyPatient(QTcpSocket* socket, const QJsonObject& data, PatientManager* patientManager);
-
+    static void handlePatientImageRequest(QTcpSocket* socket, const QJsonObject& data, PatientManager* patientManager);
     static QJsonArray getOnlineUserNamesArray(UserManager* manager);
 };
 
