@@ -20,11 +20,12 @@ void Patient::setAge(int newAge) { age = newAge; }
 void Patient::setDiagnosis(const QString& newDiagnosis) { diagnosis = newDiagnosis; }
 void Patient::setTreatment(const QString& newTreatment) { treatment = newTreatment; }
 void Patient::setImagePath(const QString& newPath) { imagePath = newPath; }
+void Patient::setDoctorNote(const QString& newNote) { doctorNote = newNote; }
 
 QJsonObject Patient::toJson() const {
     QJsonObject obj;
-    obj["name"] = name;
     obj["gender"] = gender;
+    obj["name"] = name;
     obj["age"] = age;
     obj["diagnosis"] = diagnosis;
     obj["treatment"] = treatment;

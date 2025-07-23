@@ -19,8 +19,6 @@ void RequestDispatcher::handleRequest(QTcpSocket* socket, const QJsonObject& obj
 
     if (type == "login") {
         handleLogin(socket, data, server, userManager);
-    } else if (type == "updatePatients"){
-        handleUpdatePatients(socket, data, patientManager);
     } else if ( type == "chat"){
         handleChat(socket, data, server, chatManager, userManager);
     } else if ( type == "requestPatientInfo"){
@@ -29,8 +27,13 @@ void RequestDispatcher::handleRequest(QTcpSocket* socket, const QJsonObject& obj
         handleUserListRequest(socket, userManager);
     } else if (type == "add"){
         handleAddPatient(socket, data, patientManager);
+    } else if (type == "delete"){
+        handleDeletePatient (socket, data, patientManager);
+    } else if (type == "modify"){
+        handleModifyPatient (socket, data, patientManager);
     } else if (type == "requestPatientImage"){
-        //handlePatientImageRequest (socket, data, )
+        //사진 fpt로 전송
+        handlePatientImageRequest(socket, data, patientManager);
     }
     else {
         QJsonObject response{
@@ -53,30 +56,6 @@ void RequestDispatcher::handleLogin(QTcpSocket* socket, const QJsonObject& data,
 
     QJsonObject response = userManager->login(nameInput, pwInput, socket);
 
-    socket->write(QJsonDocument(response).toJson(QJsonDocument::Indented));
-    socket->flush();
-}
-
-/* updatePatients */
-void RequestDispatcher::handleUpdatePatients(QTcpSocket* socket, const QJsonValue& data, PatientManager* patientManager){
-    QJsonArray arr = data["patients"].toArray();
-    QVector<Patient> updatedPatients;
-
-    for (const QJsonValue& val : arr) {
-        if (!val.isObject()) continue;
-        updatedPatients.append(Patient::fromJson(val.toObject()));
-    }
-
-    QJsonObject response;
-
-    // patientManager->setAllPatients 하고 return값을 기반으로 분기
-    if (patientManager->setAllPatients(updatedPatients)) { //성공
-        response = ResponseFactory::createResponse("updatePatients", "success");
-    } else { // 실패
-        response = ResponseFactory::createResponse("updatePatients", "fail",
-                                                   {{"reason", "서버 파일 저장에 실패했습니다."}});
-    }
-    // 생성된 응답을 클라이언트에 전송
     socket->write(QJsonDocument(response).toJson(QJsonDocument::Indented));
     socket->flush();
 }
@@ -137,6 +116,7 @@ void RequestDispatcher::handleUserListRequest(QTcpSocket* socket, UserManager* m
     socket->flush();
 }
 
+/* 환자 추가 */
 void RequestDispatcher::handleAddPatient(QTcpSocket* socket, const QJsonObject& data, PatientManager* patientManger){
     Patient newPatient = Patient::fromJson(data); //클라이언트한테서 받은 data파싱
     bool ret = patientManger->addPatient(newPatient);
@@ -152,8 +132,39 @@ void RequestDispatcher::handleAddPatient(QTcpSocket* socket, const QJsonObject& 
     socket->flush();
 }
 
+/* 환자 지우기 */
+void RequestDispatcher::handleDeletePatient(QTcpSocket* socket, const QJsonObject& data, PatientManager* patientManager){
 
-//이름 보내줄 func
+    QString name = data["name"].toString().trimmed();
+    bool ret = patientManager->deletePatient(name);
+
+
+    QJsonObject response;
+    if (ret){
+        response = ResponseFactory::createResponse("delete", "success");
+    } else {
+        response = ResponseFactory::createResponse("delete", "fail", {{"reason", "failed to delete patient."}});
+    }
+    socket->write(QJsonDocument(response).toJson(QJsonDocument::Indented));
+    socket->flush();
+}
+
+/* 환자 정보 수정 */
+void RequestDispatcher::handleModifyPatient(QTcpSocket* socket, const QJsonObject& data, PatientManager* patientManger){
+
+    bool ret = patientManger->modifyPatient(data);
+
+    QJsonObject response;
+    if (ret){
+        response = ResponseFactory::createResponse("delete", "success");
+    } else {
+        response = ResponseFactory::createResponse("delete", "fail", {{"reason", "failed to modify patient."}});
+    }
+    socket->write(QJsonDocument(response).toJson(QJsonDocument::Indented));
+    socket->flush();
+}
+
+/* userlist 만드는 func */
 QJsonArray RequestDispatcher::getOnlineUserNamesArray(UserManager* manager) {
     QJsonArray arr;
     const QVector<User*>& onlineUsers = manager->getOnlineUsers();

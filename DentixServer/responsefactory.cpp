@@ -2,20 +2,24 @@
 
 /* ResponseFactory는 클라이언트에 보낼 response만 생성한다 */
 QJsonObject ResponseFactory::createResponse(const QString& forType, const QString& status) {
-    QJsonObject obj;
-    obj["type"] = "ack";
-    obj["for"] = forType;
-    obj["status"] = status;
-    return obj;
-    qDebug().noquote()<<"[ResponseFactory] 응답 생성: " << QJsonDocument(obj).toJson(QJsonDocument::Indented);
+    QJsonObject res;
+    res["type"] = "ack";
+    res["for"] = forType;
+    res["status"] = status;
+
+    QJsonDocument doc(res);
+    qDebug().noquote()<<"[ResponseFactory] 응답 생성: " << QString::fromUtf8(doc.toJson(QJsonDocument::Indented));
+    return res;
 }
 
 QJsonObject ResponseFactory::createResponse(const QString& forType, const QString& status, const QJsonObject& data) {
-    QJsonObject obj;
-    obj["type"] = "ack";
-    obj["for"] = forType;
-    obj["status"] = status;
-    obj["data"] = data;
-    qDebug().noquote() << "[ResponseFactory] 응답 생성: " << QJsonDocument(obj).toJson(QJsonDocument::Compact);
-    return obj;
+    QJsonObject res;
+    res["type"] = "ack";
+    res["for"] = forType;
+    res["status"] = status;
+    res["data"] = data;
+
+    QJsonDocument doc(res);
+    qDebug().noquote()<< "[ResponseFactory] 응답 생성 " << QString::fromUtf8(doc.toJson(QJsonDocument::Indented));
+    return res;
 }
