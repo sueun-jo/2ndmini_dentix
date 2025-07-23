@@ -150,7 +150,6 @@ void AppController::handlePatientWindow() {
 }
 
 void AppController::handleChatWindow() {
-    m_mainWindow->hide();
     m_chatWindow->show();
 }
 
