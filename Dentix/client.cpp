@@ -1,5 +1,4 @@
 #include "client.h"
-
 Client::Client(QObject *parent){
     socket = new QTcpSocket(this);
     connect(socket, &QTcpSocket::readyRead, this, &Client::onReadyRead);
@@ -25,6 +24,19 @@ void Client::sendJson(const QByteArray &jsonData)
         socket->write(jsonData);
 
         qDebug().noquote() << "[Client] : Send to server: " << QString::fromUtf8(jsonData);
+
+    }else{
+        qWarning() <<"[Client] : Cannot send data. Socket not connected.";
+    }
+}
+
+void Client::sendRaw(const QByteArray &chunk)
+{
+
+    if(socket->state()== QAbstractSocket::ConnectedState){
+        socket->write(chunk);
+
+        qDebug().noquote() << "[Client] : Send to server image data: " << chunk;//.toBase64();
 
     }else{
         qWarning() <<"[Client] : Cannot send data. Socket not connected.";

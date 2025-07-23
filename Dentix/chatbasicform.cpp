@@ -50,8 +50,12 @@ void ChatBasicForm::receiveChatData(const QByteArray &data)
 
     // listWidget UI 업데이트
     ui->listWidget->clear();
+    QFont font("Segoe UI Emoji");  // 윈도우에서 이모지 지원 폰트
+    ui->listWidget->setFont(font);
+
     for (const QString &name : onlineUsers) {
-        ui->listWidget->addItem(name);
+        QString user = name;
+        ui->listWidget->addItem("🟢 " + user);
     }
 }
 

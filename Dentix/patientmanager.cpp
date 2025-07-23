@@ -1,6 +1,7 @@
 #include "patientmanager.h"
 #include "patient.h"
 #include "patientsearchfilter.h"
+#include <QFileDialog>
 PatientManager::PatientManager(QObject *parent)
     : QObject(parent)
 {
@@ -29,7 +30,7 @@ void PatientManager::updatePatientInfo(const QByteArray &data)
     emit updateCompleted(m_patients);
 }
 void PatientManager::addPatientData(const QString &name, int age, const QString &gender,
-                                    const QString &diagnosis, const QString &treatment, const QString &doctorNote)
+                                    const QString &diagnosis, const QString &treatment, const QString &doctorNote, const QString &filePath)
 {
 
 
@@ -40,25 +41,75 @@ void PatientManager::addPatientData(const QString &name, int age, const QString 
     dataObj["diagnosis"] = diagnosis;
     dataObj["treatment"] = treatment;
     dataObj["doctorNote"] = doctorNote;
+    dataObj["filePath"] = filePath;
 
-    QJsonObject reqObj;
-    reqObj["type"] = "add";
-    reqObj["data"] = dataObj;
 
     //백터 업데이트
     Patient patient = Patient::fromJson(dataObj);
     m_patients.append(patient);
 
-    //서버 전송
-    QJsonDocument doc(reqObj);
-    QByteArray sendData = doc.toJson();
-    qDebug().noquote()<<"[PatientManager] Sending to server: "<< sendData;
-    emit sendPatientInfoToServer(sendData);
-
-
     emit updateCompleted(m_patients);
 
 
+    //환자 리스트 add 업데이트 이후 추가한 환자정보와 파일 서버로 보내기 위한 로직
+    QFile file(filePath);
+    if (!file.open(QIODevice::ReadOnly)) {
+        qDebug() << "파일 열기 실패:" << file.errorString();
+        return;
+    }
+    //넘어가는 데이터 타입 알기 위한 코드 포함되었음
+    QFileInfo info(file);
+    QString fileName = info.fileName();
+    qint64 fileSize = info.size();
+    const int chunkSize = 4096;
+    int totalChunks = qCeil(static_cast<double>(fileSize) / chunkSize);
+    int chunkIndex = 0;
+
+    dataObj.insert("filename", fileName);
+    dataObj.insert("fileSize", fileSize);
+
+    QJsonObject reqObj;
+    reqObj["type"] = "add";
+    reqObj["data"] = dataObj;
+
+    //서버 전송
+    QJsonDocument doc(reqObj);
+    QByteArray sendData = doc.toJson();
+
+    qDebug().noquote()<<"[PatientManager] Sending to server: "<< QString::fromUtf8(sendData);
+    emit sendPatientInfoToServer(sendData);
+
+    // QJsonObject header;
+    // header["type"] = "fileUpload";
+    // header["fileName"] = fileName;
+    // header["fileSize"] = fileSize;
+    // header["totalChunks"] = totalChunks;
+
+
+
+    while (!file.atEnd()) {
+        QByteArray chunk = file.read(4096);
+
+        QJsonObject wrapper;
+        wrapper["type"] = "fileChunk";
+        wrapper["fileName"] = fileName;
+        wrapper["chunkIndex"] = chunkIndex;
+        wrapper["totalChunks"] = totalChunks;
+        wrapper["chunkStart"] = (chunkIndex == 0);
+        wrapper["chunkEnd"] = (chunkIndex == totalChunks - 1);
+        wrapper["chunkSize"] = chunk.size();
+
+        QJsonDocument doc(wrapper);
+        QByteArray headerJson = doc.toJson(QJsonDocument::Compact) + '\n';
+
+        qDebug() << "[PatientManager] Sending image file: " << fileName << ", size: " << fileSize;
+        emit sendImageData(headerJson);
+        emit sendImageData(chunk);     // 서버로 데이터 청크 전송
+
+        chunkIndex++;
+    }
+
+    file.close();
 }
 
 //삭제기능
@@ -78,9 +129,11 @@ void PatientManager::deletePatientData(const QString &name)
         emit updateCompleted(m_patients);
 
         // JSON 생성
+        QJsonObject dataObj;
+            dataObj["name"] = name;
         QJsonObject reqObj;
-        reqObj["type"] = "delete";
-        reqObj["name"] = name;
+            reqObj["type"] = "delete";
+            reqObj["name"] = dataObj;
 
         QJsonDocument doc(reqObj);
         QByteArray sendData = doc.toJson();
@@ -121,8 +174,8 @@ void PatientManager::findPatient(const QString &name, int age, const QString &ge
         results.append(p);
     }
 
-    emit searchCompleted(results);
     qDebug() << "[PatientManager] 환자 검색 완료. 검색된 환자 수:" << results.size();
+    emit searchCompleted(results);
 
 }
 
@@ -160,7 +213,8 @@ void PatientManager::modifyPatientData(const QString &newName, int newAge, const
     // 4. 서버 전송
     QJsonDocument doc(reqObj);
     QByteArray sendData = doc.toJson();
-    emit sendPatientInfoToServer(sendData);  // AppController에서 처리
     qDebug().noquote() << "[PatientManager] 수정 요청 전송:" << sendData;
+    emit sendPatientInfoToServer(sendData);  // AppController에서 처리
+
 }
 
