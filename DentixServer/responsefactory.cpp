@@ -8,7 +8,8 @@ QJsonObject ResponseFactory::createResponse(const QString& forType, const QStrin
     res["status"] = status;
 
     QJsonDocument doc(res);
-    qDebug().noquote()<<"[ResponseFactory] 응답 생성: " << QString::fromUtf8(doc.toJson(QJsonDocument::Indented));
+    //qDebug().noquote()<<"[ResponseFactory] 응답 생성: " << QString::fromUtf8(doc.toJson(QJsonDocument::Indented));
+    qDebug().noquote() << QString("[ResponseFactory] %1 %2").arg(forType, status);
     return res;
 }
 
@@ -19,7 +20,20 @@ QJsonObject ResponseFactory::createResponse(const QString& forType, const QStrin
     res["status"] = status;
     res["data"] = data;
 
-    QJsonDocument doc(res);
-    qDebug().noquote()<< "[ResponseFactory] 응답 생성 " << QString::fromUtf8(doc.toJson(QJsonDocument::Indented));
+    QJsonObject printable = res;
+
+    if (printable.contains("data") && printable["data"].isObject()){
+        QJsonObject dataObj = printable["data"].toObject();
+        if (dataObj.contains("image")){
+            dataObj["image"] = "<image data omitted>";
+            printable["data"] = dataObj;
+        }
+    }
+
+    // QJsonDocument doc(res);
+    QJsonDocument doc(printable);
+
+    qDebug().noquote()<< "[ResponseFactory] make response to client 😊 " << QString::fromUtf8(doc.toJson(QJsonDocument::Indented));
+
     return res;
 }
