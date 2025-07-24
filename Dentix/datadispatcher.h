@@ -15,6 +15,7 @@ signals:
     void dataSendToBasic(const QByteArray &data);
     void patientInfo(const QByteArray &data);
     void updateOnlineUserlist(const QByteArray &data);
+    void patientImageData(const QByteArray &data);
 // void dataSendToGroup(const QByteArray &data);  // 채팅 메시지
 // void dataSendToInvtied(const QByteArray &data);
 // void userEventReceivedJson(const QByteArray &data); //나중에 구현 예정

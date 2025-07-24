@@ -30,18 +30,18 @@ void Client::sendJson(const QByteArray &jsonData)
     }
 }
 
-void Client::sendRaw(const QByteArray &chunk)
-{
+// void Client::sendRaw(const QByteArray &chunk)
+// {
 
-    if(socket->state()== QAbstractSocket::ConnectedState){
-        socket->write(chunk);
+//     if(socket->state()== QAbstractSocket::ConnectedState){
+//         socket->write(chunk);
 
-        qDebug().noquote() << "[Client] : Send to server image data: " << chunk;//.toBase64();
+//         qDebug().noquote() << "[Client] : Send to server image data: " << chunk;//.toBase64();
 
-    }else{
-        qWarning() <<"[Client] : Cannot send data. Socket not connected.";
-    }
-}
+//     }else{
+//         qWarning() <<"[Client] : Cannot send data. Socket not connected.";
+//     }
+// }
 
 void Client::onReadyRead(){
     QByteArray data = socket->readAll();
