@@ -4,13 +4,13 @@
 
 #include <QObject>
 #include <QVector>
-#include <QString> // QString을 사용하므로 포함
-#include "patientmanager.h" // PatientManager 포함
-#include "patient.h" // Patient 클래스 포함
+#include <QString>
+#include "patientmanager.h"
+#include "patient.h"
 
 class PatientInfoController : public QObject
 {
-    Q_OBJECT // Qt의 시그널/슬롯 메커니즘을 사용하기 위해 필요
+    Q_OBJECT
 
 public:
 
@@ -18,10 +18,13 @@ public:
 
     // UI에서 호출될 슬롯 (또는 public 메서드)
 
-    void loadAllPatients();
+    void updateAllPatients();
 
     void searchPatients(const QString& name, const QString& gender,
                         const QString& diagnosis, const QString& treatment);
+
+    bool deletePatient(const QString& name);
+    bool modifyPatient(const QJsonObject& newData);
 
 signals:
 

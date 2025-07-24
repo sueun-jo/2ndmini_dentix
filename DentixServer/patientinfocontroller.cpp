@@ -1,6 +1,5 @@
 // PatientInfoController.cpp
 #include "patientinfocontroller.h"
-#include "logutil.h"
 #include <QDebug> // 디버깅 메시지 출력을 위해 포함
 
 PatientInfoController::PatientInfoController(PatientManager* manager, QObject *parent)
@@ -12,7 +11,7 @@ PatientInfoController::PatientInfoController(PatientManager* manager, QObject *p
     }
 }
 
-void PatientInfoController::loadAllPatients() {
+void PatientInfoController::updateAllPatients() {
     if (patientManager) {
         // PatientManager를 통해 모든 환자 데이터를 가져옴
         QVector<Patient> allPatients = patientManager->getAllPatients();
@@ -30,7 +29,7 @@ void PatientInfoController::searchPatients(const QString& name, const QString& g
         // 검색 필터 구조체 값 채우기 from UI
         PatientSearchFilter criteria;
         criteria.name = name;
-        // 콤보박스의 "전체" 값을 빈 문자열로 처리하여 PatientManager의 로직과 일치시킵니다.
+        // "전체"는 조건 없는거나 마찬가지임
         criteria.gender = (gender == "전체") ? "" : gender;
         criteria.diagnosis = (diagnosis == "전체") ? "" : diagnosis;
         criteria.treatment = (treatment == "전체") ? "" : treatment;
@@ -39,8 +38,24 @@ void PatientInfoController::searchPatients(const QString& name, const QString& g
         QVector<Patient> results = patientManager->findPatient(criteria);
         //검색 끝나고 signal 발생
         emit searchCompleted(results);
-        qDebug() << "[PatientInfoController] 환자 검색 요청 및 UI 업데이트 시그널 발생. 검색된 환자 수:" << results.size();
     } else {
         qWarning() << "[PatientInfoController] PatientManager가 없어 searchPatients를 수행할 수 없습니다.";
     }
+}
+
+bool PatientInfoController::deletePatient(const QString& name) {
+    if (patientManager && patientManager->deletePatient(name)) {
+        updateAllPatients();
+        return true;
+    }
+    return false;
+}
+
+
+bool PatientInfoController::modifyPatient(const QJsonObject& newData){
+    if (patientManager && patientManager->modifyPatient(newData)){
+        updateAllPatients();
+        return true;
+    }
+    return false;
 }

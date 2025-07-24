@@ -16,6 +16,7 @@ void RequestDispatcher::handleRequest(QTcpSocket* socket, const QJsonObject& obj
                                                                     ChatManager *chatManager) {
     QString type = obj["type"].toString(); //type
     QJsonObject data = obj["data"].toObject(); //data (가변)
+    qDebug() << "[Server] handleRequest. Socket pointer:" << socket << "data:" << obj;
 
     if (type == "login") {
         handleLogin(socket, data, server, userManager);
@@ -32,7 +33,7 @@ void RequestDispatcher::handleRequest(QTcpSocket* socket, const QJsonObject& obj
     } else if (type == "modify"){
         handleModifyPatient (socket, data, patientManager);
     } else if (type == "requestPatientImage"){
-        //사진 fpt로 전송
+        qDebug() << "R.D handlePatientImageRequest";
         handlePatientImageRequest(socket, data, patientManager);
     }
     else {
@@ -138,7 +139,6 @@ void RequestDispatcher::handleDeletePatient(QTcpSocket* socket, const QJsonObjec
     QString name = data["name"].toString().trimmed();
     bool ret = patientManager->deletePatient(name);
 
-
     QJsonObject response;
     if (ret){
         response = ResponseFactory::createResponse("delete", "success");
@@ -156,10 +156,26 @@ void RequestDispatcher::handleModifyPatient(QTcpSocket* socket, const QJsonObjec
 
     QJsonObject response;
     if (ret){
-        response = ResponseFactory::createResponse("delete", "success");
+        response = ResponseFactory::createResponse("modify", "success");
     } else {
-        response = ResponseFactory::createResponse("delete", "fail", {{"reason", "failed to modify patient."}});
+        response = ResponseFactory::createResponse("modify", "fail", {{"reason", "failed to modify patient."}});
     }
+    socket->write(QJsonDocument(response).toJson(QJsonDocument::Indented));
+    socket->flush();
+}
+
+/* 요청 받은 환자 사진 전송 */
+void RequestDispatcher::handlePatientImageRequest(QTcpSocket* socket, const QJsonObject& data,PatientManager* patientManager){
+    QString name = data["name"].toString().trimmed();
+    QJsonObject imageData = patientManager->sendPatientImage(name);
+    QJsonObject response;
+
+    if (imageData.contains("reason")){
+        response = ResponseFactory::createResponse("requestPatientImage", "fail", imageData);
+    } else {
+        response = ResponseFactory::createResponse("requestPatientImage", "success", imageData);
+    }
+
     socket->write(QJsonDocument(response).toJson(QJsonDocument::Indented));
     socket->flush();
 }

@@ -61,7 +61,7 @@ PatientInfoForm::PatientInfoForm(PatientManager* manager, QWidget *parent)
                 this, &PatientInfoForm::updatePatientTable);
 
         // 폼이 로드될 때 모든 환자 정보 요청
-        this->controller->loadAllPatients();
+        this->controller->updateAllPatients();
     } else {
         qWarning() << "[PatientInfoForm] Controller is null!";
     }
