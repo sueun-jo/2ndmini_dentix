@@ -70,8 +70,6 @@ PatientSearchForm::PatientSearchForm(QWidget *parent)
     ui->cbGenderSearch->clear();
     ui->cbGenderSearch->addItems(genderItems);
 
-
-
 }
 
 //유저리스트
@@ -173,6 +171,8 @@ void PatientSearchForm::imageShowTest(const QByteArray &imageData)
         qWarning() << "[Server] Invalid JSON received!";
         return;
     }
+
+
     QJsonObject root = doc.object();
     QString type = root["for"].toString();
     if (type != "requestPatientImage") return;
@@ -181,6 +181,7 @@ void PatientSearchForm::imageShowTest(const QByteArray &imageData)
     QString fileDataBase64 = data["fileData"].toString();
 
     QByteArray imageBinary = QByteArray::fromBase64(fileDataBase64.toUtf8());
+  
     QPixmap pix;
     if (!pix.loadFromData(imageBinary)) {
         qWarning() << "이미지를 불러올 수 없습니다: Base64 디코딩 후 이미지 생성 실패";
