@@ -50,7 +50,7 @@ void ServerInfoForm::on_startServer_clicked()
             emit requestSaveChats(chats, "chatlog.json");
             qDebug() << "[Timer] ⏰자동 저장 요청";
         });
-        autoSaveTimer->start(30000);
+        autoSaveTimer->start(30000); //30초에 한번씩 저장
     }
 }
 
