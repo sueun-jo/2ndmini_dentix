@@ -32,8 +32,8 @@ void PatientManager::updatePatientInfo(const QByteArray &data)
 void PatientManager::addPatientData(const QString &name, int age, const QString &gender,
                                     const QString &diagnosis, const QString &treatment, const QString &doctorNote, const QString &filePath)
 {
-
-
+    /*입력된 환자 정보 플로우 */
+    //1. 입력한 환자정보 client의 vector에 추가
     QJsonObject dataObj;
     dataObj["name"] = name;
     dataObj["age"] = age;
@@ -44,20 +44,22 @@ void PatientManager::addPatientData(const QString &name, int age, const QString 
     dataObj["filePath"] = filePath;
 
 
-    //백터 업데이트
+    //2. 백터 업데이트
     Patient patient = Patient::fromJson(dataObj);
     m_patients.append(patient);
-
+    //3. 업데이트 시그널을 각 UI에 보내서 환자정보 업데이트
     emit updateCompleted(m_patients);
 
 
-    //환자 리스트 add 업데이트 이후 추가한 환자정보와 파일 서버로 보내기 위한 로직
+    /* 환자 리스트 add 업데이트 이후 추가한 환자정보와 파일 서버로 보내기 위한 로직 시작*/
+
+    //1. addform.cpp 에서 넘겨준 파일경로의 파일 오픈
     QFile file(filePath);
     if (!file.open(QIODevice::ReadOnly)) {
         qDebug() << "파일 열기 실패:" << file.errorString();
         return;
     }
-    //넘어가는 데이터 타입 알기 위한 코드 포함되었음
+    //2. 열린 파일에 대한 메타데이터
     QFileInfo info(file);
     QString fileName = info.fileName();
     qint64 fileSize = info.size();
@@ -65,17 +67,20 @@ void PatientManager::addPatientData(const QString &name, int age, const QString 
     int totalChunks = qCeil(static_cast<double>(fileSize) / chunkSize);
     int chunkIndex = 0;
 
+    //3. 환자정보 저장 플로우에서 활용된 jsonObject에 파일정보 추가
     dataObj.insert("filename", fileName);
     dataObj.insert("fileSize", fileSize);
 
+    //4. json Document 설정
     QJsonObject reqObj;
-    reqObj["type"] = "add";
-    reqObj["data"] = dataObj;
-
-    //서버 전송
+    reqObj["type"] = "add"; //헤더
+    reqObj["data"] = dataObj;//바디
     QJsonDocument doc(reqObj);
+
+    // 5. json Document를 바이트어래이로 변환
     QByteArray sendData = doc.toJson();
 
+    //6. 서버로 전송
     qDebug().noquote()<<"[PatientManager] Sending to server: "<< QString::fromUtf8(sendData);
     emit sendPatientInfoToServer(sendData);
 
@@ -86,7 +91,7 @@ void PatientManager::addPatientData(const QString &name, int age, const QString 
     // header["totalChunks"] = totalChunks;
 
 
-
+    //7. 패킷 분할로 보내기 위해 분할전송마다 구분될 전송데이터 info 설정 및 전송ㅇ
     while (!file.atEnd()) {
         QByteArray chunk = file.read(4096);
 
@@ -108,7 +113,7 @@ void PatientManager::addPatientData(const QString &name, int age, const QString 
 
         chunkIndex++;
     }
-
+    //8. 파일전송 완료되면 close
     file.close();
 }
 
@@ -127,9 +132,6 @@ void PatientManager::deletePatientData(const QString &name)
     //updatePatientTable 함수에 연결
     if(found){
         emit updateCompleted(m_patients);
-
-        QJsonObject dataObj;
-        dataObj["name"] = name;
 
         // JSON 생성
         QJsonObject dataObj;

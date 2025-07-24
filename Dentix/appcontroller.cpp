@@ -4,6 +4,7 @@
 
 AppController::AppController(QObject *parent) : QObject(parent)
 {
+     qDebug() << "@@@@@ AppController INSTANCE CREATED @@@@@";
     //모든 핵심 객체들 SignalManager의 생성자에서 단 한번만 생성하고 소유
     m_client = new Client(this);
     m_dataDispatcher = new DataDispatcher(this);
@@ -114,6 +115,7 @@ void AppController::setupConnectionsPatient()
 
     connect(m_patientSearchForm, &PatientSearchForm::requestSearchPatient, m_patientManager, &PatientManager::findPatient);
     connect(m_patientManager, &PatientManager::searchCompleted, m_patientSearchForm, &PatientSearchForm::updatePatientList);
+    qDebug() << "!!!!!! Connecting PatientSearchForm requestImageToServer to Client::sendJson !!!!!!";
     connect(m_patientSearchForm, &PatientSearchForm::requestImageToServer, m_client, &Client::sendJson);
     /*Add Form*/
     connect(m_patientAddForm, &PatientAddForm::requestAddPatient, m_patientManager, &PatientManager::addPatientData);
