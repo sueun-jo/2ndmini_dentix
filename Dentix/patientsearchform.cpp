@@ -181,17 +181,16 @@ void PatientSearchForm::imageShowTest(const QByteArray &imageData)
     QString fileDataBase64 = data["fileData"].toString();
 
     QByteArray imageBinary = QByteArray::fromBase64(fileDataBase64.toUtf8());
-    QPixmap pix;
-    if (!pix.loadFromData(imageBinary)) {
-        qWarning() << "이미지를 불러올 수 없습니다: Base64 디코딩 후 이미지 생성 실패";
-        return;
-    }
-    if (!pix.isNull()) {
-        ui->lbImageSearch->setPixmap(pix.scaled(ui->lbImageSearch->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
-    } else {
-        qDebug() << "이미지를 불러올 수 없습니다:";
-    }
 
+    QImage paitentImage;
+    paitentImage.loadFromData(imageBinary);
+
+    if (paitentImage.isNull()) {
+        qDebug() << "QImage 로딩 실패";
+    } else {
+        QPixmap pix = QPixmap::fromImage(paitentImage);
+        ui->lbImageSearch->setPixmap(pix.scaled(ui->lbImageSearch->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    }
 }
 // void PatientSearchForm::imageShowTest(const QByteArray &imageData)
 // {
