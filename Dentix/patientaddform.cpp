@@ -62,7 +62,19 @@ PatientAddForm::~PatientAddForm()
     delete ui;
 }
 
+void PatientAddForm::on_btnFileAdd_clicked()
+{
+    // 1. 이미지 파일 선택
+    QString filePath = QFileDialog::getOpenFileName(this, "이미지 선택", "", "Images (*.png *.jpg *.jpeg *.bmp)");
+    m_filePath = filePath;
+    if (filePath.isEmpty()) {
+        qDebug() << "파일 선택 취소됨.";
+        return;
+    }
+    QPixmap pix = filePath;
+    ui->lbImageAdd->setPixmap(pix);
 
+}
 
 
 void PatientAddForm::on_btnSaveAdd_clicked()
@@ -83,17 +95,5 @@ void PatientAddForm::on_btnSaveAdd_clicked()
 }
 
 
-void PatientAddForm::on_btnFileAdd_clicked()
-{
-    // 1. 이미지 파일 선택
-    QString filePath = QFileDialog::getOpenFileName(this, "이미지 선택", "", "Images (*.png *.jpg *.jpeg *.bmp)");
-    m_filePath = filePath;
-    if (filePath.isEmpty()) {
-        qDebug() << "파일 선택 취소됨.";
-        return;
-    }
-    QPixmap pix = filePath;
-    ui->lbImageAdd->setPixmap(pix);
 
-}
 
