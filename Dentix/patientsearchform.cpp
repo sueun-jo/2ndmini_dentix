@@ -163,7 +163,6 @@ void PatientSearchForm::on_lwListSearch_itemDoubleClicked(QListWidgetItem *item)
         }
     }
 }
-
 void PatientSearchForm::imageShowTest(const QByteArray &imageData)
 {
     QJsonParseError parseError;
@@ -173,27 +172,16 @@ void PatientSearchForm::imageShowTest(const QByteArray &imageData)
         return;
     }
 
-    // QJsonObject root = doc.object();
-    // QString type = root["type"].toString();
-    // if (type != "add") return;
+
     QJsonObject root = doc.object();
     QString type = root["for"].toString();
     if (type != "requestPatientImage") return;
     QJsonObject data = root["data"].toObject();
     // 1. 이미지 추출
-    //QString name = data["name"].toString();
     QString fileDataBase64 = data["fileData"].toString();
-    // 3. 이미지 저장: Base64 디코딩
+
     QByteArray imageBinary = QByteArray::fromBase64(fileDataBase64.toUtf8());
-    // QFile imageFile(QStringLiteral("images/%1_image.jpg").arg(name));
-    // if (!imageFile.open(QIODevice::WriteOnly)) {
-    //     qWarning()<<"test 이미지 저장 실패" << imageFile.errorString();
-    // }else {
-    //     imageFile.write(imageBinary);
-    //     imageFile.close();
-    // }
   
-    // QString imagePath = QString("images/%1_image.jpg").arg(name);
     QPixmap pix;
     if (!pix.loadFromData(imageBinary)) {
         qWarning() << "이미지를 불러올 수 없습니다: Base64 디코딩 후 이미지 생성 실패";
@@ -204,5 +192,45 @@ void PatientSearchForm::imageShowTest(const QByteArray &imageData)
     } else {
         qDebug() << "이미지를 불러올 수 없습니다:";
     }
- //   qDebug() << "[Server] 저장 완료:" << name;
+
 }
+// void PatientSearchForm::imageShowTest(const QByteArray &imageData)
+// {
+//     QJsonParseError parseError;
+//     QJsonDocument doc = QJsonDocument::fromJson(imageData, &parseError);
+//     if (parseError.error != QJsonParseError::NoError || !doc.isObject()) {
+//         qWarning() << "[Server] Invalid JSON received!";
+//         return;
+//     }
+//     // QJsonObject root = doc.object();
+//     // QString type = root["type"].toString();
+//     // if (type != "add") return;
+//     QJsonObject root = doc.object();
+//     QString type = root["for"].toString();
+//     if (type != "requestPatientImage") return;
+//     QJsonObject data = root["data"].toObject();
+//     // 1. 이미지 추출
+//     //QString name = data["name"].toString();
+//     QString fileDataBase64 = data["fileData"].toString();
+//     // 3. 이미지 저장: Base64 디코딩
+//     QByteArray imageBinary = QByteArray::fromBase64(fileDataBase64.toUtf8());
+//     // QFile imageFile(QStringLiteral("images/%1_image.jpg").arg(name));
+//     // if (!imageFile.open(QIODevice::WriteOnly)) {
+//     //     qWarning()<<"test 이미지 저장 실패" << imageFile.errorString();
+//     // }else {
+//     //     imageFile.write(imageBinary);
+//     //     imageFile.close();
+//     // }
+//     // QString imagePath = QString("images/%1_image.jpg").arg(name);
+//     QPixmap pix;
+//     if (!pix.loadFromData(imageBinary)) {
+//         qWarning() << "이미지를 불러올 수 없습니다: Base64 디코딩 후 이미지 생성 실패";
+//         return;
+//     }
+//     if (!pix.isNull()) {
+//         ui->lbImageSearch->setPixmap(pix.scaled(ui->lbImageSearch->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+//     } else {
+//         qDebug() << "이미지를 불러올 수 없습니다:";
+//     }
+//  //   qDebug() << "[Server] 저장 완료:" << name;
+// }

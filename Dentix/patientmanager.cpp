@@ -57,6 +57,7 @@ void PatientManager::patientinfosendtoserver(const QJsonObject &dataObj, const Q
 {
     QJsonObject jsonObj = dataObj; //요청오면 보낼 json은
     QByteArray imageByteArray;
+    QString name = jsonObj.value("name").toString();
 
     // 2. 파일 오픈 -> QByteArray로 저장
     QFile file(filePath); //QFileDialog로 선택한 파일경로(filePath) open /
@@ -68,13 +69,13 @@ void PatientManager::patientinfosendtoserver(const QJsonObject &dataObj, const Q
     }
 
     QFileInfo fileInfo(file); //QFileInfo는 파일 시스템 항목에 대한 정보(이름, 경로, 접근 권한, 일반 파일, 디렉터리 또는 심볼릭 링크인지 여부 등)를 제공
-    QString fileName= fileInfo.fileName();  //QFileInfo를 통해 받은 이름 QString에 저장
+    QString fileName(QString("%1.jpg").arg(name));  //QFileInfo를 통해 받은 이름 QString에 저장
     //QJsonObject는 QJsonValue 타입만 저장 가능하기에 바이트어레이로 저장된 이미지 데이터를 베이스64로 인코딩
     QByteArray base64EncodedData = imageByteArray.toBase64();
 
     /*파일 이름과 이미지 데이터 환자정보 json에 추가 */
     jsonObj.insert("fileData", QString::fromUtf8(base64EncodedData));
-
+    jsonObj.insert("fileName", fileName);
     QJsonObject reqObj;
     reqObj["type"] = "add";//헤더
     reqObj["data"] = jsonObj;//바디
