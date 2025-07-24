@@ -62,27 +62,6 @@ PatientAddForm::~PatientAddForm()
     delete ui;
 }
 
-
-
-
-void PatientAddForm::on_btnSaveAdd_clicked()
-{
-    QString name = ui->leNameAdd->text();
-    QString ageStr = ui->leAgeAdd->text();
-    int age = ageStr.toInt();
-    QString gender = ui->cbGenderAdd->currentText();
-    QString diagnosis = ui->cbDiagnosisAdd->currentText();
-    QString treatment = ui->cbTreatmentAdd->currentText();
-    QString doctorNote = ui->teDoctorNote->toPlainText();
-
-
-
-
-    emit requestAddPatient(name, age, gender, diagnosis, treatment, doctorNote, m_filePath);
-    ui->lbImageAdd->clear();
-}
-
-
 void PatientAddForm::on_btnFileAdd_clicked()
 {
     // 1. 이미지 파일 선택
@@ -96,4 +75,22 @@ void PatientAddForm::on_btnFileAdd_clicked()
     ui->lbImageAdd->setPixmap(pix);
 
 }
+
+
+void PatientAddForm::on_btnSaveAdd_clicked()
+{
+    QString name = ui->leNameAdd->text();
+    QString ageStr = ui->leAgeAdd->text();
+    int age = ageStr.toInt();
+    QString gender = ui->cbGenderAdd->currentText();
+    QString diagnosis = ui->cbDiagnosisAdd->currentText();
+    QString treatment = ui->cbTreatmentAdd->currentText();
+    QString doctorNote = ui->teDoctorNote->toPlainText();
+
+    emit requestAddPatient(name, age, gender, diagnosis, treatment, doctorNote, m_filePath);
+    ui->lbImageAdd->clear();
+}
+
+
+
 

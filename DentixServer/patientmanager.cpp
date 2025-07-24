@@ -1,7 +1,9 @@
 #include "patientmanager.h"
-#include <QDebug>
-#include "logutil.h"
 #include "patientsearchfilter.h"
+#include <QDebug>
+#include <QTcpSocket>
+#include <QFile>
+#include <QFileInfo>
 
 PatientManager::PatientManager() {
     /* patientmanager 생성자에서 repository로부터 json파일 읽어옴 */
@@ -11,7 +13,7 @@ PatientManager::PatientManager() {
 
 bool PatientManager::addPatient(const Patient& patient) {
     patients.append(patient); //vector에 append
-    // return repository.saveAllPatients(patients, "patients.json");
+
     return setAllPatients(patients);
 }
 
@@ -19,7 +21,8 @@ bool PatientManager::addPatient(const Patient& patient) {
 bool PatientManager::deletePatient(const QString& name) {
 
     for (int i=0; i<patients.size(); i++){
-        if (patients[i].getName() == name){
+        if (patients[i].getName() == name){ // 이름 같으면
+            patients.removeAt(i); //제거
             return setAllPatients(patients);
         }
     }
@@ -33,6 +36,7 @@ bool PatientManager::modifyPatient(const QJsonObject& newData){
     for (Patient& p : patients){
         if (p.getName().trimmed() == newName){
             if (newData.contains("diagnosis"))   p.setDiagnosis(newData["diagnosis"].toString());
+            if (newData.contains("age"))         p.setAge(newData["age"].toInt());
             if (newData.contains("doctorNote"))  p.setDoctorNote(newData["doctorNote"].toString());
             if (newData.contains("gender"))      p.setGender(newData["gender"].toString());
             if (newData.contains("treatment"))   p.setTreatment(newData["treatment"].toString());
@@ -42,8 +46,38 @@ bool PatientManager::modifyPatient(const QJsonObject& newData){
 }
 
 
-bool PatientManager::sendPatientImage(){
-    return true;
+QJsonObject PatientManager::sendPatientImage(const QString& name){
+
+    QJsonObject imageObj;
+
+    QString filePath;
+    for (const Patient& p : patients){
+        if (p.getName() == name){ //이름 같으면
+            qDebug() << "[디버그] p.getName() =" << p.getName() << " / 찾는 이름 =" << name;
+            filePath = p.getImagePath();
+            qDebug() << filePath;
+            break;
+        }
+    }
+
+    QFile file(filePath);
+    if (!file.exists() || !file.open(QFile::ReadOnly)){
+        qDebug() << "Failed to open image file: " << filePath;
+        imageObj["reason"] = "File not found";
+        return imageObj;
+    }
+
+
+    //파일 읽고 베이스64 인코딩
+    QByteArray fileData = file.readAll();
+    file.close();
+    QByteArray base64Data = fileData.toBase64();
+
+    imageObj["name"] = name;
+    imageObj["filename"] = QFileInfo(filePath).fileName();
+    imageObj["image"] = QString::fromUtf8(base64Data);
+    return imageObj;
+
 }
 
 
@@ -71,6 +105,7 @@ QVector<Patient> PatientManager::findPatient(const PatientSearchFilter& criteria
     return results;
 }
 
+/* 메모리상 vector값을 갱신하고 json으로 저장한다 */
 bool PatientManager::setAllPatients(const QVector<Patient>& updated) {
     patients = updated; //업데이트 된 걸로 patients 갱신
     bool ret = repository.saveAllPatients(patients, "patients.json");

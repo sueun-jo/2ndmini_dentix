@@ -7,6 +7,7 @@ Client::Client(QObject *parent){
 }
 
 bool Client::connectToServer(const QString &host, quint16 port){
+
     socket->connectToHost(host, port);
 
     if (!socket->waitForConnected(1000)){
@@ -19,10 +20,9 @@ bool Client::connectToServer(const QString &host, quint16 port){
 }
 void Client::sendJson(const QByteArray &jsonData)
 {
-
     if(socket->state()== QAbstractSocket::ConnectedState){
         socket->write(jsonData);
-
+        socket->flush();
         qDebug().noquote() << "[Client] : Send to server: " << QString::fromUtf8(jsonData);
 
     }else{
@@ -30,21 +30,22 @@ void Client::sendJson(const QByteArray &jsonData)
     }
 }
 
-void Client::sendRaw(const QByteArray &chunk)
-{
+// void Client::sendRaw(const QByteArray &chunk)
+// {
 
-    if(socket->state()== QAbstractSocket::ConnectedState){
-        socket->write(chunk);
+//     if(socket->state()== QAbstractSocket::ConnectedState){
+//         socket->write(chunk);
 
-        qDebug().noquote() << "[Client] : Send to server image data: " << chunk;//.toBase64();
+//         qDebug().noquote() << "[Client] : Send to server image data: " << chunk;//.toBase64();
 
-    }else{
-        qWarning() <<"[Client] : Cannot send data. Socket not connected.";
-    }
-}
+//     }else{
+//         qWarning() <<"[Client] : Cannot send data. Socket not connected.";
+//     }
+// }
 
 void Client::onReadyRead(){
     QByteArray data = socket->readAll();
+
     //서버에서 온 데이터 처리 x
     //데이터 처리는 loginController에서
     if(!data.isEmpty()){

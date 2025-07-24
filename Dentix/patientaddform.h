@@ -13,9 +13,9 @@ class PatientAddForm : public QWidget
 signals:
     void requestAddPatient(const QString &name, int age, const QString &gender,
                               const QString &diagnosis, const QString &treatment, const QString doctorNote, const QString &filePath);
-    void sendImageHeader(const QByteArray &headerData);  // AppController에서 연결
 
-    void sendImageData(const QByteArray chunk);
+
+
 public:
     explicit PatientAddForm(QWidget *parent = nullptr);
     ~PatientAddForm();

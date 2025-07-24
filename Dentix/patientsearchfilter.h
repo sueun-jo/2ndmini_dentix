@@ -28,6 +28,7 @@ struct PatientSearchFilter {
             f.imagePath = obj["imagePath"].toString();
 
         return f;
+
     }
 };
 

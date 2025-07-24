@@ -34,6 +34,9 @@ void DataDispatcher::SignalHandler(const QByteArray &data)
         emit patientInfo(data);
     } else if(type == "requestUserList"){
         emit updateOnlineUserlist(data);
+    } else if(type == "requestPatientImage")
+        {
+        emit patientImageData(data);
     }
 }
 

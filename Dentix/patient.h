@@ -13,7 +13,7 @@ public:
             int age,
             const QString& diagnosis,
             const QString& treatment,
-            const QString& imagePath,
+//            const QString& imagePath,
             const QString& doctorNote);
 
     QString getName() const;
@@ -21,7 +21,7 @@ public:
     int getAge() const;
     QString getDiagnosis() const;
     QString getTreatment() const;
-    QString getImagePath() const;
+//    QString getImagePath() const;
     QString getDoctorNote() const;
 
     void setName(const QString& name);
@@ -29,7 +29,7 @@ public:
     void setAge(int age);
     void setDiagnosis(const QString& diagnosis);
     void setTreatment(const QString& treatment);
-    void setImagePath(const QString& path);
+//    void setImagePath(const QString& path);
     void setDoctorNote(const QString& note);
     QJsonObject toJson() const;
     static Patient fromJson(const QJsonObject& obj);
@@ -40,7 +40,7 @@ private:
     int age;            //나이
     QString diagnosis;  //진단
     QString treatment;  //치료
-    QString imagePath;  //이미지 path(ftp쓸건지말건지...)
+//    QString imagePath;  //이미지 path(ftp쓸건지말건지...)
     QString doctorNote; //의사 소견
 };
 Q_DECLARE_METATYPE(Patient)
