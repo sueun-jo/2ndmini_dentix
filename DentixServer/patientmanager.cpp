@@ -13,7 +13,7 @@ PatientManager::PatientManager() {
 
 bool PatientManager::addPatient(const Patient& patient) {
     patients.append(patient); //vector에 append
-    // return repository.saveAllPatients(patients, "patients.json");
+
     return setAllPatients(patients);
 }
 
@@ -51,8 +51,9 @@ QJsonObject PatientManager::sendPatientImage(const QString& name){
     QJsonObject imageObj;
 
     QString filePath;
-    for (Patient& p : patients){
+    for (const Patient& p : patients){
         if (p.getName() == name){ //이름 같으면
+            qDebug() << "[디버그] p.getName() =" << p.getName() << " / 찾는 이름 =" << name;
             filePath = p.getImagePath();
             qDebug() << filePath;
             break;

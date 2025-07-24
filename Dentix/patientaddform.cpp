@@ -75,9 +75,6 @@ void PatientAddForm::on_btnSaveAdd_clicked()
     QString treatment = ui->cbTreatmentAdd->currentText();
     QString doctorNote = ui->teDoctorNote->toPlainText();
 
-
-
-
     emit requestAddPatient(name, age, gender, diagnosis, treatment, doctorNote, m_filePath);
     ui->lbImageAdd->clear();
 }

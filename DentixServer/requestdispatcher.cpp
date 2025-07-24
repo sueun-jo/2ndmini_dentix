@@ -33,7 +33,6 @@ void RequestDispatcher::handleRequest(QTcpSocket* socket, const QJsonObject& obj
     } else if (type == "modify"){
         handleModifyPatient (socket, data, patientManager);
     } else if (type == "requestPatientImage"){
-        qDebug() << "R.D handlePatientImageRequest";
         handlePatientImageRequest(socket, data, patientManager);
     }
     else {
@@ -119,7 +118,34 @@ void RequestDispatcher::handleUserListRequest(QTcpSocket* socket, UserManager* m
 
 /* 환자 추가 */
 void RequestDispatcher::handleAddPatient(QTcpSocket* socket, const QJsonObject& data, PatientManager* patientManger){
-    Patient newPatient = Patient::fromJson(data); //클라이언트한테서 받은 data파싱
+
+    QJsonObject dataWithPath = data;
+
+    /* fileData, fileName 파싱 */
+    QString base64 = data.value("fileData").toString();
+    QString filename = data.value("fileName").toString();
+
+    QString imagePath = "";
+    if (!base64.isEmpty() && !filename.isEmpty()) {
+        QByteArray imgBytes = QByteArray::fromBase64(base64.toUtf8());
+        QDir().mkpath("images");
+
+        imagePath = "images/" + filename;
+        QFile outFile(imagePath);
+
+            if (outFile.open(QFile::WriteOnly)) {
+                outFile.write(imgBytes);
+                outFile.close();
+                qDebug() << "[Dispatcher] 이미지 파일 저장 성공👌:" << imagePath;
+            } else {
+                qWarning() << "[Dispatcher] 이미지 파일 저장 실패:" << imagePath;
+                imagePath = ""; // 저장 실패시 빈 값
+            }
+    }
+
+    dataWithPath["imagePath"] = imagePath;
+    Patient newPatient = Patient::fromJson(dataWithPath); //클라이언트한테서 받은 data파싱
+
     bool ret = patientManger->addPatient(newPatient);
 
     QJsonObject response;
@@ -166,7 +192,7 @@ void RequestDispatcher::handleModifyPatient(QTcpSocket* socket, const QJsonObjec
 
 /* 요청 받은 환자 사진 전송 */
 void RequestDispatcher::handlePatientImageRequest(QTcpSocket* socket, const QJsonObject& data,PatientManager* patientManager){
-    QString name = data["name"].toString().trimmed();
+    QString name = data["name"].toString();
     QJsonObject imageData = patientManager->sendPatientImage(name);
     QJsonObject response;
 
