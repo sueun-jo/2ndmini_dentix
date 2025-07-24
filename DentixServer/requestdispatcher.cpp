@@ -16,7 +16,6 @@ void RequestDispatcher::handleRequest(QTcpSocket* socket, const QJsonObject& obj
                                                                     ChatManager *chatManager) {
     QString type = obj["type"].toString(); //type
     QJsonObject data = obj["data"].toObject(); //data (가변)
-    qDebug() << "[Server] handleRequest. Socket pointer:" << socket << "data:" << obj;
 
     if (type == "login") {
         handleLogin(socket, data, server, userManager);
@@ -51,7 +50,6 @@ void RequestDispatcher::handleLogin(QTcpSocket* socket, const QJsonObject& data,
     QString nameInput = data["name"].toString();
     QString pwInput = data["pw"].toString();
 
-    qDebug() << "[RequestDispatcher] login 요청 분기";
     User* user = userManager->findUserBySocket(socket);
 
     QJsonObject response = userManager->login(nameInput, pwInput, socket);
