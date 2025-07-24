@@ -58,6 +58,7 @@ void Server::onReadyRead(){
     QTcpSocket *socket = qobject_cast<QTcpSocket *>(sender()); //어떤 소켓인지 식별
     QByteArray data = socket->readAll(); //수신한 데이터 읽어오기
 
+    qDebug().noquote() <<"데이터 확인용 임시 디버그 server.cpp"<< QString::fromUtf8(data);
     QJsonDocument doc = QJsonDocument::fromJson(data); //json형태로 온 데이터 파싱
     if (doc.isObject()){ //읽어서 request 종류 파악하고 handleRequest 따라감
         QJsonObject obj = doc.object();
