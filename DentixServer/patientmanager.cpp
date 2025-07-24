@@ -21,7 +21,8 @@ bool PatientManager::addPatient(const Patient& patient) {
 bool PatientManager::deletePatient(const QString& name) {
 
     for (int i=0; i<patients.size(); i++){
-        if (patients[i].getName() == name){
+        if (patients[i].getName() == name){ // 이름 같으면
+            patients.removeAt(i); //제거
             return setAllPatients(patients);
         }
     }
@@ -35,6 +36,7 @@ bool PatientManager::modifyPatient(const QJsonObject& newData){
     for (Patient& p : patients){
         if (p.getName().trimmed() == newName){
             if (newData.contains("diagnosis"))   p.setDiagnosis(newData["diagnosis"].toString());
+            if (newData.contains("age"))         p.setAge(newData["age"].toInt());
             if (newData.contains("doctorNote"))  p.setDoctorNote(newData["doctorNote"].toString());
             if (newData.contains("gender"))      p.setGender(newData["gender"].toString());
             if (newData.contains("treatment"))   p.setTreatment(newData["treatment"].toString());
@@ -44,7 +46,9 @@ bool PatientManager::modifyPatient(const QJsonObject& newData){
 }
 
 
-bool PatientManager::sendPatientImage(QTcpSocket* socket, const QString& name){
+QJsonObject PatientManager::sendPatientImage(const QString& name){
+
+    QJsonObject imageObj;
 
     QString filePath;
     for (Patient& p : patients){
@@ -58,28 +62,21 @@ bool PatientManager::sendPatientImage(QTcpSocket* socket, const QString& name){
     QFile file(filePath);
     if (!file.exists() || !file.open(QFile::ReadOnly)){
         qDebug() << "Failed to open image file: " << filePath;
-        return false;
+        imageObj["reason"] = "File not found";
+        return imageObj;
     }
 
-    QByteArray fileData = file.readAll(); //읽음
+
+    //파일 읽고 베이스64 인코딩
+    QByteArray fileData = file.readAll();
     file.close();
+    QByteArray base64Data = fileData.toBase64();
 
-    QByteArray header;
-    QDataStream ds(&header, QIODevice::WriteOnly);
-    ds.setVersion(QDataStream::Qt_6_9);
+    imageObj["name"] = name;
+    imageObj["filename"] = QFileInfo(filePath).fileName();
+    imageObj["image"] = QString::fromUtf8(base64Data);
+    return imageObj;
 
-    qint64 fileSize = fileData.size();
-    QString imageFileName = QFileInfo(filePath).fileName();
-    ds << fileSize;
-    ds << imageFileName;
-
-    //소켓에 헤더 먼저 전송
-    socket->write(header);
-    socket->write(fileData);
-    socket->flush();
-
-    qDebug() << "[PatientManager] Sent Image: " << imageFileName << "size: " << fileSize;
-    return true;
 }
 
 
@@ -107,6 +104,7 @@ QVector<Patient> PatientManager::findPatient(const PatientSearchFilter& criteria
     return results;
 }
 
+/* 메모리상 vector값을 갱신하고 json으로 저장한다 */
 bool PatientManager::setAllPatients(const QVector<Patient>& updated) {
     patients = updated; //업데이트 된 걸로 patients 갱신
     bool ret = repository.saveAllPatients(patients, "patients.json");
