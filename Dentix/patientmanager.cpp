@@ -203,6 +203,7 @@ void PatientManager::modifyPatientData(const QString &newName, int newAge, const
 
     QJsonObject dataObj;
     dataObj["name"] = newName;
+    dataObj["age"] = newAge;
     dataObj["gender"] = newGender;
     dataObj["diagnosis"] = newDiagnosis;
     dataObj["treatment"] = newTreatment;
