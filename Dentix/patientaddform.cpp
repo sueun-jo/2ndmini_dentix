@@ -92,8 +92,8 @@ void PatientAddForm::on_btnFileAdd_clicked()
         qDebug() << "파일 선택 취소됨.";
         return;
     }
-    QPixmap pix = filePath;
-    ui->lbImageAdd->setPixmap(pix);
+    // QPixmap pix = filePath;
+    // ui->lbImageAdd->setPixmap(pix);
 
 }
 

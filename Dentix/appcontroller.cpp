@@ -97,6 +97,7 @@ void AppController::setupConnectionsPatient()
     connect(m_patientManager, &PatientManager::updateCompleted, m_patientDeleteForm, &PatientDeleteForm::updatePatientTable);
     connect(m_patientManager, &PatientManager::updateCompleted, m_patientModifyForm, &PatientModifyForm::updatePatientList);
     connect(m_patientManager, &PatientManager::updateCompleted, m_patientSearchForm, &PatientSearchForm::updatePatientList);
+
     //접속자 정보 요청 및 업데이트
     connect(m_chatManager, &ChatManager::requestUserListToServer, m_client, &Client::sendJson);
     connect(m_mainWindow, &MainWindow::requestUserList,  m_chatManager, &ChatManager::requestUserList);
@@ -111,14 +112,16 @@ void AppController::setupConnectionsPatient()
 
 
     /*Search Form*/
-
     connect(m_patientSearchForm, &PatientSearchForm::requestSearchPatient, m_patientManager, &PatientManager::findPatient);
     connect(m_patientManager, &PatientManager::searchCompleted, m_patientSearchForm, &PatientSearchForm::updatePatientList);
     connect(m_patientSearchForm, &PatientSearchForm::requestImageToServer, m_client, &Client::sendJson);
+    connect(m_dataDispatcher, &DataDispatcher::patientImageData, m_patientAddForm, &PatientSearchForm::imageShowTest);
+
     /*Add Form*/
     connect(m_patientAddForm, &PatientAddForm::requestAddPatient, m_patientManager, &PatientManager::addPatientData);
-    connect(m_patientManager, &PatientManager::sendPatientInfoToServer, m_client, &Client::sendJson) ;
-    connect(m_patientManager, &PatientManager::sendImageData, m_client, &Client::sendRaw);
+    connect(m_patientManager, &PatientManager::sendPatientInfoToServer, m_client, &Client::sendJson) ;//이미지파일 서버로 전송
+    //connect(m_patientManager, &PatientManager::sendPatientInfoToServer ,m_patientSearchForm ,&PatientSearchForm::imageShowTest);//테스트용
+
     /*Modify Form*/
         //Search
     connect(m_patientModifyForm, &PatientModifyForm::requestSearchPatient, m_patientManager, &PatientManager::findPatient);

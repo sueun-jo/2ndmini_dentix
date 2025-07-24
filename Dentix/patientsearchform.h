@@ -24,6 +24,7 @@ public slots:
     void on_btnSearahSearch_clicked();
     void updatePatientList(const QVector<Patient> &newPatients);
 
+    void imageShowTest(const QByteArray &imageData);//테스트용 지울예정
 private slots:
     void on_lwListSearch_itemDoubleClicked(QListWidgetItem *item);
 

@@ -4,6 +4,7 @@
 #include <QTableWidgetItem>
 #include <QHeaderView>
 #include <QLabel>
+#include <QFile>
 PatientSearchForm::PatientSearchForm(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::PatientSearchForm)
@@ -135,39 +136,82 @@ void PatientSearchForm::on_lwListSearch_itemDoubleClicked(QListWidgetItem *item)
             ui->teDoctorNote->clear();
             ui->teDoctorNote->setText(p.getDoctorNote());
 
-            QPixmap pix(p.getImagePath());
+            // QPixmap pix(p.getImagePath());
 
-            if (!pix.isNull()) {
-                ui->lbImageSearch->setPixmap(pix.scaled(ui->lbImageSearch->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
-            } else {
-                qDebug() << "이미지를 불러올 수 없습니다:" << p.getImagePath();
-            }
+            // if (!pix.isNull()) {
+            //     ui->lbImageSearch->setPixmap(pix.scaled(ui->lbImageSearch->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+            // } else {
+            //     qDebug() << "이미지를 불러올 수 없습니다:" << p.getImagePath();
+            // }
+
+            /*현재는 로컬이미지를 띄우는 형식으로 되어있음 하지만 이후에 서버에서 데이터 받아와서 띄우는 형식으로 수정 예정*/
+            //이미지 요청 시그널 추가
+            //아래 코드는 보내는 시그널 요청 형식
+
+            QJsonObject data;
+            data["name"] = p.getName();
+
+            QJsonObject imageData;
+            imageData["type"] = "requestPatientImage";
+            imageData["data"] = data;
+            QJsonDocument doc(imageData);
+            QByteArray sendData = doc.toJson();
+
+            qDebug().noquote() << "[PatientSearchForm] 요청 전송: " << sendData;
+            emit requestImageToServer(sendData);
             break;
         }
     }
-
-
-    /*현재는 로컬이미지를 띄우는 형식으로 되어있음 하지만 이후에 서버에서 데이터 받아와서 띄우는 형식으로 수정 예정*/
-    //이미지 요청 시그널 추가
-    //아래 코드는 보내는 시그널 요청 형식
-    QString name;
-    for (const Patient &p : Patients) {
-        if (p.getName() == selectedName) {
-            name = p.getName();
-            break;
-        }
-    }
-
-    QJsonObject data;
-    data["name"] = name;
-
-    QJsonObject imageData;
-    imageData["type"] = "requestPatientImage";
-    imageData["data"] = data;
-    QJsonDocument doc(imageData);
-    QByteArray sendData = doc.toJson();
-    qDebug().noquote() << "[PatientSearchForm] 요청 전송 (on_lwListSearch_itemDoubleClicked 내부): " << sendData << "at" << QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz");
-    qDebug().noquote() << "[PatientSearchForm] 요청 전송: " << sendData;
-    emit requestImageToServer(sendData);
 }
 
+void PatientSearchForm::imageShowTest(const QByteArray &imageData)
+{
+    QJsonParseError parseError;
+    QJsonDocument doc = QJsonDocument::fromJson(imageData, &parseError);
+    if (parseError.error != QJsonParseError::NoError || !doc.isObject()) {
+        qWarning() << "[Server] Invalid JSON received!";
+        return;
+    }
+
+
+    // QJsonObject root = doc.object();
+    // QString type = root["type"].toString();
+    // if (type != "add") return;
+
+    QJsonObject root = doc.object();
+    QString type = root["for"].toString();
+    if (type != "requestPatientImage") return;
+
+    QJsonObject data = root["data"].toObject();
+
+    // 1. 이미지 추출
+    //QString name = data["name"].toString();
+    QString fileDataBase64 = data["fileData"].toString();
+
+    // 3. 이미지 저장: Base64 디코딩
+    QByteArray imageBinary = QByteArray::fromBase64(fileDataBase64.toUtf8());
+
+    // QFile imageFile(QStringLiteral("images/%1_image.jpg").arg(name));
+    // if (!imageFile.open(QIODevice::WriteOnly)) {
+    //     qWarning()<<"test 이미지 저장 실패" << imageFile.errorString();
+    // }else {
+    //     imageFile.write(imageBinary);
+    //     imageFile.close();
+    // }
+
+
+    // QString imagePath = QString("images/%1_image.jpg").arg(name);
+
+    QPixmap pix;
+    if (!pix.loadFromData(imageBinary)) {
+        qWarning() << "이미지를 불러올 수 없습니다: Base64 디코딩 후 이미지 생성 실패";
+        return;
+    }
+    if (!pix.isNull()) {
+        ui->lbImageSearch->setPixmap(pix.scaled(ui->lbImageSearch->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    } else {
+        qDebug() << "이미지를 불러올 수 없습니다:";
+    }
+
+ //   qDebug() << "[Server] 저장 완료:" << name;
+}
