@@ -44,16 +44,20 @@ void Client::sendJson(const QByteArray &jsonData)
 // }
 
 void Client::onReadyRead(){
-    QByteArray data = socket->readAll();
+    static QByteArray buffer;
 
-    //서버에서 온 데이터 처리 x
-    //데이터 처리는 loginController에서
-    if(!data.isEmpty()){
+    buffer += socket->readAll();
 
-        qDebug().noquote()<<"[Client]: recived Data from server, send to DataDitpatcher "<< QString::fromUtf8(data);
+    QJsonParseError parseErr;
+    QJsonDocument doc = QJsonDocument::fromJson(buffer, &parseErr);
 
-        //로그인 컨트롤러로 데이터 전송
-        emit jsonReceivedFromServer(data);
+    if (parseErr.error == QJsonParseError::NoError) {
+        qDebug().noquote() << "[Client]: received complete JSON: " << QString::fromUtf8(buffer);
+        emit jsonReceivedFromServer(buffer);
+        buffer.clear();  // 사용 후 초기화
+    } else {
+        qDebug() << "[Client]: partial data, waiting for more... (" << parseErr.errorString() << ")";
+        // 다음 readAll()까지 누적
     }
 }
 void Client::onErrorOccurred(QAbstractSocket::SocketError socketError){

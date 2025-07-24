@@ -24,8 +24,8 @@ void FirstScreen::on_loginButton_clicked(){
         return;
     }
 
-    qDebug()<<"click"; // 192.168.2.1
-    emit connectServerRequest("192.168.2.212", 54321); //서버에 연결하라고 요청
+    qDebug()<<"click"; // 192.168.2.212
+    emit connectServerRequest("192.168.2.43", 54321); //서버에 연결하라고 요청
     emit loginRequest(name, pw); //request Login
 
 }

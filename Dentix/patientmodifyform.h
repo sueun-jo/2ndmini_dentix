@@ -23,12 +23,14 @@ signals:
                               const QString &diagnosis, const QString &treatment);
     void requestModifyUpdate(const QString &newName, int age, const QString &newGender,
                       const QString &newDiagnosis, const QString &newTreatment, const QString &newDoctorNote);
+
+    void requestImageToServer_modify(const QByteArray &sendData);
 public slots:
 
     void updatePatientList(const QVector<Patient> &newPatients);
     void updatePatientInfo(const QVector<Patient> &newPatients);
     void on_btnSearchModify_clicked();
-
+    void imageShowTest_modify(const QByteArray &imageData);
 private slots:
 
     void on_lwListModify_itemDoubleClicked(QListWidgetItem *item);
