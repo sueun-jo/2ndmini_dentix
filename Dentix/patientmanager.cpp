@@ -68,6 +68,7 @@ void PatientManager::patientinfosendtoserver(const QJsonObject &dataObj, const Q
         return;
     }
 
+
     QString fileName(QString("%1.jpg").arg(name));  //QFileInfo를 통해 받은 이름 QString에 저장
     //QJsonObject는 QJsonValue 타입만 저장 가능하기에 바이트어레이로 저장된 이미지 데이터를 베이스64로 인코딩
     QByteArray base64EncodedData = imageByteArray.toBase64();
