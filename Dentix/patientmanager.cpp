@@ -73,8 +73,6 @@ void PatientManager::patientinfosendtoserver(const QJsonObject &dataObj, const Q
     QByteArray base64EncodedData = imageByteArray.toBase64();
 
     /*파일 이름과 이미지 데이터 환자정보 json에 추가 */
-
-    jsonObj.insert("fileName", fileName);
     jsonObj.insert("fileData", QString::fromUtf8(base64EncodedData));
 
     QJsonObject reqObj;
