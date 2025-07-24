@@ -16,6 +16,7 @@ void RequestDispatcher::handleRequest(QTcpSocket* socket, const QJsonObject& obj
                                                                     ChatManager *chatManager) {
     QString type = obj["type"].toString(); //type
     QJsonObject data = obj["data"].toObject(); //data (가변)
+    qDebug() << "[Server] handleRequest. Socket pointer:" << socket << "data:" << obj;
 
     if (type == "login") {
         handleLogin(socket, data, server, userManager);
@@ -32,7 +33,7 @@ void RequestDispatcher::handleRequest(QTcpSocket* socket, const QJsonObject& obj
     } else if (type == "modify"){
         handleModifyPatient (socket, data, patientManager);
     } else if (type == "requestPatientImage"){
-        //사진 fpt로 전송
+        qDebug() << "R.D handlePatientImageRequest";
         handlePatientImageRequest(socket, data, patientManager);
     }
     else {
@@ -158,6 +159,22 @@ void RequestDispatcher::handleModifyPatient(QTcpSocket* socket, const QJsonObjec
         response = ResponseFactory::createResponse("delete", "success");
     } else {
         response = ResponseFactory::createResponse("delete", "fail", {{"reason", "failed to modify patient."}});
+    }
+    socket->write(QJsonDocument(response).toJson(QJsonDocument::Indented));
+    socket->flush();
+}
+
+/* 요청 받은 환자 사진 전송 */
+void RequestDispatcher::handlePatientImageRequest(QTcpSocket* socket, const QJsonObject& data,PatientManager* patientManager){
+    QString name = data["name"].toString().trimmed();
+    bool ret = patientManager->sendPatientImage(socket, name);
+
+    QJsonObject response;
+    if (ret) {
+        //response 생성
+        response = ResponseFactory::createResponse("patientImageRequest", "success");
+    } else {
+        response = ResponseFactory::createResponse("patientImageRequest", "fail", {{"reason", "no image or failed to send"}});
     }
     socket->write(QJsonDocument(response).toJson(QJsonDocument::Indented));
     socket->flush();

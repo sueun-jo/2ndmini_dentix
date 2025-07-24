@@ -69,8 +69,6 @@ PatientSearchForm::PatientSearchForm(QWidget *parent)
     ui->cbGenderSearch->clear();
     ui->cbGenderSearch->addItems(genderItems);
 
-
-    connect(ui->lwListSearch, &QListWidget::itemDoubleClicked, this, &PatientSearchForm::on_lwListSearch_itemDoubleClicked);
 }
 
 //유저리스트
@@ -168,7 +166,7 @@ void PatientSearchForm::on_lwListSearch_itemDoubleClicked(QListWidgetItem *item)
     imageData["data"] = data;
     QJsonDocument doc(imageData);
     QByteArray sendData = doc.toJson();
-
+    qDebug().noquote() << "[PatientSearchForm] 요청 전송 (on_lwListSearch_itemDoubleClicked 내부): " << sendData << "at" << QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz");
     qDebug().noquote() << "[PatientSearchForm] 요청 전송: " << sendData;
     emit requestImageToServer(sendData);
 }

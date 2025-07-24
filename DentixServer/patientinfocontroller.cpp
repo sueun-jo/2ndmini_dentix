@@ -1,6 +1,5 @@
 // PatientInfoController.cpp
 #include "patientinfocontroller.h"
-#include "logutil.h"
 #include <QDebug> // 디버깅 메시지 출력을 위해 포함
 
 PatientInfoController::PatientInfoController(PatientManager* manager, QObject *parent)

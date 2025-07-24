@@ -1,7 +1,9 @@
 #include "patientmanager.h"
-#include <QDebug>
-#include "logutil.h"
 #include "patientsearchfilter.h"
+#include <QDebug>
+#include <QTcpSocket>
+#include <QFile>
+#include <QFileInfo>
 
 PatientManager::PatientManager() {
     /* patientmanager 생성자에서 repository로부터 json파일 읽어옴 */
@@ -42,7 +44,41 @@ bool PatientManager::modifyPatient(const QJsonObject& newData){
 }
 
 
-bool PatientManager::sendPatientImage(){
+bool PatientManager::sendPatientImage(QTcpSocket* socket, const QString& name){
+
+    QString filePath;
+    for (Patient& p : patients){
+        if (p.getName() == name){ //이름 같으면
+            filePath = p.getImagePath();
+            qDebug() << filePath;
+            break;
+        }
+    }
+
+    QFile file(filePath);
+    if (!file.exists() || !file.open(QFile::ReadOnly)){
+        qDebug() << "Failed to open image file: " << filePath;
+        return false;
+    }
+
+    QByteArray fileData = file.readAll(); //읽음
+    file.close();
+
+    QByteArray header;
+    QDataStream ds(&header, QIODevice::WriteOnly);
+    ds.setVersion(QDataStream::Qt_6_9);
+
+    qint64 fileSize = fileData.size();
+    QString imageFileName = QFileInfo(filePath).fileName();
+    ds << fileSize;
+    ds << imageFileName;
+
+    //소켓에 헤더 먼저 전송
+    socket->write(header);
+    socket->write(fileData);
+    socket->flush();
+
+    qDebug() << "[PatientManager] Sent Image: " << imageFileName << "size: " << fileSize;
     return true;
 }
 
