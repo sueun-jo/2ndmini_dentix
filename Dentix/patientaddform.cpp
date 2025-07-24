@@ -5,6 +5,7 @@
 #include <QJsonDocument>
 #include <QPixmap>
 #include <QLabel>
+#include <QMessageBox>
 PatientAddForm::PatientAddForm(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::PatientAddForm)
@@ -89,6 +90,11 @@ void PatientAddForm::on_btnSaveAdd_clicked()
 
     emit requestAddPatient(name, age, gender, diagnosis, treatment, doctorNote, m_filePath);
     ui->lbImageAdd->clear();
+    ui->leAgeAdd->clear();
+    ui->leNameAdd->clear();
+    ui->teDoctorNote->clear();
+
+    QMessageBox::information(this, "알림", "환자 정보가 저장되었습니다.");
 }
 
 

@@ -68,7 +68,7 @@ PatientModifyForm::PatientModifyForm(QWidget *parent)
     ui->cbGenderModify->clear();
     ui->cbGenderModify->addItems(genderItems);
 
-    connect(ui->lwListModify, &QListWidget::itemDoubleClicked, this, &PatientModifyForm::on_lwListModify_itemDoubleClicked);
+
 
 }
 
@@ -133,7 +133,46 @@ void PatientModifyForm::on_lwListModify_itemDoubleClicked(QListWidgetItem *item)
             ui->teDoctorNote->setText(p.getDoctorNote());
 
             break;
+
+            QJsonObject data;
+            data["name"] = p.getName();
+
+            QJsonObject imageData;
+            imageData["type"] = "requestPatientImage";
+            imageData["data"] = data;
+            QJsonDocument doc(imageData);
+            QByteArray sendData = doc.toJson();
+
+            qDebug().noquote() << "[PatientModify] 요청 전송: " << sendData;
+            emit requestImageToServer_modify(sendData);
+            break;
         }
+    }
+}
+void PatientModifyForm::imageShowTest_modify(const QByteArray &imageData)
+{
+    QJsonParseError parseError;
+    QJsonDocument doc = QJsonDocument::fromJson(imageData, &parseError);
+    if (parseError.error != QJsonParseError::NoError || !doc.isObject()) {
+        qWarning() << "[Server] Invalid JSON received!";
+        return;
+    }
+    QJsonObject root = doc.object();
+    QString type = root["for"].toString();
+    if (type != "requestPatientImage") return;
+
+    QJsonObject data = root["data"].toObject();
+    QString fileDataBase64 = data["image"].toString();
+    QByteArray imageBinary = QByteArray::fromBase64(fileDataBase64.toUtf8());
+
+
+    QImage paitentImage;
+    paitentImage.loadFromData(imageBinary);
+    if (paitentImage.isNull()) {
+        qDebug() << "QImage 로딩 실패";
+    } else {
+        QPixmap pix = QPixmap::fromImage(paitentImage);
+        ui->lbImageModify->setPixmap(pix.scaled(ui->lbImageModify->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
     }
 }
 

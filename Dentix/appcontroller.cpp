@@ -126,7 +126,9 @@ void AppController::setupConnectionsPatient()
         //Search
     connect(m_patientModifyForm, &PatientModifyForm::requestSearchPatient, m_patientManager, &PatientManager::findPatient);
     connect(m_patientManager, &PatientManager::searchCompleted, m_patientModifyForm, &PatientModifyForm::updatePatientInfo);
-        //Modify
+    connect(m_patientModifyForm, &PatientModifyForm::requestImageToServer_modify, m_client, &Client::sendJson);
+    connect(m_dataDispatcher, &DataDispatcher::patientImageData, m_patientModifyForm, &PatientModifyForm::requestImageToServer_modify);
+    //Modify
     connect(m_patientModifyForm, &PatientModifyForm::requestModifyUpdate, m_patientManager, &PatientManager::modifyPatientData);
     connect(m_patientManager, &PatientManager::searchCompleted, m_patientModifyForm, &PatientModifyForm::updatePatientList);
 }
