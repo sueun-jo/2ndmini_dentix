@@ -132,7 +132,7 @@ void PatientModifyForm::on_lwListModify_itemDoubleClicked(QListWidgetItem *item)
             ui->leNameModify->setText(p.getName());
             ui->teDoctorNote->setText(p.getDoctorNote());
 
-            break;
+
 
             QJsonObject data;
             data["name"] = p.getName();

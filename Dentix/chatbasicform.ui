@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>421</width>
-    <height>395</height>
+    <height>415</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -32,6 +32,12 @@
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
          <widget class="QListWidget" name="listWidget">
+          <property name="maximumSize">
+           <size>
+            <width>170</width>
+            <height>16777215</height>
+           </size>
+          </property>
           <property name="font">
            <font>
             <bold>false</bold>
@@ -58,6 +64,12 @@
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
          <widget class="QListWidget" name="lwLogChat">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>300</height>
+           </size>
+          </property>
           <property name="font">
            <font>
             <bold>false</bold>

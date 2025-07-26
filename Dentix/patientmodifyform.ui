@@ -84,7 +84,13 @@
             <number>4</number>
            </property>
            <item>
-            <widget class="QListWidget" name="lwListModify"/>
+            <widget class="QListWidget" name="lwListModify">
+             <property name="font">
+              <font>
+               <bold>false</bold>
+              </font>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>
@@ -146,7 +152,13 @@
             </widget>
            </item>
            <item>
-            <widget class="QComboBox" name="cbGenderModify"/>
+            <widget class="QComboBox" name="cbGenderModify">
+             <property name="font">
+              <font>
+               <bold>false</bold>
+              </font>
+             </property>
+            </widget>
            </item>
            <item>
             <widget class="QLabel" name="label_4">
@@ -161,7 +173,13 @@
             </widget>
            </item>
            <item>
-            <widget class="QComboBox" name="cbDiagnosisModify"/>
+            <widget class="QComboBox" name="cbDiagnosisModify">
+             <property name="font">
+              <font>
+               <bold>false</bold>
+              </font>
+             </property>
+            </widget>
            </item>
            <item>
             <widget class="QLabel" name="label_5">
@@ -176,7 +194,13 @@
             </widget>
            </item>
            <item>
-            <widget class="QComboBox" name="cbTreatmentModify"/>
+            <widget class="QComboBox" name="cbTreatmentModify">
+             <property name="font">
+              <font>
+               <bold>false</bold>
+              </font>
+             </property>
+            </widget>
            </item>
            <item>
             <widget class="Line" name="line">

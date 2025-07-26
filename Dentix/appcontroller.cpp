@@ -4,14 +4,10 @@
 
 AppController::AppController(QObject *parent) : QObject(parent)
 {
-    //모든 핵심 객체들 SignalManager의 생성자에서 단 한번만 생성하고 소유
     m_client = new Client(this);
     m_dataDispatcher = new DataDispatcher(this);
-
-
     m_firstScreen = new FirstScreen(nullptr);
     m_loginManager = new LoginManager(this);
-
     //MainWindow
     m_mainWindow = new MainWindow(nullptr);
     //Chat
@@ -27,67 +23,41 @@ AppController::AppController(QObject *parent) : QObject(parent)
     m_patientAddForm = new PatientAddForm(nullptr);
     m_patientSearchForm = new PatientSearchForm(nullptr);
     m_patientModifyForm = new PatientModifyForm(nullptr);
-    //m_patientWindow = new PatientWindow(m_patientAddForm, m_patientDeleteForm, m_patientSearchForm, m_patientModifyForm, nullptr);
-
     setupConnectionsLogin();
     setupConnectionsChat();
     setupConnectionsPatient();
     m_patientWindow->setPatientTap(m_patientSearchForm, m_patientAddForm, m_patientDeleteForm, m_patientModifyForm);
     m_chatWindow->setChatTabs(m_chatBasicform);
-
-
     connect(m_mainWindow, &MainWindow::requestPatientInfo, this, &AppController::handlePatientWindow);
     connect(m_mainWindow, &MainWindow::requestUserList, this, &AppController::handleChatWindow);
     connect(m_patientWindow, &PatientWindow::backToMainWindow, this, &AppController::showMainWindow);
 }
-
 void AppController::setupConnectionsLogin()
-{
-    /***********************+++++dispatcher Connect***********************/
-
+{    /***********************+++++dispatcher Connect***********************/
     connect(m_client, &Client::jsonReceivedFromServer, m_dataDispatcher, &DataDispatcher::SignalHandler);
-
     /***********************+++++Server Connect***********************/
-
     connect(m_firstScreen, &FirstScreen::connectServerRequest, m_client, &Client::connectToServer);
-
-
     /***********************+++++Login Connect************************/
-
     connect(m_firstScreen, &FirstScreen::loginRequest, m_loginManager, &LoginManager::requestLogin);
     connect(m_loginManager, &LoginManager::sendJsonToClient, m_client, &Client::sendJson);
     connect(m_dataDispatcher, &DataDispatcher::loginReceivedJson, m_loginManager, &LoginManager::setUserName);
     connect(m_loginManager, &LoginManager::loginSuccess, this, &AppController::handleLoginScreenTransition);
 
     /*----------------------------------------------------------------*/
-
 }
-
 void AppController::setupConnectionsChat()
-{
-
-    /***********************+++++Chat Connect**************************/
+{    /***********************+++++Chat Connect**************************/
     connect(m_dataDispatcher, &DataDispatcher::updateOnlineUserlist, m_chatBasicform, &ChatBasicForm::userListUpdate);
     /********************Send Message*********************/
     connect(m_loginManager, &LoginManager::sendUserName, m_chatManager, &ChatManager::setUserName);
     connect(m_chatManager, &ChatManager::chatJsonReadyToSend, m_client, &Client::sendJson);
-
     //chat basic [전체채팅] 메세지 전송
     connect(m_chatBasicform, &ChatBasicForm::sendMessageSubmit, m_chatManager,&ChatManager::handleChatMessage);
-    //chat group [그룹채팅] 메세지 전송
-    connect(m_chatGroupform, &ChatGroupForm::sendMessageSubmit, m_chatManager,&ChatManager::handleChatMessage);
-    //chat invited [초대된 채팅] 메세지 전송
-    connect(m_chatInvitedform, &ChatInvitedForm::sendMessageSubmit, m_chatManager,&ChatManager::handleChatMessage);
-
     /*----------------------------------------------------------------*/
-
     /********************Receive Message******************/
-
     connect(m_dataDispatcher, &DataDispatcher::dataSendToBasic, m_chatBasicform, &ChatBasicForm::receiveChatData);
-
     /*-------------------------------------------g---------------------*/
 }
-
 void AppController::setupConnectionsPatient()
 {
     //환자정보 요청 및 업데이트
