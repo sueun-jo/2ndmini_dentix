@@ -109,6 +109,12 @@ void PatientSearchForm::on_btnSearahSearch_clicked()
 
     //매니저에 검색 요청 -> connect patient manager
     emit requestSearchPatient(name, age, gender, diagnosis, treatment);
+    ui->leNameSearch->clear();
+    ui->leAgeSearch->clear();
+    ui->teDoctorNote->clear();
+    ui->lbImageSearch->clear();
+
+    ui->twInfoSearch->clear();
 }
 
 

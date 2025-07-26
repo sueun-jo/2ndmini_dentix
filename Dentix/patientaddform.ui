@@ -103,7 +103,13 @@
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="cbGenderAdd"/>
+          <widget class="QComboBox" name="cbGenderAdd">
+           <property name="font">
+            <font>
+             <bold>false</bold>
+            </font>
+           </property>
+          </widget>
          </item>
          <item>
           <widget class="QLabel" name="label_4">
@@ -118,7 +124,13 @@
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="cbDiagnosisAdd"/>
+          <widget class="QComboBox" name="cbDiagnosisAdd">
+           <property name="font">
+            <font>
+             <bold>false</bold>
+            </font>
+           </property>
+          </widget>
          </item>
          <item>
           <widget class="QLabel" name="label_5">
@@ -133,7 +145,13 @@
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="cbTreatmentAdd"/>
+          <widget class="QComboBox" name="cbTreatmentAdd">
+           <property name="font">
+            <font>
+             <bold>false</bold>
+            </font>
+           </property>
+          </widget>
          </item>
          <item>
           <widget class="Line" name="line">

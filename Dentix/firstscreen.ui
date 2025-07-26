@@ -72,7 +72,7 @@
       <string notr="true">color: white</string>
      </property>
      <property name="text">
-      <string>Dentix</string>
+      <string>Dens</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignmentFlag::AlignCenter</set>
