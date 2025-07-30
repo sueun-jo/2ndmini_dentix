@@ -11,7 +11,6 @@ bool ChatManager::addChat(Chat* chat){
     if (chat){
         chats.append(chat);
         emit chatAdded(chat); //시그널 발생
-        qDebug() << "emit chatAdded signal";
         return true;
     }
     return false;

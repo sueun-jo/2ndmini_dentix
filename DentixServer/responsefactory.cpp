@@ -8,12 +8,15 @@ QJsonObject ResponseFactory::createResponse(const QString& forType, const QStrin
     res["status"] = status;
 
     QJsonDocument doc(res);
-    //qDebug().noquote()<<"[ResponseFactory] 응답 생성: " << QString::fromUtf8(doc.toJson(QJsonDocument::Indented));
-    qDebug().noquote() << QString("[ResponseFactory] %1 %2").arg(forType, status);
+    qDebug().noquote()<<"[ResponseFactory] 응답 생성: " << QString::fromUtf8(doc.toJson(QJsonDocument::Indented));
+
     return res;
 }
 
-QJsonObject ResponseFactory::createResponse(const QString& forType, const QString& status, const QJsonObject& data) {
+QJsonObject ResponseFactory::createResponse(const QString& forType,
+                                            const QString& status,
+                                            const QJsonObject& data)
+{
     QJsonObject res;
     res["type"] = "ack";
     res["for"] = forType;

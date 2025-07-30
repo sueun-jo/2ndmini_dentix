@@ -19,6 +19,7 @@ ChatLogForm::ChatLogForm(QWidget *parent)
 
     connect(Server::getInstance()->getChatManager(), &ChatManager::chatAdded, this, &ChatLogForm::appendChat);
 
+
 }
 
 ChatLogForm::~ChatLogForm()
@@ -60,7 +61,7 @@ void ChatLogForm::on_saveButton_clicked()
     ChatManager* chatManager = Server::getInstance()->getChatManager();
     const QVector<Chat*>& chats = chatManager->getChats();
     QString filepath = "chatlog.json";
-
+    qDebug() << "저장 버튼 눌렀어요!";
     emit requestSaveChats(chats, filepath);
 }
 
@@ -70,7 +71,6 @@ void ChatLogForm::on_test_clicked()
     ChatManager* chatManager = Server::getInstance()->getChatManager();
     Chat* dummy = new Chat("testuser", "전체채팅", "this is test message");
     chatManager->addChat(dummy);
-    qDebug() << "test_button_clicked()";
 }
 
 void ChatLogForm::appendChat(Chat* chat){

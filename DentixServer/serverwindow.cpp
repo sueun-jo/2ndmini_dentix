@@ -21,6 +21,9 @@ ServerWindow::ServerWindow(QWidget *parent)
     PatientInfoForm* patientInfo = new PatientInfoForm(patientManager, this);
     ChatLogForm* chatLogForm = new ChatLogForm(this);
 
+    connect(chatLogForm, &ChatLogForm::requestSaveChats,
+            serverInfo, &ServerInfoForm::requestSaveChats);
+
     ui->tabWidget->addTab(serverInfo,tr("서버 정보")); //서버 정보 qdebug() 내용 띄울거임
     ui->tabWidget->addTab(patientInfo, tr("환자정보")); // 환자 정보 검색
     ui->tabWidget->addTab(chatLogForm, tr("채팅 로그")); // 채팅 로그

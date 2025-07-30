@@ -13,6 +13,7 @@ ServerInfoForm::ServerInfoForm(QWidget *parent)
 {
     m_instance = this;
     connect(this, &ServerInfoForm::logMessage, this, &ServerInfoForm::appendLog);
+
     ui->setupUi(this);
 }
 
